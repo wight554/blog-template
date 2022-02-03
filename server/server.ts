@@ -31,7 +31,7 @@ const createServer = async (): Promise<Application> => {
   return app;
 };
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 createServer().then((app) => {
   app.listen(port, () => {
