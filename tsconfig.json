@@ -9,14 +9,19 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
     "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "jsxFragmentFactory": "Fragment",
+    "types": ["node"],
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@server/*": ["./server/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "server"]
 }

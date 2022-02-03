@@ -1,4 +1,4 @@
-import { Logo } from './logo'
+import { Logo } from '@src/logo';
 
 export function App() {
   return (
@@ -12,9 +12,9 @@ export function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn Preact
+          Learn Preact!
         </a>
       </p>
     </>
-  )
+  );
 }
