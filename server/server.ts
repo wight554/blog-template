@@ -3,10 +3,11 @@ import { Request, Response, Application } from 'express';
 
 const createServer = async (): Promise<Application> => {
   const app = express();
+  const isProd = process.env.NODE_ENV === 'production';
 
   app.get('/ping', (_: Request, res: Response) => res.status(200).send('PONG'));
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isProd) {
     const { createServer: createViteServer } = require('vite');
 
     // Create Vite server in middleware mode.
@@ -24,9 +25,9 @@ const createServer = async (): Promise<Application> => {
 
     // use vite's connect instance as middleware
     app.use(vite.middlewares);
+  } else {
+    app.use(express.static('./dist/public'));
   }
-
-  app.use(express.static('./dist/public'));
 
   return app;
 };
