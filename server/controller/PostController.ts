@@ -7,5 +7,7 @@ import {
 @Controller(POST_CONTROLLER_ROUTE)
 export class PostController {
   @Get(POST_GET_ALL_ENDPOINT)
-  public getPosts() {}
+  public getPosts() {
+    return 'OK';
+  }
 }

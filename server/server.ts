@@ -1,6 +1,7 @@
 const isDev = process.env.NODE_ENV !== 'production';
 
 if (isDev) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('alias-hq').get('module-alias');
 }
 
