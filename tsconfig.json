@@ -22,7 +22,9 @@
       "@src/*": ["./src/*"],
       "@server/*": ["./server/*"]
     },
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["src", "server"]
 }
