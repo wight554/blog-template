@@ -1,13 +1,27 @@
+const isDev = process.env.NODE_ENV !== 'production';
+
+if (isDev) {
+  require('alias-hq').get('module-alias');
+}
+
+import 'reflect-metadata';
 import * as express from 'express';
 import { Request, Response, Application } from 'express';
+import { InversifyExpressServer } from 'inversify-express-utils';
 
-const createServer = async (): Promise<Application> => {
+import { container } from '@server/container';
+import '@server/controller/PostController';
+
+const createServer = (): Application => {
   const app = express();
-  const isProd = process.env.NODE_ENV === 'production';
 
   app.get('/ping', (_: Request, res: Response) => res.status(200).send('PONG'));
 
-  if (!isProd) {
+  return app;
+};
+
+const setConfig = async (app: Application) => {
+  if (isDev) {
     const { createServer: createViteServer } = require('vite');
 
     // Create Vite server in middleware mode.
@@ -28,16 +42,24 @@ const createServer = async (): Promise<Application> => {
   } else {
     app.use(express.static('./dist/public'));
   }
+};
 
-  return app;
+const setErrorConfig = (app: Application) => {
+  // @ts-ignore
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
 };
 
 const port = process.env.PORT || 3000;
 
-createServer().then((app) => {
-  app.listen(port, () => {
+const app = new InversifyExpressServer(container, null, null, createServer())
+  .setConfig(setConfig)
+  .setErrorConfig(setErrorConfig)
+  .build()
+  .listen(port, () => {
     console.log(`Server listening on port ${port}...`);
   });
-});
 
-export default createServer;
+export default app;
