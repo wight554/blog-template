@@ -24,7 +24,7 @@
     "@nestjsplus/cookies": "^1.1.0",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
+    "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.6",
     "mongoose": "^6.2.0",
     "passport": "^0.5.2",
