@@ -14,5 +14,8 @@ export default defineConfig({
   build: {
     outDir: path.join(__dirname, 'dist/public'),
   },
-  test: {},
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
 });

@@ -17,17 +17,18 @@
     "jsx": "preserve",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
       "@src/*": ["./src/*"],
-      "@server/*": ["./server/*"]
+      "@server/*": ["./server/*"],
+      "@test/*": ["./test/*"]
     },
     // required for nestjs
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "server"]
+  "include": ["src", "server", "test", "./vite.config.ts"]
 }
