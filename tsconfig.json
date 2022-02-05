@@ -18,13 +18,16 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "types": ["node"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "@src/*": ["./src/*"],
       "@server/*": ["./server/*"]
     },
+    // required for nestjs
     "experimentalDecorators": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false
   },
   "include": ["src", "server"]
 }

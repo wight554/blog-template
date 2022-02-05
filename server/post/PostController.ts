@@ -1,8 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import {
-  POST_CONTROLLER_ROUTE,
-  POST_GET_ALL_ENDPOINT,
-} from '@server/constants';
+
+import { POST_CONTROLLER_ROUTE, POST_GET_ALL_ENDPOINT } from '@server/constants';
 
 @Controller(POST_CONTROLLER_ROUTE)
 export class PostController {
