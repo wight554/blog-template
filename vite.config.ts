@@ -7,7 +7,11 @@ import hq from 'alias-hq';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [preact()],
+  plugins: [
+    preact({
+      include: '{test/,}src/**/*',
+    }),
+  ],
   resolve: {
     alias: hq.get('rollup'),
   },

@@ -16,7 +16,7 @@ import { MongoError } from '@server/enums/EMongoError';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(user: CreateUserDto): Promise<User> {
+  async create(user: CreateUserDto): Promise<UserDocument> {
     const createdUser = new this.userModel(user);
 
     try {
@@ -29,10 +29,10 @@ export class UserService {
       throw new InternalServerErrorException();
     }
 
-    return createdUser.toJSON();
+    return createdUser;
   }
 
-  async update(userId: string, user: UpdateUserDto): Promise<User> {
+  async update(userId: string, user: UpdateUserDto): Promise<UserDocument> {
     let updatedUser: UserDocument | null;
 
     try {
@@ -51,26 +51,26 @@ export class UserService {
       throw new NotFoundException();
     }
 
-    return updatedUser.toJSON();
+    return updatedUser;
   }
 
-  async getByUsername(username: string): Promise<User> {
+  async getByUsername(username: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ username });
 
     if (!user) {
       throw new NotFoundException();
     }
 
-    return user.toJSON();
+    return user;
   }
 
-  async getById(userId: string): Promise<User> {
+  async getById(userId: string): Promise<UserDocument> {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
       throw new NotFoundException();
     }
 
-    return user.toJSON();
+    return user;
   }
 }

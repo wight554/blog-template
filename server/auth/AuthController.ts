@@ -1,15 +1,15 @@
-import { Response } from 'express';
+import { Request } from 'express';
 import {
   Controller,
   Post,
   UseGuards,
-  Res,
   Body,
   Put,
   Param,
   ForbiddenException,
+  UseInterceptors,
+  Req,
 } from '@nestjs/common';
-import { Cookies } from '@nestjsplus/cookies';
 
 import {
   AUTH_CONTROLLER_ROUTE,
@@ -24,25 +24,21 @@ import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
+import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 
 @Controller(AUTH_CONTROLLER_ROUTE)
+@UseInterceptors(MongooseClassSerializerInterceptor(UserType))
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post(AUTH_LOGIN_ENDPOINT)
-  async login(
-    @Res() res: Response,
-    @User() user: UserType,
-    @Cookies('Authentication') authCookie: string,
-  ) {
-    if (authCookie) {
-      const cookie = this.authService.getCookieWithJwtToken(user.id);
+  async login(@Req() req: Request, @User() user: UserType) {
+    const cookie = this.authService.getCookieWithJwtToken(user.id);
 
-      res.setHeader('Set-Cookie', cookie);
-    }
+    req.res?.setHeader('Set-Cookie', cookie);
 
-    res.json(user);
+    return user;
   }
 
   @Post(AUTH_SIGNUP_ENDPOINT)
@@ -60,6 +56,7 @@ export class AuthController {
     if (user.id !== userId) {
       throw new ForbiddenException();
     }
+
     return this.authService.updateUser(userId, updateUserDto);
   }
 }
