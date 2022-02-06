@@ -9,7 +9,7 @@ import hq from 'alias-hq';
 export default defineConfig({
   plugins: [
     preact({
-      include: '{test/,}src/**/*',
+      include: '{test/,}src/**/*.{ts,tsx}',
     }),
   ],
   resolve: {
