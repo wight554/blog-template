@@ -33,7 +33,7 @@ specifiers:
   husky: ^7.0.4
   jsdom: ^19.0.0
   lint-staged: ^12.3.3
-  mongoose: ^6.2.0
+  mongoose: ^6.2.1
   passport: ^0.5.2
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
@@ -53,14 +53,14 @@ dependencies:
   '@nestjs/config': 1.1.6_0f75cad7c3bc55c714d492fe95499bdf
   '@nestjs/core': 8.2.6_2d4ee36c4446df4873bb38fb1c4583da
   '@nestjs/jwt': 8.0.0_@nestjs+common@8.2.6
-  '@nestjs/mongoose': 9.0.2_9c3aba9c7644b1cc97e988af68e2b800
+  '@nestjs/mongoose': 9.0.2_baf48f19223c2b002f89e70d22fcb1f0
   '@nestjs/passport': 8.1.0_469354efd308cbdee43194b5fd6a2c15
   '@nestjs/platform-express': 8.2.6_732a54a2558f64827b8cc4f9baac4f1f
   bcrypt: 5.0.1
   class-transformer: 0.5.1
   class-validator: 0.13.2
   cookie-parser: 1.4.6
-  mongoose: 6.2.0
+  mongoose: 6.2.1
   passport: 0.5.2
   passport-jwt: 4.0.0
   passport-local: 1.0.0
@@ -787,7 +787,7 @@ packages:
       jsonwebtoken: 8.5.1
     dev: false
 
-  /@nestjs/mongoose/9.0.2_9c3aba9c7644b1cc97e988af68e2b800:
+  /@nestjs/mongoose/9.0.2_baf48f19223c2b002f89e70d22fcb1f0:
     resolution: {integrity: sha512-v4Umk3hssJ1RJJIe2LBVHvrsGfY+srq2nfOVCw36PGe7+eObzSBIryMJi+h2mTZpYIohNRGM2O66clEmhctYQQ==}
     peerDependencies:
       '@nestjs/common': ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -798,7 +798,7 @@ packages:
     dependencies:
       '@nestjs/common': 8.2.6_e2dd7264172553abc41c1a07952dd8ca
       '@nestjs/core': 8.2.6_2d4ee36c4446df4873bb38fb1c4583da
-      mongoose: 6.2.0
+      mongoose: 6.2.1
       reflect-metadata: 0.1.13
       rxjs: 7.5.2
     dev: false
@@ -4221,8 +4221,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose/6.2.0:
-    resolution: {integrity: sha512-kimHjks1FC4HkqM4FVNWxtGor6wYelHgl6eJ6GJmmJvMCI4FNGLwFceSL6hs7dHLZJnxIyGVqQjT/XTXCbjzpA==}
+  /mongoose/6.2.1:
+    resolution: {integrity: sha512-VxY1wvlc4uBQKyKNVDoEkTU3/ayFOD//qVXYP+sFyvTRbAj9/M53UWTERd84pWogs2TqAC6DTvZbxCs2LoOd3Q==}
     engines: {node: '>=12.0.0'}
     dependencies:
       bson: 4.6.1
@@ -4231,7 +4231,6 @@ packages:
       mpath: 0.8.4
       mquery: 4.0.2
       ms: 2.1.2
-      regexp-clone: 1.0.0
       sift: 13.5.2
     transitivePeerDependencies:
       - supports-color
@@ -4874,10 +4873,6 @@ packages:
       extend-shallow: 3.0.2
       safe-regex: 1.1.0
     dev: true
-
-  /regexp-clone/1.0.0:
-    resolution: {integrity: sha512-TuAasHQNamyyJ2hb97IuBEif4qBHGjPHBS64sZwytpLEqtBQ1gPJTnOaQ6qmpET16cK14kkjbazl6+p0RRv0yw==}
-    dev: false
 
   /regexp.prototype.flags/1.4.1:
     resolution: {integrity: sha512-pMR7hBVUUGI7PMA37m2ofIdQCsomVnas+Jn5UPGAHQ+/LlwKm/aTLJHdasmHRzlfeZwHiAOaRSo2rbBDm3nNUQ==}
