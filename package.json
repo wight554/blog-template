@@ -13,7 +13,7 @@
     "lint": "eslint \"{src,server}/**/*.{ts,tsx}\"",
     "lint:fix": "pnpm run lint -- --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"server/**/*.ts\"",
-    "postinstall": "husky install"
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.2.6",
