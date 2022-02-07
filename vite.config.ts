@@ -12,6 +12,7 @@ export default defineConfig({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
   ],
+  root: path.join(__dirname, 'src'),
   resolve: {
     alias: hq.get('rollup'),
   },
@@ -19,6 +20,7 @@ export default defineConfig({
     outDir: path.join(__dirname, 'dist/public'),
   },
   test: {
+    root: process.cwd(),
     environment: 'jsdom',
     globals: true,
   },
