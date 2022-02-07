@@ -1,10 +1,10 @@
 import { ForbiddenException } from '@nestjs/common';
-import { response } from 'express';
 import sinon from 'sinon';
 
 import { AuthController } from '@server/auth/AuthController';
 import { AuthService } from '@server/auth/AuthService';
 import { UserDocument } from '@server/user/schemas/UserSchema';
+import { createMockResponse } from '@test/utils/create-mock-response';
 
 const cookieMock = 'cookie';
 
@@ -18,7 +18,7 @@ const upsertUserMock = {
   password: 'password',
 };
 
-const mockResponse = sinon.stub(response);
+const mockResponse = createMockResponse();
 
 const mockAuthService = sinon.createStubInstance(AuthService);
 
@@ -45,7 +45,7 @@ describe('AuthController', () => {
 
       await authController.login(mockResponse, userMock);
 
-      sinon.assert.calledWith(mockResponse.setHeader, 'Set-Cookie', cookieMock);
+      expect(mockResponse.setHeader).toBeCalledWith('Set-Cookie', cookieMock);
     });
 
     it('should return user', async () => {
