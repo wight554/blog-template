@@ -22,6 +22,11 @@ const userMock = <UserDocument>{
   password,
 };
 
+const updatedUserMock = <UserDocument>{
+  ...userMock,
+  username: 'username 2',
+};
+
 const upsertUserMock = {
   username,
   password,
@@ -88,8 +93,8 @@ describe('AuthService', () => {
       });
     });
 
-    describe('crypto service success', () => {
-      describe('createUser', () => {
+    describe('createUser', () => {
+      describe('crypto service success', () => {
         it('should get hashed password from crypto service', async () => {
           await authService.createUser(upsertUserMock);
 
@@ -140,6 +145,62 @@ describe('AuthService', () => {
           expect.assertions(1);
 
           await expect(authService.createUser(upsertUserMock)).rejects.toEqual(error);
+        });
+      });
+    });
+
+    describe('updateUser', () => {
+      describe('crypto service success', () => {
+        it('should get hashed password from crypto service', async () => {
+          await authService.updateUser(userId, upsertUserMock);
+
+          sinon.assert.calledWith(mockCryptoService.hash, password, 10);
+        });
+
+        it('should update user', async () => {
+          const hashedPassword = 'hashedPassword';
+          mockCryptoService.hash.resolves(hashedPassword);
+
+          await authService.updateUser(userId, upsertUserMock);
+
+          sinon.assert.calledWith(mockUserService.update, userId, {
+            ...upsertUserMock,
+            password: hashedPassword,
+          });
+        });
+      });
+
+      describe('crypto service error', () => {
+        it('should throw error', async () => {
+          const error = new Error('Internal Error');
+          mockCryptoService.hash.rejects(error);
+
+          expect.assertions(1);
+
+          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
+        });
+      });
+
+      describe('user service success', () => {
+        it('should return updated user', async () => {
+          const hashedPassword = 'hashedPassword';
+          mockCryptoService.hash.resolves(hashedPassword);
+          mockUserService.update.resolves(updatedUserMock);
+
+          expect(await authService.updateUser(userId, upsertUserMock)).toBe(updatedUserMock);
+        });
+      });
+
+      describe('user service error', () => {
+        it('should throw error', async () => {
+          const hashedPassword = 'hashedPassword';
+          const error = new Error('Internal Error');
+          mockCryptoService.hash.resolves(hashedPassword);
+          mockUserService.update.rejects(error);
+
+          expect.assertions(1);
+
+          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
         });
       });
     });

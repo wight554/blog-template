@@ -1,8 +1,10 @@
+import { ForbiddenException } from '@nestjs/common';
+import { response } from 'express';
+import sinon from 'sinon';
+
 import { AuthController } from '@server/auth/AuthController';
 import { AuthService } from '@server/auth/AuthService';
 import { UserDocument } from '@server/user/schemas/UserSchema';
-import { response, request } from 'express';
-import sinon from 'sinon';
 
 const cookieMock = 'cookie';
 
@@ -17,8 +19,6 @@ const upsertUserMock = {
 };
 
 const mockResponse = sinon.stub(response);
-const mockRequest = sinon.stub(request);
-mockRequest.res = mockResponse;
 
 const mockAuthService = sinon.createStubInstance(AuthService);
 
@@ -35,7 +35,7 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should get token', async () => {
-      await authController.login(mockRequest, userMock);
+      await authController.login(mockResponse, userMock);
 
       sinon.assert.calledWith(mockAuthService.getCookieWithJwtToken, userMock.id);
     });
@@ -43,13 +43,13 @@ describe('AuthController', () => {
     it('should set cookie header', async () => {
       mockAuthService.getCookieWithJwtToken.returns(cookieMock);
 
-      await authController.login(mockRequest, userMock);
+      await authController.login(mockResponse, userMock);
 
       sinon.assert.calledWith(mockResponse.setHeader, 'Set-Cookie', cookieMock);
     });
 
     it('should return user', async () => {
-      expect(await authController.login(mockRequest, userMock)).toBe(userMock);
+      expect(await authController.login(mockResponse, userMock)).toBe(userMock);
     });
   });
 
@@ -82,10 +82,24 @@ describe('AuthController', () => {
   describe('update', () => {
     const userId = '1';
 
-    it('should update user', async () => {
-      await authController.update(userId, upsertUserMock, userMock);
+    describe('user id param matches current user id', () => {
+      it('should update user', async () => {
+        await authController.update(userId, upsertUserMock, userMock);
 
-      sinon.assert.calledWith(mockAuthService.updateUser, userId, upsertUserMock);
+        sinon.assert.calledWith(mockAuthService.updateUser, userId, upsertUserMock);
+      });
+    });
+
+    describe('user id param does not match current user id', () => {
+      it('should update user', async () => {
+        const badUserId = '2';
+
+        try {
+          await authController.update(badUserId, upsertUserMock, userMock);
+        } catch (error) {
+          expect(error).toBeInstanceOf(ForbiddenException);
+        }
+      });
     });
 
     describe('auth service success', () => {

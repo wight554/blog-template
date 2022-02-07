@@ -17,10 +17,10 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(user: CreateUserDto): Promise<UserDocument> {
-    const createdUser = new this.userModel(user);
+    let createdUser: UserDocument | null;
 
     try {
-      await createdUser.save();
+      createdUser = await this.userModel.create(user);
     } catch (error: any) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');
