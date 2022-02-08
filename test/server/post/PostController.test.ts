@@ -65,4 +65,32 @@ describe('PostController', () => {
       });
     });
   });
+
+  describe('getPost', () => {
+    const postId = '1';
+
+    it('should get post by id', async () => {
+      await postController.getPost(postId);
+
+      sinon.assert.calledWith(mockPostService.getById, postId);
+    });
+
+    describe('post service success', () => {
+      it('should return posts', async () => {
+        mockPostService.getById.resolves(mockPosts[0]);
+
+        expect(await postController.getPost(postId)).toBe(mockPosts[0]);
+      });
+    });
+
+    describe('post service error', () => {
+      it('should throw error', async () => {
+        const error = new Error('Internal Error');
+        mockPostService.getById.rejects(error);
+        expect.assertions(1);
+
+        await expect(postController.getPost(postId)).rejects.toEqual(error);
+      });
+    });
+  });
 });

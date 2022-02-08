@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 
@@ -9,5 +9,15 @@ export class PostService {
 
   async getAll(): Promise<Array<PostDocument>> {
     return this.postModel.find().populate('author');
+  }
+
+  async getById(postId: string): Promise<PostDocument> {
+    const post = await this.postModel.findById(postId).populate('author');
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    return post;
   }
 }
