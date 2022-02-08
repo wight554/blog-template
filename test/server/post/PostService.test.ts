@@ -158,10 +158,24 @@ describe('PostService', () => {
       });
     });
 
-    it('should return updated post', async () => {
-      expect(await postService.update(mockPostId, mockUpsertPost, mockUser.id)).toEqual(
-        mockPosts[0],
-      );
+    describe('post exists', () => {
+      it('should return updated post', async () => {
+        expect(await postService.update(mockPostId, mockUpsertPost, mockUser.id)).toEqual(
+          mockPosts[0],
+        );
+      });
+    });
+
+    describe('post does not exist', () => {
+      it('should throw not found exception', async () => {
+        vi.spyOn(postModel, 'findOneAndUpdate').mockResolvedValueOnce(null);
+
+        try {
+          await postService.update(mockPostId, mockUpsertPost, mockUser.id);
+        } catch (error) {
+          expect(error).toBeInstanceOf(NotFoundException);
+        }
+      });
     });
   });
 
