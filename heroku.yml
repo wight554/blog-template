@@ -1,2 +1,2 @@
 run:
-  web: yarn run prod
+  web: yarn prod

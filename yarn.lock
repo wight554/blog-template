@@ -1920,6 +1920,7 @@ __metadata:
     preact: ^10.5.15
     prettier: ^2.5.1
     reflect-metadata: ^0.1.13
+    rimraf: ^3.0.2
     rxjs: ^7.5.2
     sinon: ^13.0.1
     ts-node-dev: ^1.1.8

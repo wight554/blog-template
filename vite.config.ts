@@ -18,6 +18,7 @@ export default defineConfig({
   },
   build: {
     outDir: path.join(__dirname, 'dist/public'),
+    emptyOutDir: true,
   },
   test: {
     root: process.cwd(),
