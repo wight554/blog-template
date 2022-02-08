@@ -7,3 +7,4 @@ export const POST_CONTROLLER_ROUTE = '/api/v1/posts';
 export const POST_GET_ALL_ENDPOINT = '/';
 export const POST_GET_ENDPOINT = '/:id';
 export const POST_POST_ENDPOINT = POST_GET_ALL_ENDPOINT;
+export const POST_PUT_ENDPOINT = POST_GET_ENDPOINT;

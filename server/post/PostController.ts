@@ -1,15 +1,25 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import {
   POST_CONTROLLER_ROUTE,
   POST_GET_ALL_ENDPOINT,
   POST_GET_ENDPOINT,
   POST_POST_ENDPOINT,
+  POST_PUT_ENDPOINT,
 } from '@server/constants';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { Post as PostType } from '@server/post/schemas/PostSchema';
 import { PostService } from '@server/post/PostService';
-import { CreatePostDto } from '@server/post/dto/CreateUserDto';
+import { CreatePostDto } from '@server/post/dto/CreatePostDto';
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
@@ -33,5 +43,15 @@ export class PostController {
   @Post(POST_POST_ENDPOINT)
   public createPost(@Body() createPostDto: CreatePostDto, @User() user: UserType) {
     return this.postService.create(createPostDto, user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(POST_PUT_ENDPOINT)
+  public updatePost(
+    @Param('id') id: string,
+    @Body() updatePostDto: CreatePostDto,
+    @User() user: UserType,
+  ) {
+    return this.postService.update(id, updatePostDto, user.id);
   }
 }

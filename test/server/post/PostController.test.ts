@@ -7,6 +7,8 @@ import { UserDocument } from '@server/user/schemas/UserSchema';
 
 const mockPostService = sinon.createStubInstance(PostService);
 
+const mockPostId = '1';
+
 const mockPosts: Array<PostDocument> = [
   <PostDocument>{
     id: '1',
@@ -76,19 +78,17 @@ describe('PostController', () => {
   });
 
   describe('getPost', () => {
-    const postId = '1';
-
     it('should get post by id', async () => {
-      await postController.getPost(postId);
+      await postController.getPost(mockPostId);
 
-      sinon.assert.calledWith(mockPostService.getById, postId);
+      sinon.assert.calledWith(mockPostService.getById, mockPostId);
     });
 
     describe('post service success', () => {
       it('should return posts', async () => {
         mockPostService.getById.resolves(mockPosts[0]);
 
-        expect(await postController.getPost(postId)).toBe(mockPosts[0]);
+        expect(await postController.getPost(mockPostId)).toBe(mockPosts[0]);
       });
     });
 
@@ -98,7 +98,7 @@ describe('PostController', () => {
         mockPostService.getById.rejects(error);
         expect.assertions(1);
 
-        await expect(postController.getPost(postId)).rejects.toEqual(error);
+        await expect(postController.getPost(mockPostId)).rejects.toEqual(error);
       });
     });
   });
@@ -125,6 +125,36 @@ describe('PostController', () => {
         expect.assertions(1);
 
         await expect(postController.createPost(mockUpsertPost, mockUser)).rejects.toEqual(error);
+      });
+    });
+  });
+
+  describe('updatePost', () => {
+    it('should update post', async () => {
+      await postController.updatePost(mockPostId, mockUpsertPost, mockUser);
+
+      sinon.assert.calledWith(mockPostService.update, mockPostId, mockUpsertPost, mockUser.id);
+    });
+
+    describe('post service success', () => {
+      it('should return updated post', async () => {
+        mockPostService.update.resolves(mockPosts[0]);
+
+        expect(await postController.updatePost(mockPostId, mockUpsertPost, mockUser)).toBe(
+          mockPosts[0],
+        );
+      });
+    });
+
+    describe('post service error', () => {
+      it('should throw error', async () => {
+        const error = new Error('Internal Error');
+        mockPostService.update.rejects(error);
+        expect.assertions(1);
+
+        await expect(
+          postController.updatePost(mockPostId, mockUpsertPost, mockUser),
+        ).rejects.toEqual(error);
       });
     });
   });
