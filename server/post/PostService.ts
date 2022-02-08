@@ -46,11 +46,7 @@ export class PostService {
       new: true,
     });
 
-    if (!updatedPost) {
-      throw new NotFoundException();
-    }
-
-    return updatedPost.populate('author');
+    return updatedPost!.populate('author');
   }
 
   async delete(postId: string, userId: string): Promise<void> {

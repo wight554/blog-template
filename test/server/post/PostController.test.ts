@@ -168,10 +168,6 @@ describe('PostController', () => {
 
     describe('post service success', () => {
       it('should return undefined', async () => {
-        const result = await postController.deletePost(mockPostId, mockUser);
-
-        console.error(typeof result);
-
         expect(await postController.deletePost(mockPostId, mockUser)).toBe(undefined);
       });
     });
