@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
   if (isDev) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
