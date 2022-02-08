@@ -17,7 +17,7 @@ describe('CryptoService', () => {
 
   describe('compare', () => {
     it('should return comparison result', async () => {
-      expect(cryptoService.compare('a', 'b')).toEqual(comparisonResult);
+      expect(cryptoService.compare('a', 'b')).toEqual(true);
     });
   });
 

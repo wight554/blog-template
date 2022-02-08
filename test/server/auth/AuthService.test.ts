@@ -5,7 +5,9 @@ import sinon from 'sinon';
 import { AuthService } from '@server/auth/AuthService';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
-import { UserDocument } from '@server/user/schemas/UserSchema';
+import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
+import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
+import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
 
 const mockJwtService = sinon.createStubInstance(JwtService);
 const mockConfigService = sinon.createStubInstance(ConfigService);
@@ -15,22 +17,6 @@ const mockCryptoService = sinon.createStubInstance(CryptoService);
 const userId = '1';
 const username = 'username';
 const password = 'password';
-
-const userMock = <UserDocument>{
-  id: userId,
-  username,
-  password,
-};
-
-const updatedUserMock = <UserDocument>{
-  ...userMock,
-  username: 'username 2',
-};
-
-const upsertUserMock = {
-  username,
-  password,
-};
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -57,16 +43,16 @@ describe('AuthService', () => {
 
     describe('password is valid', async () => {
       it('should return user', async () => {
-        mockUserService.getByUsername.resolves(userMock);
+        mockUserService.getByUsername.resolves(mockMongoUser);
         mockCryptoService.compare.resolves(true);
 
-        expect(await authService.validateUser(username, password)).toBe(userMock);
+        expect(await authService.validateUser(username, password)).toBe(mockMongoUser);
       });
     });
 
     describe('password is invalid', async () => {
-      it('should return user', async () => {
-        mockUserService.getByUsername.resolves(userMock);
+      it('should return null', async () => {
+        mockUserService.getByUsername.resolves(mockMongoUser);
         mockCryptoService.compare.resolves(false);
 
         expect(await authService.validateUser(username, password)).toBe(null);
@@ -96,7 +82,7 @@ describe('AuthService', () => {
     describe('createUser', () => {
       describe('crypto service success', () => {
         it('should get hashed password from crypto service', async () => {
-          await authService.createUser(upsertUserMock);
+          await authService.createUser(mockUpsertUser);
 
           sinon.assert.calledWith(mockCryptoService.hash, password, 10);
         });
@@ -105,10 +91,10 @@ describe('AuthService', () => {
           const hashedPassword = 'hashedPassword';
           mockCryptoService.hash.resolves(hashedPassword);
 
-          await authService.createUser(upsertUserMock);
+          await authService.createUser(mockUpsertUser);
 
           sinon.assert.calledWith(mockUserService.create, {
-            ...upsertUserMock,
+            ...mockUpsertUser,
             password: hashedPassword,
           });
         });
@@ -121,7 +107,7 @@ describe('AuthService', () => {
 
           expect.assertions(1);
 
-          await expect(authService.createUser(upsertUserMock)).rejects.toEqual(error);
+          await expect(authService.createUser(mockUpsertUser)).rejects.toEqual(error);
         });
       });
 
@@ -129,9 +115,9 @@ describe('AuthService', () => {
         it('should return created user', async () => {
           const hashedPassword = 'hashedPassword';
           mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.create.resolves(userMock);
+          mockUserService.create.resolves(mockMongoUser);
 
-          expect(await authService.createUser(upsertUserMock)).toBe(userMock);
+          expect(await authService.createUser(mockUpsertUser)).toBe(mockMongoUser);
         });
       });
 
@@ -144,7 +130,7 @@ describe('AuthService', () => {
 
           expect.assertions(1);
 
-          await expect(authService.createUser(upsertUserMock)).rejects.toEqual(error);
+          await expect(authService.createUser(mockUpsertUser)).rejects.toEqual(error);
         });
       });
     });
@@ -152,7 +138,7 @@ describe('AuthService', () => {
     describe('updateUser', () => {
       describe('crypto service success', () => {
         it('should get hashed password from crypto service', async () => {
-          await authService.updateUser(userId, upsertUserMock);
+          await authService.updateUser(userId, mockUpsertUser);
 
           sinon.assert.calledWith(mockCryptoService.hash, password, 10);
         });
@@ -161,10 +147,10 @@ describe('AuthService', () => {
           const hashedPassword = 'hashedPassword';
           mockCryptoService.hash.resolves(hashedPassword);
 
-          await authService.updateUser(userId, upsertUserMock);
+          await authService.updateUser(userId, mockUpsertUser);
 
           sinon.assert.calledWith(mockUserService.update, userId, {
-            ...upsertUserMock,
+            ...mockUpsertUser,
             password: hashedPassword,
           });
         });
@@ -177,7 +163,7 @@ describe('AuthService', () => {
 
           expect.assertions(1);
 
-          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
+          await expect(authService.updateUser(userId, mockUpsertUser)).rejects.toEqual(error);
         });
       });
 
@@ -185,9 +171,9 @@ describe('AuthService', () => {
         it('should return updated user', async () => {
           const hashedPassword = 'hashedPassword';
           mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.update.resolves(updatedUserMock);
+          mockUserService.update.resolves(mockUpdatedMongoUser);
 
-          expect(await authService.updateUser(userId, upsertUserMock)).toBe(updatedUserMock);
+          expect(await authService.updateUser(userId, mockUpsertUser)).toBe(mockUpdatedMongoUser);
         });
       });
 
@@ -200,7 +186,7 @@ describe('AuthService', () => {
 
           expect.assertions(1);
 
-          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
+          await expect(authService.updateUser(userId, mockUpsertUser)).rejects.toEqual(error);
         });
       });
     });

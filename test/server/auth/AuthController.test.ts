@@ -1,24 +1,21 @@
 import { ForbiddenException } from '@nestjs/common';
 import sinon from 'sinon';
+import { Response } from 'express';
+import { Mock } from 'moq.ts';
 
 import { AuthController } from '@server/auth/AuthController';
 import { AuthService } from '@server/auth/AuthService';
-import { UserDocument } from '@server/user/schemas/UserSchema';
-import { createMockResponse } from '@test/utils/create-mock-response';
+import { mockUpdatedUser } from '@test/server/user/mocks/mockUpdatedUser';
+import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
+import { mockUser } from '@test/server/user/mocks/mockUser';
 
-const cookieMock = 'cookie';
+const cookie = 'cookie';
+const userId = '1';
 
-const userMock = <UserDocument>{
-  id: '1',
-  username: 'username',
-};
-
-const upsertUserMock = {
-  username: 'username',
-  password: 'password',
-};
-
-const mockResponse = createMockResponse();
+const mockResponse = new Mock<Response>()
+  .setup((instance) => instance.setHeader)
+  .returns(vi.fn())
+  .object();
 
 const mockAuthService = sinon.createStubInstance(AuthService);
 
@@ -35,36 +32,36 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should get token', async () => {
-      await authController.login(mockResponse, userMock);
+      await authController.login(mockResponse, mockUser);
 
-      sinon.assert.calledWith(mockAuthService.getCookieWithJwtToken, userMock.id);
+      sinon.assert.calledWith(mockAuthService.getCookieWithJwtToken, userId);
     });
 
     it('should set cookie header', async () => {
-      mockAuthService.getCookieWithJwtToken.returns(cookieMock);
+      mockAuthService.getCookieWithJwtToken.returns(cookie);
 
-      await authController.login(mockResponse, userMock);
+      await authController.login(mockResponse, mockUser);
 
-      expect(mockResponse.setHeader).toBeCalledWith('Set-Cookie', cookieMock);
+      expect(mockResponse.setHeader).toBeCalledWith('Set-Cookie', cookie);
     });
 
     it('should return user', async () => {
-      expect(await authController.login(mockResponse, userMock)).toBe(userMock);
+      expect(await authController.login(mockResponse, mockUser)).toBe(mockUser);
     });
   });
 
   describe('signup', () => {
     it('should create user', async () => {
-      await authController.signup(upsertUserMock);
+      await authController.signup(mockUpsertUser);
 
-      sinon.assert.calledWith(mockAuthService.createUser, upsertUserMock);
+      sinon.assert.calledWith(mockAuthService.createUser, mockUpsertUser);
     });
 
     describe('auth service success', () => {
       it('should return created user', async () => {
-        mockAuthService.createUser.resolves(userMock);
+        mockAuthService.createUser.resolves(mockUser);
 
-        expect(await authController.signup(upsertUserMock)).toBe(userMock);
+        expect(await authController.signup(mockUpsertUser)).toBe(mockUser);
       });
     });
 
@@ -74,7 +71,7 @@ describe('AuthController', () => {
         mockAuthService.createUser.rejects(error);
         expect.assertions(1);
 
-        await expect(authController.signup(upsertUserMock)).rejects.toEqual(error);
+        await expect(authController.signup(mockUpsertUser)).rejects.toEqual(error);
       });
     });
   });
@@ -84,9 +81,9 @@ describe('AuthController', () => {
 
     describe('user id param matches current user id', () => {
       it('should update user', async () => {
-        await authController.update(userId, upsertUserMock, userMock);
+        await authController.update(userId, mockUpsertUser, mockUser);
 
-        sinon.assert.calledWith(mockAuthService.updateUser, userId, upsertUserMock);
+        sinon.assert.calledWith(mockAuthService.updateUser, userId, mockUpsertUser);
       });
     });
 
@@ -95,7 +92,7 @@ describe('AuthController', () => {
         const badUserId = '2';
 
         try {
-          await authController.update(badUserId, upsertUserMock, userMock);
+          await authController.update(badUserId, mockUpsertUser, mockUser);
         } catch (error) {
           expect(error).toBeInstanceOf(ForbiddenException);
         }
@@ -104,9 +101,9 @@ describe('AuthController', () => {
 
     describe('auth service success', () => {
       it('should return updated user', async () => {
-        mockAuthService.updateUser.resolves(userMock);
+        mockAuthService.updateUser.resolves(mockUpdatedUser);
 
-        expect(await authController.update(userId, upsertUserMock, userMock)).toBe(userMock);
+        expect(await authController.update(userId, mockUpsertUser, mockUser)).toBe(mockUpdatedUser);
       });
     });
 
@@ -116,7 +113,7 @@ describe('AuthController', () => {
         mockAuthService.updateUser.rejects(error);
         expect.assertions(1);
 
-        await expect(authController.update(userId, upsertUserMock, userMock)).rejects.toEqual(
+        await expect(authController.update(userId, mockUpsertUser, mockUser)).rejects.toEqual(
           error,
         );
       });

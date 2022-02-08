@@ -8,57 +8,15 @@ import {
 } from '@nestjs/common';
 
 import { PostService } from '@server/post/PostService';
-import { UserDocument } from '@server/user/schemas/UserSchema';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
+import { mockMongoPost } from '@test/server/post/mocks/mockMongoPost';
+import { mockMongoPosts } from '@test/server/post/mocks/mockMongoPosts';
+import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
+import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
+import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
 
-const mockPostId = '1';
-
-const mockPosts: Array<PostDocument> = [
-  <PostDocument>{
-    id: '1',
-    title: 'title 1',
-    description: 'description 1',
-    author: {
-      username: 'username 1',
-      id: '1',
-    },
-  },
-  <PostDocument>{
-    id: '2',
-    title: 'title 2',
-    description: 'description 2',
-    author: {
-      username: 'username 2',
-      id: '2',
-    },
-  },
-];
-
-const mockUpsertPost = {
-  title: 'title 1',
-  description: 'description 1',
-};
-
-const mockUser = <UserDocument>{
-  id: '1',
-  username: 'username',
-};
-
-const mockPostModel = {
-  find: vi.fn().mockImplementation(() => ({
-    populate: vi.fn().mockResolvedValue(mockPosts),
-  })),
-  findById: vi.fn().mockImplementation(() => ({
-    populate: vi.fn().mockResolvedValue(mockPosts[0]),
-  })),
-  create: vi.fn().mockImplementation(() => ({
-    populate: vi.fn().mockResolvedValue(mockPosts[0]),
-  })),
-  findOneAndUpdate: vi.fn().mockImplementation(() => ({
-    populate: vi.fn().mockResolvedValue(mockPosts[0]),
-  })),
-  deleteOne: vi.fn().mockResolvedValue({ deletedCount: 1 }),
-};
+const postId = '1';
+const userId = '1';
 
 describe('PostService', () => {
   let postModel: Model<PostDocument>;
@@ -79,28 +37,32 @@ describe('PostService', () => {
     postService = module.get<PostService>(PostService);
   });
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe('getAll', () => {
-    it('should get post by id using post model', async () => {
+    it('should get all posts using post model', async () => {
       await postService.getAll();
 
-      expect(postModel.find).toHaveBeenCalledOnce();
+      expect(postModel.find).toHaveBeenCalled();
     });
 
     it('should return all posts', async () => {
-      expect(await postService.getAll()).toEqual(mockPosts);
+      expect(await postService.getAll()).toEqual(mockMongoPosts);
     });
   });
 
   describe('getById', () => {
     it('should get post by id using post model', async () => {
-      await postService.getById(mockPostId);
+      await postService.getById(postId);
 
-      expect(postModel.findById).toHaveBeenCalledWith(mockPostId);
+      expect(postModel.findById).toHaveBeenCalledWith(postId);
     });
 
     describe('post exists', () => {
       it('should return post', async () => {
-        expect(await postService.getById(mockPostId)).toEqual(mockPosts[0]);
+        expect(await postService.getById(postId)).toEqual(mockMongoPost);
       });
     });
 
@@ -109,7 +71,7 @@ describe('PostService', () => {
         vi.spyOn(postModel, 'findById').mockResolvedValueOnce(null);
 
         try {
-          await postService.getById(mockPostId);
+          await postService.getById(postId);
         } catch (error) {
           expect(error).toBeInstanceOf(NotFoundException);
         }
@@ -119,49 +81,49 @@ describe('PostService', () => {
 
   describe('create', () => {
     it('should create post using post model', async () => {
-      await postService.create(mockUpsertPost, mockUser.id);
+      await postService.create(mockUpsertPost, userId);
 
-      expect(postModel.create).toHaveBeenCalledWith({ ...mockUpsertPost, author: mockUser.id });
+      expect(postModel.create).toHaveBeenCalledWith({ ...mockUpsertPost, author: userId });
     });
 
     describe('post model success', () => {
       it('should return created post', async () => {
-        expect(await postService.create(mockUpsertPost, mockUser.id)).toEqual(mockPosts[0]);
+        expect(await postService.create(mockUpsertPost, userId)).toEqual(mockMongoPost);
       });
     });
   });
 
   describe('update', () => {
     it('should get post by id', async () => {
-      vi.spyOn(postService, 'getById');
+      vi.spyOn(postService, 'getById').mockResolvedValueOnce(mockMongoPost);
 
-      await postService.update(mockPostId, mockUpsertPost, mockUser.id);
+      await postService.update(postId, mockUpsertPost, userId);
 
-      expect(postService.getById).toHaveBeenCalledWith(mockPostId);
+      expect(postService.getById).toHaveBeenCalledWith(postId);
     });
 
     it('should throw forbidden exception if author id does not match user id', async () => {
       vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{ author: { id: '2' } });
 
       try {
-        await postService.update(mockPostId, mockUpsertPost, mockUser.id);
+        await postService.update(postId, mockUpsertPost, userId);
       } catch (error) {
         expect(error).toBeInstanceOf(ForbiddenException);
       }
     });
 
     it('should update post using post model', async () => {
-      await postService.update(mockPostId, mockUpsertPost, mockUser.id);
+      await postService.update(postId, mockUpsertPost, userId);
 
-      expect(postModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: mockPostId }, mockUpsertPost, {
+      expect(postModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: postId }, mockUpsertPost, {
         new: true,
       });
     });
 
     describe('post exists', () => {
       it('should return updated post', async () => {
-        expect(await postService.update(mockPostId, mockUpsertPost, mockUser.id)).toEqual(
-          mockPosts[0],
+        expect(await postService.update(postId, mockUpsertPost, userId)).toEqual(
+          mockUpdatedMongoPost,
         );
       });
     });
@@ -171,7 +133,7 @@ describe('PostService', () => {
         vi.spyOn(postModel, 'findOneAndUpdate').mockResolvedValueOnce(null);
 
         try {
-          await postService.update(mockPostId, mockUpsertPost, mockUser.id);
+          await postService.update(postId, mockUpsertPost, userId);
         } catch (error) {
           expect(error).toBeInstanceOf(NotFoundException);
         }
@@ -183,25 +145,25 @@ describe('PostService', () => {
     it('should get post by id', async () => {
       vi.spyOn(postService, 'getById');
 
-      await postService.delete(mockPostId, mockUser.id);
+      await postService.delete(postId, userId);
 
-      expect(postService.getById).toHaveBeenCalledWith(mockPostId);
+      expect(postService.getById).toHaveBeenCalledWith(postId);
     });
 
     it('should throw forbidden exception if author id does not match user id', async () => {
       vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{ author: { id: '2' } });
 
       try {
-        await postService.delete(mockPostId, mockUser.id);
+        await postService.delete(postId, userId);
       } catch (error) {
         expect(error).toBeInstanceOf(ForbiddenException);
       }
     });
 
     it('should delete post using post model', async () => {
-      await postService.delete(mockPostId, mockUser.id);
+      await postService.delete(postId, userId);
 
-      expect(postModel.deleteOne).toHaveBeenCalledWith({ _id: mockPostId });
+      expect(postModel.deleteOne).toHaveBeenCalledWith({ _id: postId });
     });
 
     it('should throw internal server error if deleted count is 0', async () => {
@@ -211,14 +173,14 @@ describe('PostService', () => {
       });
 
       try {
-        expect(await postService.delete(mockPostId, mockUser.id)).toEqual(undefined);
+        expect(await postService.delete(postId, userId)).toEqual(undefined);
       } catch (error) {
         expect(error).toBeInstanceOf(InternalServerErrorException);
       }
     });
 
     it('should return undefined if deleted count is not 0', async () => {
-      expect(await postService.delete(mockPostId, mockUser.id)).toEqual(undefined);
+      expect(await postService.delete(postId, userId)).toEqual(undefined);
     });
   });
 });

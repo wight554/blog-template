@@ -1,27 +1,30 @@
 import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { Mock } from 'moq.ts';
 
-import { getParamDecoratorFactory } from '@test/utils/get-param-decorator-factory';
+import { getParamDecoratorFactory } from '@test/utils/mocks/getParamDecoratorFactory';
 import { ReqRes } from '@server/decorators/ReqResDecorator';
 
-const responseMock = 'response';
+const response = 'response';
 
-const switchToHttpMock = (): HttpArgumentsHost => ({
-  getRequest: vi.fn().mockReturnValue({
-    res: responseMock,
-  }),
-  getResponse: vi.fn(),
-  getNext: vi.fn(),
-});
-
-const ctxMock = <ExecutionContext>{
-  switchToHttp: switchToHttpMock,
-};
+const mockCtx = new Mock<ExecutionContext>()
+  .setup((instance) => instance.switchToHttp)
+  .returns(() =>
+    new Mock<HttpArgumentsHost>()
+      .setup((instance) => instance.getRequest)
+      .returns(
+        vi.fn().mockReturnValue({
+          res: response,
+        }),
+      )
+      .object(),
+  )
+  .object();
 
 describe('ReqResDecorator', function () {
   it('should return response', function () {
     const factory = getParamDecoratorFactory(ReqRes);
-    const result = factory(null, ctxMock);
+    const result = factory(null, mockCtx);
 
-    expect(result).toBe(responseMock);
+    expect(result).toBe(response);
   });
 });
