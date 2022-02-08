@@ -5537,11 +5537,11 @@ __metadata:
   linkType: hard
 
 "moq.ts@npm:^7.3.4":
-  version: 7.3.4
-  resolution: "moq.ts@npm:7.3.4"
+  version: 7.4.1
+  resolution: "moq.ts@npm:7.4.1"
   dependencies:
     tslib: 2.1.0
-  checksum: 00397b87b0ba63ecd03621d40661b3648375ac888e7568fdffbb824f2dfca9baa90651042b29354c4f4328c2f5e9a3653a70bd98a7adc0bb94637a1b6e4cf421
+  checksum: 8c3c52ef8dea9f4c1075d689ad9918395062c75e03b612f85a83023e094869427bb3e3c12b8a61fed7b5098a95473d7c0cbb1af5d0116ac38494eb5fc3f5fb03
   languageName: node
   linkType: hard
 
@@ -7342,9 +7342,9 @@ __metadata:
   linkType: hard
 
 "tinypool@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "tinypool@npm:0.1.1"
-  checksum: 92653fb8f97f6b919d548269bcb0ac70cb3a52bdf2da7b39c3d97432c161ab6418295f9c755acc603b20cf9de4b7f37fad9ee436afc6d0927a4ef336f9ca3c3a
+  version: 0.1.2
+  resolution: "tinypool@npm:0.1.2"
+  checksum: 886ec64fcbd5a02336c2127973be3ee184d643f3ffc86d6e52752b0eb396b048801dc07e16fbb6012ab130f58104e0bbd59989ed21f5a49e707a661387e89f86
   languageName: node
   linkType: hard
 
