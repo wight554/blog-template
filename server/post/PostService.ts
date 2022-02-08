@@ -20,13 +20,13 @@ export class PostService {
   }
 
   async getById(postId: string): Promise<PostDocument> {
-    const post = await this.postModel.findById(postId).populate('author');
+    const post = await this.postModel.findById(postId);
 
     if (!post) {
       throw new NotFoundException();
     }
 
-    return post;
+    return post.populate('author');
   }
 
   async create(post: CreatePostDto, userId: string): Promise<PostDocument> {

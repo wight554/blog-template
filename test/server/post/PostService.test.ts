@@ -106,7 +106,7 @@ describe('PostService', () => {
 
     describe('post does not exist', () => {
       it('should throw not found exception', async () => {
-        vi.spyOn(postModel.findById(mockPostId), 'populate').mockResolvedValueOnce(null);
+        vi.spyOn(postModel, 'findById').mockResolvedValueOnce(null);
 
         try {
           await postService.getById(mockPostId);
