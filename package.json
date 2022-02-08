@@ -37,6 +37,7 @@
     "rxjs": "^7.5.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.0",
     "@nestjs/testing": "^8.2.6",
     "@preact/preset-vite": "^2.1.5",
     "@testing-library/preact": "^2.0.1",

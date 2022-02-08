@@ -30,7 +30,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.6, @babel/core@npm:^7.13.16, @babel/core@npm:^7.9.6":
+"@babel/core@npm:^7.1.6, @babel/core@npm:^7.13.16, @babel/core@npm:^7.17.0, @babel/core@npm:^7.9.6":
   version: 7.17.0
   resolution: "@babel/core@npm:7.17.0"
   dependencies:
@@ -1881,6 +1881,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "blog-template@workspace:."
   dependencies:
+    "@babel/core": ^7.17.0
     "@nestjs/common": ^8.2.6
     "@nestjs/config": ^1.1.6
     "@nestjs/core": ^8.2.6
