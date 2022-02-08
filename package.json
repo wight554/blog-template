@@ -6,12 +6,12 @@
     "prod": "node ./dist/server/server.js",
     "build:server": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
     "build:client": "tsc -p tsconfig.client.json  && vite build",
-    "build": "pnpm run build:client && pnpm run build:server",
+    "build": "yarn run build:client && yarn run build:server",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "pnpm run test -- --coverage",
+    "test:coverage": "yarn run test -- --coverage",
     "lint": "eslint \"{src,server}/**/*.{ts,tsx}\"",
-    "lint:fix": "pnpm run lint -- --fix",
+    "lint:fix": "yarn run lint -- --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"server/**/*.ts\"",
     "postinstall": "node ./scripts/postinstall.js"
   },
@@ -63,5 +63,6 @@
     "tsc-alias": "^1.5.0",
     "vite": "^2.7.2",
     "vitest": "^0.2.7"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }
