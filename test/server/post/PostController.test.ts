@@ -158,4 +158,32 @@ describe('PostController', () => {
       });
     });
   });
+
+  describe('deletePost', () => {
+    it('should delete post', async () => {
+      await postController.deletePost(mockPostId, mockUser);
+
+      sinon.assert.calledWith(mockPostService.delete, mockPostId, mockUser.id);
+    });
+
+    describe('post service success', () => {
+      it('should return undefined', async () => {
+        const result = await postController.deletePost(mockPostId, mockUser);
+
+        console.error(typeof result);
+
+        expect(await postController.deletePost(mockPostId, mockUser)).toBe(undefined);
+      });
+    });
+
+    describe('post service error', () => {
+      it('should throw error', async () => {
+        const error = new Error('Internal Error');
+        mockPostService.delete.rejects(error);
+        expect.assertions(1);
+
+        await expect(postController.deletePost(mockPostId, mockUser)).rejects.toEqual(error);
+      });
+    });
+  });
 });

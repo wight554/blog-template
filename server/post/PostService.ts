@@ -1,5 +1,10 @@
 import { Model } from 'mongoose';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
@@ -46,5 +51,19 @@ export class PostService {
     }
 
     return updatedPost.populate('author');
+  }
+
+  async delete(postId: string, userId: string): Promise<void> {
+    const { author } = await this.getById(postId);
+
+    if (author.id !== userId) {
+      throw new ForbiddenException();
+    }
+
+    const { deletedCount } = await this.postModel.deleteOne({ _id: postId });
+
+    if (deletedCount === 0) {
+      throw new InternalServerErrorException('Post was not deleted');
+    }
   }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -11,6 +12,7 @@ import {
 
 import {
   POST_CONTROLLER_ROUTE,
+  POST_DELETE_ENDPOINT,
   POST_GET_ALL_ENDPOINT,
   POST_GET_ENDPOINT,
   POST_POST_ENDPOINT,
@@ -53,5 +55,11 @@ export class PostController {
     @User() user: UserType,
   ) {
     return this.postService.update(id, updatePostDto, user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(POST_DELETE_ENDPOINT)
+  public deletePost(@Param('id') id: string, @User() user: UserType) {
+    return this.postService.delete(id, user.id);
   }
 }
