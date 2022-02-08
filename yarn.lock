@@ -1927,7 +1927,7 @@ __metadata:
     tsc-alias: ^1.5.0
     typescript: ^4.5.5
     vite: ^2.7.2
-    vitest: ^0.2.7
+    vitest: ^0.2.8
   languageName: unknown
   linkType: soft
 
@@ -7795,7 +7795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^0.2.7":
+"vitest@npm:^0.2.8":
   version: 0.2.8
   resolution: "vitest@npm:0.2.8"
   dependencies:
