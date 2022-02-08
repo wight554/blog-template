@@ -13,18 +13,16 @@ export type PostDocument = Post & Document;
       delete ret._id;
     },
   },
+  timestamps: true,
 })
 export class Post {
   id: string;
 
   @Prop({ type: String })
-  name: string;
-
-  @Prop({ type: String })
   title: string;
 
-  @Prop({ type: Date, default: Date.now })
-  date: string;
+  @Prop({ type: String })
+  description: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
   @Type(() => User)
