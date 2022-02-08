@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 import { CreatePostDto } from '@server/post/dto/CreatePostDto';
-import { User } from '@server/user/schemas/UserSchema';
 import { UpdatePostDto } from './dto/UpdatePostDto';
 
 @Injectable()
