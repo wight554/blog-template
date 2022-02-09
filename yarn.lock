@@ -1860,7 +1860,6 @@ __metadata:
     jsdom: ^19.0.0
     lint-staged: ^12.3.3
     mongoose: ^6.2.1
-    moq.ts: ^7.3.4
     passport: ^0.5.2
     passport-jwt: ^4.0.0
     passport-local: ^1.0.0
@@ -5482,15 +5481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moq.ts@npm:^7.3.4":
-  version: 7.4.1
-  resolution: "moq.ts@npm:7.4.1"
-  dependencies:
-    tslib: 2.1.0
-  checksum: 8c3c52ef8dea9f4c1075d689ad9918395062c75e03b612f85a83023e094869427bb3e3c12b8a61fed7b5098a95473d7c0cbb1af5d0116ac38494eb5fc3f5fb03
-  languageName: node
-  linkType: hard
-
 "mpath@npm:0.8.4":
   version: 0.8.4
   resolution: "mpath@npm:0.8.4"
@@ -7446,13 +7436,6 @@ __metadata:
     strip-bom: ^3.0.0
     strip-json-comments: ^2.0.0
   checksum: 8bce05e93c673defd56d93d83d4055e49651d3947c076339c4bc15d47b7eb5029bed194087e568764213a2e4bf45c477ba9f4da16adfd92cd901af7c09e4517e
-  languageName: node
-  linkType: hard
-
-"tslib@npm:2.1.0":
-  version: 2.1.0
-  resolution: "tslib@npm:2.1.0"
-  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
   languageName: node
   linkType: hard
 
