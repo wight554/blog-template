@@ -17,13 +17,13 @@ describe('CryptoService', () => {
 
   describe('compare', () => {
     it('should return comparison result', async () => {
-      expect(cryptoService.compare('a', 'b')).toEqual(true);
+      expect(await cryptoService.compare('a', 'b')).toEqual(true);
     });
   });
 
   describe('hash', () => {
     it('should return hashed string', async () => {
-      expect(cryptoService.hash('a', 10)).toEqual(hashedString);
+      expect(await cryptoService.hash('a', 10)).toEqual(hashedString);
     });
   });
 });

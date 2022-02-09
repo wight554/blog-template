@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import { mock, instance, when, reset } from 'ts-mockito';
 
 import { PostController } from '@server/post/PostController';
 import { PostService } from '@server/post/PostService';
@@ -8,33 +8,39 @@ import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
 import { mockPost } from '@test/server/post/mocks/mockPost';
 import { mockUpdatedPost } from '@test/server/post/mocks/mockUpdatedPost';
 
-const mockPostService = sinon.createStubInstance(PostService);
+const mockPostService = mock<PostService>();
 
 const userId = '1';
 const postId = '1';
 
 describe('PostController', () => {
+  let postService: PostService;
   let postController: PostController;
 
   beforeEach(() => {
-    postController = new PostController(mockPostService);
+    when(mockPostService.getAll).thenReturn(vi.fn().mockResolvedValue(mockPosts));
+    when(mockPostService.getById).thenReturn(vi.fn().mockResolvedValue(mockPost));
+    when(mockPostService.create).thenReturn(vi.fn().mockResolvedValue(mockPost));
+    when(mockPostService.update).thenReturn(vi.fn().mockResolvedValue(mockUpdatedPost));
+    when(mockPostService.delete).thenReturn(vi.fn());
+
+    postService = instance(mockPostService);
+    postController = new PostController(postService);
   });
 
   afterEach(() => {
-    sinon.reset();
+    reset(mockPostService);
   });
 
   describe('getPosts', () => {
     it('should get all posts', async () => {
       await postController.getPosts();
 
-      sinon.assert.calledOnce(mockPostService.getAll);
+      expect(postService.getAll).toBeCalled();
     });
 
     describe('post service success', () => {
       it('should return posts', async () => {
-        mockPostService.getAll.resolves(mockPosts);
-
         expect(await postController.getPosts()).toBe(mockPosts);
       });
     });
@@ -42,10 +48,14 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        mockPostService.getAll.rejects(error);
+        when(mockPostService.getAll).thenThrow(error);
         expect.assertions(1);
 
-        await expect(postController.getPosts()).rejects.toEqual(error);
+        try {
+          await postController.getPosts();
+        } catch (e) {
+          expect(e).toBe(error);
+        }
       });
     });
   });
@@ -54,13 +64,11 @@ describe('PostController', () => {
     it('should get post by id', async () => {
       await postController.getPost(postId);
 
-      sinon.assert.calledWith(mockPostService.getById, postId);
+      expect(postService.getById).toBeCalledWith(postId);
     });
 
     describe('post service success', () => {
       it('should return posts', async () => {
-        mockPostService.getById.resolves(mockPost);
-
         expect(await postController.getPost(postId)).toBe(mockPost);
       });
     });
@@ -68,10 +76,14 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        mockPostService.getById.rejects(error);
+        when(mockPostService.getById).thenThrow(error);
         expect.assertions(1);
 
-        await expect(postController.getPost(postId)).rejects.toEqual(error);
+        try {
+          await postController.getPost(postId);
+        } catch (e) {
+          expect(e).toBe(error);
+        }
       });
     });
   });
@@ -80,13 +92,11 @@ describe('PostController', () => {
     it('should create post', async () => {
       await postController.createPost(mockUpsertPost, mockUser);
 
-      sinon.assert.calledWith(mockPostService.create, mockUpsertPost, userId);
+      expect(postService.create).toHaveBeenCalledWith(mockUpsertPost, userId);
     });
 
     describe('post service success', () => {
       it('should return created post', async () => {
-        mockPostService.create.resolves(mockPost);
-
         expect(await postController.createPost(mockUpsertPost, mockUser)).toBe(mockPost);
       });
     });
@@ -94,10 +104,14 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        mockPostService.create.rejects(error);
+        when(mockPostService.create).thenThrow(error);
         expect.assertions(1);
 
-        await expect(postController.createPost(mockUpsertPost, mockUser)).rejects.toEqual(error);
+        try {
+          await postController.createPost(mockUpsertPost, mockUser);
+        } catch (e) {
+          expect(e).toBe(error);
+        }
       });
     });
   });
@@ -106,13 +120,11 @@ describe('PostController', () => {
     it('should update post', async () => {
       await postController.updatePost(postId, mockUpsertPost, mockUser);
 
-      sinon.assert.calledWith(mockPostService.update, postId, mockUpsertPost, userId);
+      expect(postService.update).toBeCalledWith(postId, mockUpsertPost, userId);
     });
 
     describe('post service success', () => {
       it('should return updated post', async () => {
-        mockPostService.update.resolves(mockUpdatedPost);
-
         expect(await postController.updatePost(postId, mockUpsertPost, mockUser)).toBe(
           mockUpdatedPost,
         );
@@ -122,12 +134,14 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        mockPostService.update.rejects(error);
+        when(mockPostService.update).thenThrow(error);
         expect.assertions(1);
 
-        await expect(postController.updatePost(postId, mockUpsertPost, mockUser)).rejects.toEqual(
-          error,
-        );
+        try {
+          await postController.updatePost(postId, mockUpsertPost, mockUser);
+        } catch (e) {
+          expect(e).toBe(error);
+        }
       });
     });
   });
@@ -136,7 +150,7 @@ describe('PostController', () => {
     it('should delete post', async () => {
       await postController.deletePost(postId, mockUser);
 
-      sinon.assert.calledWith(mockPostService.delete, postId, userId);
+      expect(postService.delete).toBeCalledWith(postId, userId);
     });
 
     describe('post service success', () => {
@@ -148,10 +162,14 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        mockPostService.delete.rejects(error);
+        when(mockPostService.delete).thenThrow(error);
         expect.assertions(1);
 
-        await expect(postController.deletePost(postId, mockUser)).rejects.toEqual(error);
+        try {
+          await postController.deletePost(postId, mockUser);
+        } catch (e) {
+          expect(e).toBe(error);
+        }
       });
     });
   });
