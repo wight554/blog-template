@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { FastifyReply } from 'fastify';
 import {
   Controller,
   Post,
@@ -8,6 +8,7 @@ import {
   Param,
   ForbiddenException,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 
 import {
@@ -24,7 +25,6 @@ import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { ReqRes } from '@server/decorators/ReqResDecorator';
 
 @Controller(AUTH_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(UserType))
@@ -33,10 +33,10 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post(AUTH_LOGIN_ENDPOINT)
-  async login(@ReqRes() res: Response, @User() user: UserType) {
+  async login(@Res({ passthrough: true }) res: FastifyReply, @User() user: UserType) {
     const cookie = this.authService.getCookieWithJwtToken(user.id);
 
-    res.setHeader('Set-Cookie', cookie);
+    res.header('Set-Cookie', cookie);
 
     return user;
   }
