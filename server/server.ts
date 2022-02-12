@@ -7,18 +7,18 @@ if (isDev) {
 
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
+import fastifyCookie from 'fastify-cookie';
 
 import { AppModule } from '@server/app/AppModule';
 
 const port = process.env.PORT || 3000;
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
-  app.use(cookieParser());
+  app.register(fastifyCookie);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
@@ -30,7 +30,7 @@ async function bootstrap() {
 
     app.use(/^(?!\/api\/.*)/, vite.middlewares);
   } else {
-    app.useStaticAssets('./dist/public');
+    app.useStaticAssets({ root: './dist/public' });
   }
 
   await app.listen(port, () => {

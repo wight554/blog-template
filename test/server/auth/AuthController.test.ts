@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { Response } from 'express';
+import { FastifyReply } from 'fastify';
 import { mock, instance, when, reset } from 'ts-mockito';
 
 import { AuthController } from '@server/auth/AuthController';
@@ -13,8 +13,8 @@ const userId = '1';
 
 const mockAuthService = mock<AuthService>();
 
-const mockResponse = mock<Response>();
-const response = instance(mockResponse);
+const mockReply = mock<FastifyReply>();
+const reply = instance(mockReply);
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -27,31 +27,31 @@ describe('AuthController', () => {
     when(mockAuthService.createUser).thenReturn(vi.fn().mockResolvedValue(mockUser));
     when(mockAuthService.updateUser).thenReturn(vi.fn().mockResolvedValue(mockUpdatedUser));
 
-    when(mockResponse.setHeader).thenReturn(vi.fn());
+    when(mockReply.header).thenReturn(vi.fn());
 
     authController = new AuthController(authService);
   });
 
   afterEach(() => {
     reset(mockAuthService);
-    reset(mockResponse);
+    reset(mockReply);
   });
 
   describe('login', () => {
     it('should get token', async () => {
-      await authController.login(response, mockUser);
+      await authController.login(reply, mockUser);
 
       expect(authService.getCookieWithJwtToken).toBeCalledWith(userId);
     });
 
     it('should set cookie header', async () => {
-      await authController.login(response, mockUser);
+      await authController.login(reply, mockUser);
 
-      expect(response.setHeader).toBeCalledWith('Set-Cookie', cookie);
+      expect(reply.header).toBeCalledWith('Set-Cookie', cookie);
     });
 
     it('should return user', async () => {
-      expect(await authController.login(response, mockUser)).toBe(mockUser);
+      expect(await authController.login(reply, mockUser)).toBe(mockUser);
     });
   });
 
