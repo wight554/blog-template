@@ -1,10 +1,11 @@
 import { ForbiddenException } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 import sinon from 'sinon';
 
 import { AuthController } from '@server/auth/AuthController';
 import { AuthService } from '@server/auth/AuthService';
 import { UserDocument } from '@server/user/schemas/UserSchema';
-import { createMockResponse } from '@test/utils/create-mock-response';
+import { createMockReply } from '@test/utils/create-mock-reply';
 
 const cookieMock = 'cookie';
 
@@ -18,7 +19,7 @@ const upsertUserMock = {
   password: 'password',
 };
 
-const mockResponse = createMockResponse();
+const mockReply = createMockReply();
 
 const mockAuthService = sinon.createStubInstance(AuthService);
 
@@ -35,7 +36,7 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should get token', async () => {
-      await authController.login(mockResponse, userMock);
+      await authController.login(mockReply, userMock);
 
       sinon.assert.calledWith(mockAuthService.getCookieWithJwtToken, userMock.id);
     });
@@ -43,13 +44,13 @@ describe('AuthController', () => {
     it('should set cookie header', async () => {
       mockAuthService.getCookieWithJwtToken.returns(cookieMock);
 
-      await authController.login(mockResponse, userMock);
+      await authController.login(mockReply, userMock);
 
-      expect(mockResponse.setHeader).toBeCalledWith('Set-Cookie', cookieMock);
+      expect(mockReply.header).toBeCalledWith('Set-Cookie', cookieMock);
     });
 
     it('should return user', async () => {
-      expect(await authController.login(mockResponse, userMock)).toBe(userMock);
+      expect(await authController.login(mockReply, userMock)).toBe(userMock);
     });
   });
 

@@ -1,5 +1,5 @@
-import { Request } from 'express';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { FastifyRequest } from 'fastify';
+import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -10,11 +10,9 @@ import { UserService } from '@server/user/UserService';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(readonly configService: ConfigService, private readonly userService: UserService) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          return request?.cookies?.Authentication;
-        },
-      ]),
+      jwtFromRequest: (request: FastifyRequest): string => {
+        return request?.cookies?.Authentication;
+      },
       secretOrKey: configService.get('JWT_SECRET'),
     });
   }
