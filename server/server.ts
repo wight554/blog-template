@@ -10,6 +10,8 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import fastifyCookie from 'fastify-cookie';
+import fastifyStatic from 'fastify-static';
+import { join } from 'path';
 
 import { AppModule } from '@server/app/AppModule';
 
@@ -30,7 +32,9 @@ async function bootstrap() {
 
     app.use(/^(?!\/api\/.*)/, vite.middlewares);
   } else {
-    app.useStaticAssets({ root: './dist/public' });
+    app.register(fastifyStatic, {
+      root: join(__dirname, '../public'),
+    });
   }
 
   await app.listen(port, () => {
