@@ -16,7 +16,7 @@ import { join } from 'path';
 import { AppModule } from '@server/app/AppModule';
 
 const port = process.env.PORT || 3000;
-const host = process.env.HOST || 'localhost';
+const host = process.env.PORT ? '::' : 'localhost';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
