@@ -1,8 +1,8 @@
 import { ClassSerializerInterceptor, Type } from '@nestjs/common';
 import { Exclude } from 'class-transformer';
-import { Document } from 'mongoose';
 
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
+import { createMockDocument } from '@test/utils/create-mock-document';
 
 class MockClass {
   include: string;
@@ -26,27 +26,19 @@ describe('MongooseClassSerializerInterceptor', () => {
 
   describe('serialize', () => {
     describe('response is single instance of document', () => {
-      const response = Object.create(Document.prototype);
+      const response = createMockDocument({ include: 'test', exclude: 'test' });
 
       test('should exclude properties with exclude decorator from response', () => {
-        vi.spyOn(response, 'toJSON').mockReturnValueOnce({ include: 'test', exclude: 'test' });
-
         expect(instance.serialize(response, {})).toEqual({
           include: 'test',
         });
       });
     });
 
-    describe('response is document with nested results document', () => {
-      const response = Object.create(Document.prototype);
-      response.results = Object.create(Document.prototype);
+    describe('response is object with results document', () => {
+      const response = { results: createMockDocument({ include: 'test', exclude: 'test' }) };
 
       test('should exclude properties with exclude decorator from results document', () => {
-        vi.spyOn(response.results, 'toJSON').mockReturnValueOnce({
-          include: 'test',
-          exclude: 'test',
-        });
-
         expect(instance.serialize(response, {})).toEqual({
           results: {
             include: 'test',
@@ -56,11 +48,9 @@ describe('MongooseClassSerializerInterceptor', () => {
     });
 
     describe('response is array of documents', () => {
-      const response = Object.create(Document.prototype);
+      const response = createMockDocument({ include: 'test', exclude: 'test' });
 
       test('should exclude properties with exclude decorator from response array', () => {
-        vi.spyOn(response, 'toJSON').mockReturnValueOnce({ include: 'test', exclude: 'test' });
-
         expect(instance.serialize([response], {})).toEqual([
           {
             include: 'test',
@@ -70,15 +60,18 @@ describe('MongooseClassSerializerInterceptor', () => {
     });
 
     describe('response is not an instance of Document', () => {
+      const response = { test: 'test' };
+
       test('should return response', () => {
-        const response = { test: 'test' };
         expect(instance.serialize(response, {})).toEqual(response);
       });
     });
 
     describe('response is empty', () => {
+      const response: any = undefined;
+
       test('should return response', () => {
-        expect(instance.serialize(undefined as any, {})).toEqual(undefined);
+        expect(instance.serialize(response, {})).toEqual(response);
       });
     });
   });
