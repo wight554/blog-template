@@ -4,8 +4,8 @@ import { Document } from 'mongoose';
 
 export function MongooseClassSerializerInterceptor(
   classToIntercept: Type,
-): typeof ClassSerializerInterceptor {
-  return class Interceptor extends ClassSerializerInterceptor {
+): Type<ClassSerializerInterceptor> {
+  return class MongooseClassSerializerInterceptor extends ClassSerializerInterceptor {
     private changePlainObjectToClass(document: PlainLiteralObject) {
       if (!(document instanceof Document)) {
         return document;
