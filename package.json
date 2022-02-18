@@ -41,6 +41,7 @@
     "@babel/core": "^7.17.2",
     "@nestjs/testing": "^8.2.6",
     "@preact/preset-vite": "^2.1.7",
+    "@swc/core": "^1.2.142",
     "@testing-library/preact": "^2.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.2",

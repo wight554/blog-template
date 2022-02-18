@@ -10,7 +10,7 @@ module.exports = {
   env: {
     node: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'vite.config.ts'],
+  ignorePatterns: ['.eslintrc.js', 'vite.config.ts', 'rollup-plugin-swc.ts'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
