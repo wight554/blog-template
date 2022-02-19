@@ -2,20 +2,19 @@
 
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
+import swc from 'unplugin-swc';
 import path from 'path';
 import hq from 'alias-hq';
-import { RollupPluginSwc } from './rollup-plugin-swc';
 
 const isTest = process.env.NODE_ENV === 'test';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  ...(isTest && { esbuild: false }),
   plugins: [
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    isTest && RollupPluginSwc(),
+    isTest && swc.vite(),
   ],
   root: path.join(__dirname, 'src'),
   resolve: {
