@@ -1,5 +1,4 @@
 import { ForbiddenException } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
 import { mock, instance, when, reset } from 'ts-mockito';
 
 import { AuthController } from '@server/auth/AuthController';
@@ -7,14 +6,14 @@ import { AuthService } from '@server/auth/AuthService';
 import { mockUpdatedUser } from '@test/server/user/mocks/mockUpdatedUser';
 import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
 import { mockUser } from '@test/server/user/mocks/mockUser';
+import { createMockReply } from '@test/utils/mocks/createMockReply';
 
 const cookie = 'cookie';
 const userId = '1';
 
 const mockAuthService = mock<AuthService>();
 
-const mockReply = mock<FastifyReply>();
-const reply = instance(mockReply);
+const mockReply = createMockReply();
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -27,31 +26,28 @@ describe('AuthController', () => {
     when(mockAuthService.createUser).thenReturn(vi.fn().mockResolvedValue(mockUser));
     when(mockAuthService.updateUser).thenReturn(vi.fn().mockResolvedValue(mockUpdatedUser));
 
-    when(mockReply.header).thenReturn(vi.fn());
-
     authController = new AuthController(authService);
   });
 
   afterEach(() => {
     reset(mockAuthService);
-    reset(mockReply);
   });
 
   describe('login', () => {
     it('should get token', async () => {
-      await authController.login(reply, mockUser);
+      await authController.login(mockReply, mockUser);
 
       expect(authService.getCookieWithJwtToken).toBeCalledWith(userId);
     });
 
     it('should set cookie header', async () => {
-      await authController.login(reply, mockUser);
+      await authController.login(mockReply, mockUser);
 
-      expect(reply.header).toBeCalledWith('Set-Cookie', cookie);
+      expect(mockReply.header).toBeCalledWith('Set-Cookie', cookie);
     });
 
     it('should return user', async () => {
-      expect(await authController.login(reply, mockUser)).toBe(mockUser);
+      expect(await authController.login(mockReply, mockUser)).toBe(mockUser);
     });
   });
 
