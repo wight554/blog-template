@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { mock, instance, when, reset } from 'ts-mockito';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthController } from '@server/auth/AuthController';
 import { AuthService } from '@server/auth/AuthService';
@@ -11,8 +11,6 @@ import { createMockReply } from '@test/utils/mocks/createMockReply';
 const cookie = 'cookie';
 const userId = '1';
 
-const mockAuthService = mock<AuthService>();
-
 const mockReply = createMockReply();
 
 describe('AuthController', () => {
@@ -20,17 +18,22 @@ describe('AuthController', () => {
   let authService: AuthService;
 
   beforeEach(async () => {
-    authService = instance(mockAuthService);
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [AuthController],
+      providers: [
+        {
+          provide: AuthService,
+          useValue: {
+            getCookieWithJwtToken: vi.fn().mockReturnValue(cookie),
+            createUser: vi.fn().mockResolvedValue(mockUser),
+            updateUser: vi.fn().mockResolvedValue(mockUpdatedUser),
+          },
+        },
+      ],
+    }).compile();
 
-    when(mockAuthService.getCookieWithJwtToken).thenReturn(vi.fn().mockReturnValue(cookie));
-    when(mockAuthService.createUser).thenReturn(vi.fn().mockResolvedValue(mockUser));
-    when(mockAuthService.updateUser).thenReturn(vi.fn().mockResolvedValue(mockUpdatedUser));
-
-    authController = new AuthController(authService);
-  });
-
-  afterEach(() => {
-    reset(mockAuthService);
+    authController = module.get<AuthController>(AuthController);
+    authService = module.get<AuthService>(AuthService);
   });
 
   describe('login', () => {
@@ -67,7 +70,7 @@ describe('AuthController', () => {
     describe('auth service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockAuthService.createUser).thenThrow(error);
+        vi.spyOn(authService, 'createUser').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {
@@ -111,7 +114,7 @@ describe('AuthController', () => {
     describe('auth service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockAuthService.updateUser).thenThrow(error);
+        vi.spyOn(authService, 'updateUser').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {

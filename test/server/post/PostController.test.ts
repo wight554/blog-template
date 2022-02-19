@@ -1,4 +1,4 @@
-import { mock, instance, when, reset } from 'ts-mockito';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { PostController } from '@server/post/PostController';
 import { PostService } from '@server/post/PostService';
@@ -8,8 +8,6 @@ import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
 import { mockPost } from '@test/server/post/mocks/mockPost';
 import { mockUpdatedPost } from '@test/server/post/mocks/mockUpdatedPost';
 
-const mockPostService = mock<PostService>();
-
 const userId = '1';
 const postId = '1';
 
@@ -17,19 +15,25 @@ describe('PostController', () => {
   let postService: PostService;
   let postController: PostController;
 
-  beforeEach(() => {
-    when(mockPostService.getAll).thenReturn(vi.fn().mockResolvedValue(mockPosts));
-    when(mockPostService.getById).thenReturn(vi.fn().mockResolvedValue(mockPost));
-    when(mockPostService.create).thenReturn(vi.fn().mockResolvedValue(mockPost));
-    when(mockPostService.update).thenReturn(vi.fn().mockResolvedValue(mockUpdatedPost));
-    when(mockPostService.delete).thenReturn(vi.fn());
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [PostController],
+      providers: [
+        {
+          provide: PostService,
+          useValue: {
+            getAll: vi.fn().mockResolvedValue(mockPosts),
+            getById: vi.fn().mockResolvedValue(mockPost),
+            create: vi.fn().mockResolvedValue(mockPost),
+            update: vi.fn().mockResolvedValue(mockUpdatedPost),
+            delete: vi.fn(),
+          },
+        },
+      ],
+    }).compile();
 
-    postService = instance(mockPostService);
-    postController = new PostController(postService);
-  });
-
-  afterEach(() => {
-    reset(mockPostService);
+    postController = module.get<PostController>(PostController);
+    postService = module.get<PostService>(PostService);
   });
 
   describe('getPosts', () => {
@@ -48,7 +52,7 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockPostService.getAll).thenThrow(error);
+        vi.spyOn(postService, 'getAll').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {
@@ -76,7 +80,7 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockPostService.getById).thenThrow(error);
+        vi.spyOn(postService, 'getById').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {
@@ -104,7 +108,7 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockPostService.create).thenThrow(error);
+        vi.spyOn(postService, 'create').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {
@@ -134,7 +138,7 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockPostService.update).thenThrow(error);
+        vi.spyOn(postService, 'update').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {
@@ -162,7 +166,7 @@ describe('PostController', () => {
     describe('post service error', () => {
       it('should throw error', async () => {
         const error = new Error('Internal Error');
-        when(mockPostService.delete).thenThrow(error);
+        vi.spyOn(postService, 'delete').mockRejectedValueOnce(error);
         expect.assertions(1);
 
         try {

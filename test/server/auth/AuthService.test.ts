@@ -1,6 +1,6 @@
+import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { mock, instance, when, reset } from 'ts-mockito';
 
 import { AuthService } from '@server/auth/AuthService';
 import { CryptoService } from '@server/crypto/CryptoService';
@@ -8,11 +8,6 @@ import { UserService } from '@server/user/UserService';
 import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
 import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
 import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
-
-const mockJwtService = mock<JwtService>();
-const mockConfigService = mock<ConfigService>();
-const mockUserService = mock<UserService>();
-const mockCryptoService = mock<CryptoService>();
 
 const userId = '1';
 const username = 'username';
@@ -23,33 +18,48 @@ const hashedPassword = 'hashedPassword';
 
 describe('AuthService', () => {
   let jwtService: JwtService;
-  let configService: ConfigService;
   let userService: UserService;
   let cryptoService: CryptoService;
   let authService: AuthService;
 
-  beforeEach(() => {
-    when(mockJwtService.sign).thenReturn(vi.fn().mockReturnValue(token));
-    when(mockCryptoService.compare).thenReturn(vi.fn().mockResolvedValue(true));
-    when(mockCryptoService.hash).thenReturn(vi.fn().mockResolvedValue(hashedPassword));
-    when(mockConfigService.get).thenReturn(vi.fn().mockReturnValue(jwtExpirationTime));
-    when(mockUserService.getByUsername).thenReturn(vi.fn().mockResolvedValue(mockMongoUser));
-    when(mockUserService.create).thenReturn(vi.fn().mockResolvedValue(mockMongoUser));
-    when(mockUserService.update).thenReturn(vi.fn().mockResolvedValue(mockUpdatedMongoUser));
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        {
+          provide: JwtService,
+          useValue: {
+            sign: vi.fn().mockReturnValue(token),
+          },
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: vi.fn().mockReturnValue(jwtExpirationTime),
+          },
+        },
+        {
+          provide: UserService,
+          useValue: {
+            getByUsername: vi.fn().mockResolvedValue(mockMongoUser),
+            create: vi.fn().mockResolvedValue(mockMongoUser),
+            update: vi.fn().mockResolvedValue(mockUpdatedMongoUser),
+          },
+        },
+        {
+          provide: CryptoService,
+          useValue: {
+            compare: vi.fn().mockResolvedValue(true),
+            hash: vi.fn().mockResolvedValue(hashedPassword),
+          },
+        },
+      ],
+    }).compile();
 
-    jwtService = instance(mockJwtService);
-    configService = instance(mockConfigService);
-    userService = instance(mockUserService);
-    cryptoService = instance(mockCryptoService);
-
-    authService = new AuthService(jwtService, configService, userService, cryptoService);
-  });
-
-  afterEach(() => {
-    reset(mockJwtService);
-    reset(mockConfigService);
-    reset(mockUserService);
-    reset(mockCryptoService);
+    jwtService = module.get<JwtService>(JwtService);
+    userService = module.get<UserService>(UserService);
+    cryptoService = module.get<CryptoService>(CryptoService);
+    authService = module.get<AuthService>(AuthService);
   });
 
   describe('validateUser', () => {
@@ -67,7 +77,7 @@ describe('AuthService', () => {
 
     describe('password is invalid', async () => {
       it('should return null', async () => {
-        when(mockCryptoService.compare).thenReturn(vi.fn().mockReturnValue(false));
+        vi.spyOn(cryptoService, 'compare').mockResolvedValueOnce(false);
 
         expect(await authService.validateUser(username, password)).toBe(null);
       });
@@ -111,7 +121,7 @@ describe('AuthService', () => {
       describe('crypto service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          when(mockCryptoService.hash).thenThrow(error);
+          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
           expect.assertions(1);
 
           try {
@@ -131,7 +141,7 @@ describe('AuthService', () => {
       describe('user service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          when(mockUserService.create).thenThrow(error);
+          vi.spyOn(userService, 'create').mockRejectedValueOnce(error);
           expect.assertions(1);
 
           try {
@@ -164,7 +174,7 @@ describe('AuthService', () => {
       describe('crypto service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          when(mockCryptoService.hash).thenThrow(error);
+          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
           expect.assertions(1);
 
           try {
@@ -184,7 +194,7 @@ describe('AuthService', () => {
       describe('user service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          when(mockUserService.update).thenThrow(error);
+          vi.spyOn(userService, 'update').mockRejectedValueOnce(error);
           expect.assertions(1);
 
           try {
