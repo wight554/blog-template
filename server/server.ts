@@ -10,10 +10,13 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import fastifyCookie from 'fastify-cookie';
+import fastifyStatic from 'fastify-static';
+import { join } from 'path';
 
 import { AppModule } from '@server/app/AppModule';
 
 const port = process.env.PORT || 3000;
+const host = process.env.PORT ? '::' : 'localhost';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
@@ -30,10 +33,12 @@ async function bootstrap() {
 
     app.use(/^(?!\/api\/.*)/, vite.middlewares);
   } else {
-    app.useStaticAssets({ root: './dist/public' });
+    app.register(fastifyStatic, {
+      root: join(__dirname, '../public'),
+    });
   }
 
-  await app.listen(port, () => {
+  await app.listen(port, host, () => {
     console.log(`Server listening on port ${port}...`);
   });
 }
