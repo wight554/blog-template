@@ -24,6 +24,10 @@ export class Post {
   @Prop({ type: String })
   description: string;
 
+  createdAt: string;
+
+  updatedAt: string;
+
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
   @Type(() => User)
   author: User;

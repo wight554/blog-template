@@ -1,32 +1,26 @@
 import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
 
 import { User } from '@server/decorators/UserDecorator';
-import { UserDocument } from '@server/user/schemas/UserSchema';
-import { getParamDecoratorFactory } from '@test/utils/get-param-decorator-factory';
+import { getParamDecoratorFactory } from '@test/utils/mocks/getParamDecoratorFactory';
+import { mockUser } from '@test/server/user/mocks/mockUser';
 
-const userMock = <UserDocument>{
-  id: '1',
-  username: 'username',
-  password: 'password',
-};
-
-const switchToHttpMock = (): HttpArgumentsHost => ({
+const mockSwitchToHttp = (): HttpArgumentsHost => ({
   getRequest: vi.fn().mockReturnValue({
-    user: userMock,
+    user: mockUser,
   }),
   getResponse: vi.fn(),
   getNext: vi.fn(),
 });
 
-const ctxMock = <ExecutionContext>{
-  switchToHttp: switchToHttpMock,
+const mockCtx = <ExecutionContext>{
+  switchToHttp: mockSwitchToHttp,
 };
 
 describe('UserDecorator', function () {
   it('should return user', function () {
     const factory = getParamDecoratorFactory(User);
-    const result = factory(null, ctxMock);
+    const result = factory(null, mockCtx);
 
-    expect(result).toBe(userMock);
+    expect(result).toBe(mockUser);
   });
 });

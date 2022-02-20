@@ -9,35 +9,15 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { MongoErrorException } from '@test/utils/MongoErrorException';
+import { MongoErrorException } from '@test/utils/errors/MongoErrorException';
 import { MongoError } from '@server/enums/EMongoError';
+import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
+import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
+import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
+import { mockUserModel } from '@test/server/user/mocks/mockUserModel';
 
 const userId = '1';
 const username = 'username';
-const password = 'password';
-
-const userMock = <UserDocument>{
-  id: userId,
-  username,
-  password,
-};
-
-const updatedUserMock = <UserDocument>{
-  ...userMock,
-  username: 'username 2',
-};
-
-const upsertUserMock = {
-  username,
-  password,
-};
-
-const userModelMock = {
-  create: vi.fn().mockResolvedValue(userMock),
-  findOneAndUpdate: vi.fn().mockResolvedValue(updatedUserMock),
-  findOne: vi.fn().mockResolvedValue(userMock),
-  findById: vi.fn().mockResolvedValue(userMock),
-};
 
 describe('UserService', () => {
   let userModel: Model<UserDocument>;
@@ -49,7 +29,7 @@ describe('UserService', () => {
         UserService,
         {
           provide: getModelToken(User.name),
-          useValue: userModelMock,
+          useValue: mockUserModel,
         },
       ],
     }).compile();
@@ -60,14 +40,14 @@ describe('UserService', () => {
 
   describe('create', () => {
     it('should create user using user model', async () => {
-      await userService.create(upsertUserMock);
+      await userService.create(mockUpsertUser);
 
-      expect(userModel.create).toHaveBeenCalledWith(upsertUserMock);
+      expect(userModel.create).toHaveBeenCalledWith(mockUpsertUser);
     });
 
     describe('user model success', () => {
       it('should return created user', async () => {
-        expect(await userService.create(upsertUserMock)).toEqual(userMock);
+        expect(await userService.create(mockUpsertUser)).toEqual(mockMongoUser);
       });
     });
 
@@ -78,7 +58,7 @@ describe('UserService', () => {
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
           try {
-            await userService.create(upsertUserMock);
+            await userService.create(mockUpsertUser);
           } catch (error: any) {
             expect(error).toBeInstanceOf(BadRequestException);
           }
@@ -91,7 +71,7 @@ describe('UserService', () => {
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
           try {
-            await userService.create(upsertUserMock);
+            await userService.create(mockUpsertUser);
           } catch (error) {
             expect(error).toBeInstanceOf(InternalServerErrorException);
           }
@@ -102,9 +82,9 @@ describe('UserService', () => {
 
   describe('update', () => {
     it('should update user using user model', async () => {
-      await userService.update(userId, upsertUserMock);
+      await userService.update(userId, mockUpsertUser);
 
-      expect(userModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: userId }, upsertUserMock, {
+      expect(userModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: userId }, mockUpsertUser, {
         new: true,
       });
     });
@@ -112,7 +92,7 @@ describe('UserService', () => {
     describe('user exists', () => {
       describe('user model success', () => {
         it('should return updated user', async () => {
-          expect(await userService.update(userId, upsertUserMock)).toEqual(updatedUserMock);
+          expect(await userService.update(userId, mockUpsertUser)).toEqual(mockUpdatedMongoUser);
         });
       });
 
@@ -123,7 +103,7 @@ describe('UserService', () => {
             vi.spyOn(userModel, 'findOneAndUpdate').mockRejectedValueOnce(error);
 
             try {
-              await userService.update(userId, upsertUserMock);
+              await userService.update(userId, mockUpsertUser);
             } catch (error: any) {
               expect(error).toBeInstanceOf(BadRequestException);
             }
@@ -136,7 +116,7 @@ describe('UserService', () => {
             vi.spyOn(userModel, 'findOneAndUpdate').mockRejectedValueOnce(error);
 
             try {
-              await userService.update(userId, upsertUserMock);
+              await userService.update(userId, mockUpsertUser);
             } catch (error) {
               expect(error).toBeInstanceOf(InternalServerErrorException);
             }
@@ -150,7 +130,7 @@ describe('UserService', () => {
         vi.spyOn(userModel, 'findOneAndUpdate').mockResolvedValueOnce(null);
 
         try {
-          await userService.update(userId, upsertUserMock);
+          await userService.update(userId, mockUpsertUser);
         } catch (error) {
           expect(error).toBeInstanceOf(NotFoundException);
         }
@@ -167,7 +147,7 @@ describe('UserService', () => {
 
     describe('user exists', () => {
       it('should return user', async () => {
-        expect(await userService.getByUsername(username)).toEqual(userMock);
+        expect(await userService.getByUsername(username)).toEqual(mockMongoUser);
       });
     });
 
@@ -193,7 +173,7 @@ describe('UserService', () => {
 
     describe('user exists', () => {
       it('should return user', async () => {
-        expect(await userService.getById(userId)).toEqual(userMock);
+        expect(await userService.getById(userId)).toEqual(mockMongoUser);
       });
     });
 

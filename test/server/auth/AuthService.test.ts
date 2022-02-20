@@ -1,73 +1,83 @@
+import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import sinon from 'sinon';
 
 import { AuthService } from '@server/auth/AuthService';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
-import { UserDocument } from '@server/user/schemas/UserSchema';
-
-const mockJwtService = sinon.createStubInstance(JwtService);
-const mockConfigService = sinon.createStubInstance(ConfigService);
-const mockUserService = sinon.createStubInstance(UserService);
-const mockCryptoService = sinon.createStubInstance(CryptoService);
+import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
+import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
+import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
 
 const userId = '1';
 const username = 'username';
 const password = 'password';
-
-const userMock = <UserDocument>{
-  id: userId,
-  username,
-  password,
-};
-
-const updatedUserMock = <UserDocument>{
-  ...userMock,
-  username: 'username 2',
-};
-
-const upsertUserMock = {
-  username,
-  password,
-};
+const token = 'token';
+const jwtExpirationTime = 1;
+const hashedPassword = 'hashedPassword';
 
 describe('AuthService', () => {
+  let jwtService: JwtService;
+  let userService: UserService;
+  let cryptoService: CryptoService;
   let authService: AuthService;
 
-  beforeEach(() => {
-    authService = new AuthService(
-      mockJwtService,
-      mockConfigService,
-      mockUserService,
-      mockCryptoService,
-    );
-  });
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        {
+          provide: JwtService,
+          useValue: {
+            sign: vi.fn().mockReturnValue(token),
+          },
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: vi.fn().mockReturnValue(jwtExpirationTime),
+          },
+        },
+        {
+          provide: UserService,
+          useValue: {
+            getByUsername: vi.fn().mockResolvedValue(mockMongoUser),
+            create: vi.fn().mockResolvedValue(mockMongoUser),
+            update: vi.fn().mockResolvedValue(mockUpdatedMongoUser),
+          },
+        },
+        {
+          provide: CryptoService,
+          useValue: {
+            compare: vi.fn().mockResolvedValue(true),
+            hash: vi.fn().mockResolvedValue(hashedPassword),
+          },
+        },
+      ],
+    }).compile();
 
-  afterEach(() => {
-    sinon.reset();
+    jwtService = module.get<JwtService>(JwtService);
+    userService = module.get<UserService>(UserService);
+    cryptoService = module.get<CryptoService>(CryptoService);
+    authService = module.get<AuthService>(AuthService);
   });
 
   describe('validateUser', () => {
     it('should get user from user service', async () => {
       await authService.validateUser(username, password);
 
-      sinon.assert.calledWith(mockUserService.getByUsername, username);
+      expect(userService.getByUsername).toBeCalledWith(username);
     });
 
     describe('password is valid', async () => {
       it('should return user', async () => {
-        mockUserService.getByUsername.resolves(userMock);
-        mockCryptoService.compare.resolves(true);
-
-        expect(await authService.validateUser(username, password)).toBe(userMock);
+        expect(await authService.validateUser(username, password)).toBe(mockMongoUser);
       });
     });
 
     describe('password is invalid', async () => {
-      it('should return user', async () => {
-        mockUserService.getByUsername.resolves(userMock);
-        mockCryptoService.compare.resolves(false);
+      it('should return null', async () => {
+        vi.spyOn(cryptoService, 'compare').mockResolvedValueOnce(false);
 
         expect(await authService.validateUser(username, password)).toBe(null);
       });
@@ -77,15 +87,12 @@ describe('AuthService', () => {
       it('should get token from jwt service', async () => {
         authService.getCookieWithJwtToken(userId);
 
-        sinon.assert.calledWith(mockJwtService.sign, { userId });
+        expect(jwtService.sign).toBeCalledWith({ userId });
       });
 
       it('should return cookie with token', async () => {
         const token = 'token';
         const jwtExpirationTime = 1;
-
-        mockJwtService.sign.returns(token);
-        mockConfigService.get.returns(jwtExpirationTime);
 
         expect(authService.getCookieWithJwtToken(userId)).toBe(
           `Authentication=${token}; HttpOnly; Path=/; Max-Age=${jwtExpirationTime}`,
@@ -96,19 +103,16 @@ describe('AuthService', () => {
     describe('createUser', () => {
       describe('crypto service success', () => {
         it('should get hashed password from crypto service', async () => {
-          await authService.createUser(upsertUserMock);
+          await authService.createUser(mockUpsertUser);
 
-          sinon.assert.calledWith(mockCryptoService.hash, password, 10);
+          expect(cryptoService.hash).toBeCalledWith(password, 10);
         });
 
         it('should create user', async () => {
-          const hashedPassword = 'hashedPassword';
-          mockCryptoService.hash.resolves(hashedPassword);
+          await authService.createUser(mockUpsertUser);
 
-          await authService.createUser(upsertUserMock);
-
-          sinon.assert.calledWith(mockUserService.create, {
-            ...upsertUserMock,
+          expect(userService.create).toBeCalledWith({
+            ...mockUpsertUser,
             password: hashedPassword,
           });
         });
@@ -117,34 +121,34 @@ describe('AuthService', () => {
       describe('crypto service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          mockCryptoService.hash.rejects(error);
-
+          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
           expect.assertions(1);
 
-          await expect(authService.createUser(upsertUserMock)).rejects.toEqual(error);
+          try {
+            await authService.createUser(mockUpsertUser);
+          } catch (e) {
+            expect(e).toBe(error);
+          }
         });
       });
 
       describe('user service success', () => {
         it('should return created user', async () => {
-          const hashedPassword = 'hashedPassword';
-          mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.create.resolves(userMock);
-
-          expect(await authService.createUser(upsertUserMock)).toBe(userMock);
+          expect(await authService.createUser(mockUpsertUser)).toBe(mockMongoUser);
         });
       });
 
       describe('user service error', () => {
         it('should throw error', async () => {
-          const hashedPassword = 'hashedPassword';
           const error = new Error('Internal Error');
-          mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.create.rejects(error);
-
+          vi.spyOn(userService, 'create').mockRejectedValueOnce(error);
           expect.assertions(1);
 
-          await expect(authService.createUser(upsertUserMock)).rejects.toEqual(error);
+          try {
+            await authService.createUser(mockUpsertUser);
+          } catch (e) {
+            expect(e).toBe(error);
+          }
         });
       });
     });
@@ -152,19 +156,16 @@ describe('AuthService', () => {
     describe('updateUser', () => {
       describe('crypto service success', () => {
         it('should get hashed password from crypto service', async () => {
-          await authService.updateUser(userId, upsertUserMock);
+          await authService.updateUser(userId, mockUpsertUser);
 
-          sinon.assert.calledWith(mockCryptoService.hash, password, 10);
+          expect(cryptoService.hash).toBeCalledWith(password, 10);
         });
 
         it('should update user', async () => {
-          const hashedPassword = 'hashedPassword';
-          mockCryptoService.hash.resolves(hashedPassword);
+          await authService.updateUser(userId, mockUpsertUser);
 
-          await authService.updateUser(userId, upsertUserMock);
-
-          sinon.assert.calledWith(mockUserService.update, userId, {
-            ...upsertUserMock,
+          expect(userService.update).toBeCalledWith(userId, {
+            ...mockUpsertUser,
             password: hashedPassword,
           });
         });
@@ -173,34 +174,34 @@ describe('AuthService', () => {
       describe('crypto service error', () => {
         it('should throw error', async () => {
           const error = new Error('Internal Error');
-          mockCryptoService.hash.rejects(error);
-
+          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
           expect.assertions(1);
 
-          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
+          try {
+            await authService.updateUser(userId, mockUpsertUser);
+          } catch (e) {
+            expect(e).toBe(error);
+          }
         });
       });
 
       describe('user service success', () => {
         it('should return updated user', async () => {
-          const hashedPassword = 'hashedPassword';
-          mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.update.resolves(updatedUserMock);
-
-          expect(await authService.updateUser(userId, upsertUserMock)).toBe(updatedUserMock);
+          expect(await authService.updateUser(userId, mockUpsertUser)).toBe(mockUpdatedMongoUser);
         });
       });
 
       describe('user service error', () => {
         it('should throw error', async () => {
-          const hashedPassword = 'hashedPassword';
           const error = new Error('Internal Error');
-          mockCryptoService.hash.resolves(hashedPassword);
-          mockUserService.update.rejects(error);
-
+          vi.spyOn(userService, 'update').mockRejectedValueOnce(error);
           expect.assertions(1);
 
-          await expect(authService.updateUser(userId, upsertUserMock)).rejects.toEqual(error);
+          try {
+            await authService.updateUser(userId, mockUpsertUser);
+          } catch (e) {
+            expect(e).toBe(error);
+          }
         });
       });
     });
