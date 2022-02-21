@@ -1,16 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Exclude } from 'class-transformer';
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema({
   toJSON: {
-    transform: function (_, ret) {
-      delete ret.__v;
-      ret.id = ret._id.toString();
-      delete ret._id;
-    },
+    versionKey: false,
+    getters: true,
   },
 })
 export class User {
@@ -26,6 +23,9 @@ export class User {
 
   @Prop({ type: String })
   lastName?: string;
+
+  @Exclude()
+  _id: ObjectId;
 
   id: string;
 }

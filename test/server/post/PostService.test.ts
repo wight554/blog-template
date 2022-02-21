@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   InternalServerErrorException,
@@ -14,14 +14,17 @@ import { mockMongoPosts } from '@test/server/post/mocks/mockMongoPosts';
 import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
 import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
 import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
-import { Comment } from '@server/comment/schemas/CommentSchema';
+import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
+import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
 
 const postId = '1';
 const userId = '1';
 
 describe('PostService', () => {
+  let commentModel: Model<CommentDocument>;
   let postModel: Model<PostDocument>;
+  let connection: MongooseConnection;
   let postService: PostService;
 
   beforeEach(async () => {
@@ -38,19 +41,14 @@ describe('PostService', () => {
         },
         {
           provide: getConnectionToken(),
-          useValue: {
-            startSession: vi.fn().mockImplementation(() => ({
-              startTransaction: vi.fn(),
-              abortTransaction: vi.fn(),
-              commitTransaction: vi.fn(),
-              endSession: vi.fn(),
-            })),
-          },
+          useValue: mockMongoConnection,
         },
       ],
     }).compile();
 
+    commentModel = module.get<Model<CommentDocument>>(getModelToken(Comment.name));
     postModel = module.get<Model<PostDocument>>(getModelToken(Post.name));
+    connection = module.get<MongooseConnection>(getConnectionToken());
     postService = module.get<PostService>(PostService);
   });
 
@@ -159,6 +157,14 @@ describe('PostService', () => {
   });
 
   describe('delete', () => {
+    it('should start session', async () => {
+      vi.spyOn(connection, 'startSession');
+
+      await postService.delete(postId, userId);
+
+      expect(connection.startSession).toHaveBeenCalledOnce();
+    });
+
     it('should get post by id', async () => {
       vi.spyOn(postService, 'getById');
 
@@ -167,14 +173,32 @@ describe('PostService', () => {
       expect(postService.getById).toHaveBeenCalledWith(postId);
     });
 
-    it('should throw forbidden exception if author id does not match user id', async () => {
-      vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{ author: { id: '2' } });
+    describe('author id does not match user id', () => {
+      it('should abort transaction', async () => {
+        const session = await connection.startSession();
+        vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{
+          author: { id: '2' },
+        });
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
 
-      try {
-        await postService.delete(postId, userId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ForbiddenException);
-      }
+        try {
+          await postService.delete(postId, userId);
+        } catch (error) {
+          expect(session.abortTransaction).toHaveBeenCalledOnce();
+        }
+      });
+
+      it('should throw forbidden exception', async () => {
+        vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{
+          author: { id: '2' },
+        });
+
+        try {
+          await postService.delete(postId, userId);
+        } catch (error) {
+          expect(error).toBeInstanceOf(ForbiddenException);
+        }
+      });
     });
 
     it('should delete post using post model', async () => {
@@ -183,21 +207,96 @@ describe('PostService', () => {
       expect(postModel.deleteOne).toHaveBeenCalledWith({ _id: postId });
     });
 
-    it('should throw internal server error if deleted count is 0', async () => {
-      vi.spyOn(postModel, 'deleteOne').mockResolvedValueOnce({
-        deletedCount: 0,
-        acknowledged: true,
-      });
+    it('should delete post comments using comment model', async () => {
+      await postService.delete(postId, userId);
 
-      try {
-        expect(await postService.delete(postId, userId)).toEqual(undefined);
-      } catch (error) {
-        expect(error).toBeInstanceOf(InternalServerErrorException);
-      }
+      expect(commentModel.deleteMany).toHaveBeenCalledWith({
+        _id: {
+          $in: mockMongoPost.comments.map(({ id }) => id),
+        },
+      });
     });
 
-    it('should return undefined if deleted count is not 0', async () => {
+    it('should commit transaction', async () => {
+      const session = await connection.startSession();
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+
+      await postService.delete(postId, userId);
+
+      expect(session.commitTransaction).toHaveBeenCalledOnce();
+    });
+
+    describe('deleted posts count is 0', () => {
+      it('should abort transaction', async () => {
+        const session = await connection.startSession();
+        vi.spyOn(postModel, 'deleteOne').mockResolvedValueOnce({
+          deletedCount: 0,
+          acknowledged: true,
+        });
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+
+        try {
+          await postService.delete(postId, userId);
+        } catch (error) {
+          expect(session.abortTransaction).toHaveBeenCalledOnce();
+        }
+      });
+
+      it('should throw internal server error', async () => {
+        vi.spyOn(postModel, 'deleteOne').mockResolvedValueOnce({
+          deletedCount: 0,
+          acknowledged: true,
+        });
+
+        try {
+          expect(await postService.delete(postId, userId)).toEqual(undefined);
+        } catch (error) {
+          expect(error).toBeInstanceOf(InternalServerErrorException);
+        }
+      });
+    });
+
+    describe('deleted comments count is lower that post comments count', () => {
+      it('should abort transaction', async () => {
+        const session = await connection.startSession();
+        vi.spyOn(commentModel, 'deleteMany').mockResolvedValueOnce({
+          deletedCount: mockMongoPost.comments.length - 1,
+          acknowledged: true,
+        });
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+
+        try {
+          await postService.delete(postId, userId);
+        } catch (error) {
+          expect(session.abortTransaction).toHaveBeenCalledOnce();
+        }
+      });
+
+      it('should throw internal server error', async () => {
+        vi.spyOn(commentModel, 'deleteMany').mockResolvedValueOnce({
+          deletedCount: mockMongoPost.comments.length - 1,
+          acknowledged: true,
+        });
+
+        try {
+          expect(await postService.delete(postId, userId)).toEqual(undefined);
+        } catch (error) {
+          expect(error).toBeInstanceOf(InternalServerErrorException);
+        }
+      });
+    });
+
+    it('should return undefined if post was successfully deleted', async () => {
       expect(await postService.delete(postId, userId)).toEqual(undefined);
+    });
+
+    it('should end session', async () => {
+      const session = await connection.startSession();
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+
+      await postService.delete(postId, userId);
+
+      expect(session.endSession).toHaveBeenCalledOnce();
     });
   });
 });

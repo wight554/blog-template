@@ -1,18 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Comment } from '@server/comment/schemas/CommentSchema';
 import { User } from '@server/user/schemas/UserSchema';
-import { Type } from 'class-transformer';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Exclude, Type } from 'class-transformer';
+import { Document, Schema as MongooseSchema, ObjectId } from 'mongoose';
 
 export type PostDocument = Post & Document;
 
 @Schema({
   toJSON: {
-    transform: function (_, ret) {
-      delete ret.__v;
-      ret.id = ret._id.toString();
-      delete ret._id;
-    },
+    versionKey: false,
+    getters: true,
   },
   timestamps: true,
 })
@@ -30,6 +27,9 @@ export class Post {
   @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: Comment.name }] })
   @Type(() => Comment)
   comments: Array<Comment>;
+
+  @Exclude()
+  _id: ObjectId;
 
   id: string;
 

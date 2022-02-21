@@ -39,11 +39,11 @@ export class CommentService {
       const createdComment = await this.commentModel.create({
         ...comment,
         author: userId,
-        post: postId,
+        postId,
       });
 
       const { modifiedCount } = await this.postModel.updateOne(
-        { _id: postId },
+        { _id: createdComment.postId },
         {
           $push: { comments: createdComment.id },
         },
