@@ -4,11 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { PostModule } from '@server/post/PostModule';
 import { AuthModule } from '@server/auth/AuthModule';
+import { CommentModule } from '@server/comment/CommentModule';
 
 @Module({
   imports: [
     AuthModule,
     PostModule,
+    CommentModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
     }),

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { PostController } from '@server/post/PostController';
-import { PostService } from '@server/post/PostService';
-import { Post, PostSchema } from '@server/post/schemas/PostSchema';
+import { CommentController } from '@server/comment/CommentController';
+import { CommentService } from '@server/comment/CommentService';
 import { Comment, CommentSchema } from '@server/comment/schemas/CommentSchema';
+import { Post, PostSchema } from '@server/post/schemas/PostSchema';
 
 @Module({
   imports: [
@@ -13,8 +13,8 @@ import { Comment, CommentSchema } from '@server/comment/schemas/CommentSchema';
       { name: Comment.name, schema: CommentSchema },
     ]),
   ],
-  controllers: [PostController],
-  providers: [PostService],
-  exports: [PostService],
+  controllers: [CommentController],
+  providers: [CommentService],
+  exports: [CommentService],
 })
-export class PostModule {}
+export class CommentModule {}

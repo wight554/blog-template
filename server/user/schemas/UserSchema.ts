@@ -14,8 +14,6 @@ export type UserDocument = User & Document;
   },
 })
 export class User {
-  id: string;
-
   @Prop({ unique: true, type: String })
   username: string;
 
@@ -28,6 +26,8 @@ export class User {
 
   @Prop({ type: String })
   lastName?: string;
+
+  id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

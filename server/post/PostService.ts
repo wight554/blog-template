@@ -9,14 +9,18 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 import { CreatePostDto } from '@server/post/dto/CreatePostDto';
-import { UpdatePostDto } from './dto/UpdatePostDto';
+import { UpdatePostDto } from '@server/post/dto/UpdatePostDto';
+import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
+  ) {}
 
   async getAll(): Promise<Array<PostDocument>> {
-    return this.postModel.find().populate('author');
+    return this.postModel.find().populate(['author']);
   }
 
   async getById(postId: string): Promise<PostDocument> {
@@ -26,7 +30,13 @@ export class PostService {
       throw new NotFoundException();
     }
 
-    return post.populate('author');
+    return post.populate([
+      'author',
+      {
+        path: 'comments',
+        populate: 'author',
+      },
+    ]);
   }
 
   async create(post: CreatePostDto, userId: string): Promise<PostDocument> {
@@ -54,7 +64,7 @@ export class PostService {
   }
 
   async delete(postId: string, userId: string): Promise<void> {
-    const { author } = await this.getById(postId);
+    const { author, comments } = await this.getById(postId);
 
     if (author.id !== userId) {
       throw new ForbiddenException();
@@ -65,5 +75,11 @@ export class PostService {
     if (deletedCount === 0) {
       throw new InternalServerErrorException('Post was not deleted');
     }
+
+    await this.commentModel.deleteMany({
+      _id: {
+        $in: comments.map(({ id }) => id),
+      },
+    });
   }
 }
