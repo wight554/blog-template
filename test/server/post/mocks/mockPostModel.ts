@@ -5,7 +5,9 @@ import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPo
 
 export const mockPostModel = {
   find: vi.fn().mockImplementation(() => ({
-    populate: vi.fn().mockResolvedValue(mockMongoPosts),
+    populate: vi.fn().mockImplementation(() => ({
+      select: vi.fn().mockResolvedValue(mockMongoPosts),
+    })),
   })),
   findById: vi.fn().mockImplementation(() => ({
     populate: vi.fn().mockResolvedValue(mockMongoPost),

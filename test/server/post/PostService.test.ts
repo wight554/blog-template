@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
+import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   ForbiddenException,
@@ -14,6 +14,8 @@ import { mockMongoPosts } from '@test/server/post/mocks/mockMongoPosts';
 import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
 import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
 import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
+import { Comment } from '@server/comment/schemas/CommentSchema';
+import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
 
 const postId = '1';
 const userId = '1';
@@ -29,6 +31,21 @@ describe('PostService', () => {
         {
           provide: getModelToken(Post.name),
           useValue: mockPostModel,
+        },
+        {
+          provide: getModelToken(Comment.name),
+          useValue: mockCommentModel,
+        },
+        {
+          provide: getConnectionToken(),
+          useValue: {
+            startSession: vi.fn().mockImplementation(() => ({
+              startTransaction: vi.fn(),
+              abortTransaction: vi.fn(),
+              commitTransaction: vi.fn(),
+              endSession: vi.fn(),
+            })),
+          },
         },
       ],
     }).compile();

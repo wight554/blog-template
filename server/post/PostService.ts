@@ -1,11 +1,11 @@
-import { Model } from 'mongoose';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 import { CreatePostDto } from '@server/post/dto/CreatePostDto';
@@ -17,10 +17,11 @@ export class PostService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
+    @InjectConnection() private readonly connection: MongooseConnection,
   ) {}
 
   async getAll(): Promise<Array<PostDocument>> {
-    return this.postModel.find().populate(['author']);
+    return this.postModel.find().populate('author').select('-comments');
   }
 
   async getById(postId: string): Promise<PostDocument> {
@@ -64,22 +65,38 @@ export class PostService {
   }
 
   async delete(postId: string, userId: string): Promise<void> {
-    const { author, comments } = await this.getById(postId);
+    const session = await this.connection.startSession();
 
-    if (author.id !== userId) {
-      throw new ForbiddenException();
+    session.startTransaction();
+
+    try {
+      const { author, comments } = await this.getById(postId);
+
+      if (author.id !== userId) {
+        throw new ForbiddenException();
+      }
+
+      const { deletedCount } = await this.postModel.deleteOne({ _id: postId });
+
+      const commentIds = comments.map(({ id }) => id);
+
+      const { deletedCount: deletedCommentsCount } = await this.commentModel.deleteMany({
+        _id: {
+          $in: commentIds,
+        },
+      });
+
+      if (deletedCount === 0 || deletedCommentsCount < commentIds.length) {
+        throw new InternalServerErrorException('Post was not deleted');
+      }
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+
+      throw error;
+    } finally {
+      session.endSession();
     }
-
-    const { deletedCount } = await this.postModel.deleteOne({ _id: postId });
-
-    if (deletedCount === 0) {
-      throw new InternalServerErrorException('Post was not deleted');
-    }
-
-    await this.commentModel.deleteMany({
-      _id: {
-        $in: comments.map(({ id }) => id),
-      },
-    });
   }
 }

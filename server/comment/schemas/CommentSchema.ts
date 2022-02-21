@@ -1,7 +1,6 @@
-import { Post } from '@server/post/schemas/PostSchema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from '@server/user/schemas/UserSchema';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type CommentDocument = Comment & Document;
@@ -25,8 +24,8 @@ export class Comment {
   author: User;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Post' })
-  @Type(() => Post)
-  post: Post;
+  @Transform(({ value }) => value?.toString())
+  postId: string;
 
   id: string;
 

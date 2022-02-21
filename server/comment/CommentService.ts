@@ -1,11 +1,11 @@
-import { Model } from 'mongoose';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
@@ -17,6 +17,7 @@ export class CommentService {
   constructor(
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @InjectConnection() private readonly connection: MongooseConnection,
   ) {}
 
   async getById(commentId: string): Promise<CommentDocument> {
@@ -26,26 +27,40 @@ export class CommentService {
       throw new NotFoundException();
     }
 
-    return comment.populate(['author', 'post']);
+    return comment.populate('author');
   }
 
   async create(comment: CreateCommentDto, postId: string, userId: string): Promise<void> {
-    const createdComment = await this.commentModel.create({
-      ...comment,
-      author: userId,
-      post: postId,
-    });
+    const session = await this.connection.startSession();
 
-    const { modifiedCount } = await this.postModel.updateOne(
-      { _id: postId },
-      {
-        $push: { comments: createdComment.id },
-      },
-      { useFindAndModify: false },
-    );
+    session.startTransaction();
 
-    if (!createdComment || modifiedCount === 0) {
-      throw new InternalServerErrorException('Comment was not created');
+    try {
+      const createdComment = await this.commentModel.create({
+        ...comment,
+        author: userId,
+        post: postId,
+      });
+
+      const { modifiedCount } = await this.postModel.updateOne(
+        { _id: postId },
+        {
+          $push: { comments: createdComment.id },
+        },
+        { useFindAndModify: false },
+      );
+
+      if (!createdComment || modifiedCount === 0) {
+        throw new InternalServerErrorException('Comment was not created');
+      }
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+
+      throw error;
+    } finally {
+      session.endSession();
     }
   }
 
@@ -56,34 +71,48 @@ export class CommentService {
       throw new ForbiddenException();
     }
 
-    const { modifiedCount } = await this.commentModel.updateOne({ _id: commentId }, comment);
+    const res = await this.commentModel.updateOne({ _id: commentId }, comment);
 
-    if (modifiedCount === 0) {
+    console.error(res);
+
+    if (res.modifiedCount === 0) {
       throw new InternalServerErrorException('Comment was not updated');
     }
   }
 
   async delete(commentId: string, userId: string): Promise<void> {
-    const { author, post } = await this.getById(commentId);
+    const session = await this.connection.startSession();
 
-    console.error(author.id, post.id, userId);
+    session.startTransaction();
 
-    if (author.id !== userId) {
-      throw new ForbiddenException();
-    }
+    try {
+      const { author, postId } = await this.getById(commentId);
 
-    const { deletedCount } = await this.commentModel.deleteOne({ _id: commentId });
+      if (author.id !== userId) {
+        throw new ForbiddenException();
+      }
 
-    const { modifiedCount } = await this.postModel.updateOne(
-      { _id: post.id },
-      {
-        $pull: { comments: commentId },
-      },
-      { useFindAndModify: false },
-    );
+      const { deletedCount } = await this.commentModel.deleteOne({ _id: commentId });
 
-    if (deletedCount === 0 || modifiedCount === 0) {
-      throw new InternalServerErrorException('Comment was not deleted');
+      const { modifiedCount } = await this.postModel.updateOne(
+        { _id: postId },
+        {
+          $pull: { comments: commentId },
+        },
+        { useFindAndModify: false },
+      );
+
+      if (deletedCount === 0 || modifiedCount === 0) {
+        throw new InternalServerErrorException('Comment was not deleted');
+      }
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+
+      throw error;
+    } finally {
+      session.endSession();
     }
   }
 }
