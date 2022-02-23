@@ -1,9 +1,11 @@
+import { Types } from 'mongoose';
+
 import { UserDocument } from '@server/user/schemas/UserSchema';
 import { mockUser } from '@test/server/user/mocks/mockUser';
 
 export const mockMongoUser = <UserDocument>{
   ...mockUser,
-  _id: '1',
+  _id: new Types.ObjectId(),
   password: 'password',
   __v: 0,
 };

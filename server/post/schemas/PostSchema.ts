@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Comment } from '@server/comment/schemas/CommentSchema';
 import { User } from '@server/user/schemas/UserSchema';
 import { Exclude, Type } from 'class-transformer';
-import { Document, Schema as MongooseSchema, ObjectId } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type PostDocument = Post & Document;
 
@@ -29,7 +29,7 @@ export class Post {
   comments: Array<Comment>;
 
   @Exclude()
-  _id: ObjectId;
+  _id: Types.ObjectId;
 
   id: string;
 

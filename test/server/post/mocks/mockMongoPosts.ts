@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { PostDocument } from '@server/post/schemas/PostSchema';
 import { User } from '@server/user/schemas/UserSchema';
 import { mockMongoPost } from '@test/server/post/mocks/mockMongoPost';
@@ -11,11 +13,11 @@ export const mockMongoPosts: Array<PostDocument> = [
   <PostDocument>{
     ...mockMongoPost,
     id: '2',
-    _id: '2',
+    _id: new Types.ObjectId(),
     author: <User>{
       ...mockMongoPost.author,
       id: '2',
-      _id: '2',
+      _id: new Types.ObjectId(),
     },
     description: 'description 2',
     title: 'title 2',

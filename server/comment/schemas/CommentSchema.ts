@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from '@server/user/schemas/UserSchema';
 import { Exclude, Transform, Type } from 'class-transformer';
-import { Document, Schema as MongooseSchema, ObjectId } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type CommentDocument = Comment & Document;
 
@@ -25,7 +25,7 @@ export class Comment {
   postId: string;
 
   @Exclude()
-  _id: ObjectId;
+  _id: Types.ObjectId;
 
   id: string;
 
