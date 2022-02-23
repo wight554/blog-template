@@ -33,7 +33,7 @@ export default defineConfig({
   },
   test: {
     root: process.cwd(),
-    environment: 'jsdom',
+    environment: 'happy-dom',
     globals: true,
   },
 });
