@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export const mockCommentUpdateResult = {
+export const mockPostUpdateResult = {
   acknowledged: true,
   modifiedCount: 1,
   upsertedId: new Types.ObjectId(),

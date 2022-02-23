@@ -4,7 +4,9 @@ import { mockCommentUpdateResult } from '@test/server/comment/mocks/mockCommentU
 import { mockCommentDeleteManyResult } from '@test/server/comment/mocks/mockCommentDeleteManyResult';
 
 export const mockCommentModel = {
-  findById: vi.fn().mockResolvedValue(mockMongoComment),
+  findById: vi.fn().mockImplementation(() => ({
+    populate: vi.fn().mockResolvedValue(mockMongoComment),
+  })),
   create: vi.fn().mockResolvedValue(mockMongoComment),
   updateOne: vi.fn().mockResolvedValue(mockCommentUpdateResult),
   deleteOne: vi.fn().mockResolvedValue(mockCommentDeleteResult),

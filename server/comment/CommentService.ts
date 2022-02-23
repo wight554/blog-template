@@ -42,6 +42,10 @@ export class CommentService {
         postId,
       });
 
+      if (!createdComment) {
+        throw new InternalServerErrorException('Comment was not created');
+      }
+
       const { modifiedCount } = await this.postModel.updateOne(
         { _id: createdComment.postId },
         {
@@ -50,7 +54,7 @@ export class CommentService {
         { useFindAndModify: false },
       );
 
-      if (!createdComment || modifiedCount === 0) {
+      if (modifiedCount === 0) {
         throw new InternalServerErrorException('Comment was not created');
       }
 
@@ -71,11 +75,9 @@ export class CommentService {
       throw new ForbiddenException();
     }
 
-    const res = await this.commentModel.updateOne({ _id: commentId }, comment);
+    const { modifiedCount } = await this.commentModel.updateOne({ _id: commentId }, comment);
 
-    console.error(res);
-
-    if (res.modifiedCount === 0) {
+    if (modifiedCount === 0) {
       throw new InternalServerErrorException('Comment was not updated');
     }
   }
