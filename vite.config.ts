@@ -3,6 +3,7 @@
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import swc from 'unplugin-swc';
+import checker from 'vite-plugin-checker';
 import path from 'path';
 import hq from 'alias-hq';
 
@@ -15,6 +16,12 @@ export default defineConfig({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
     isTest && swc.vite(),
+    checker({
+      typescript: true,
+      eslint: {
+        lintCommand: 'eslint "./**/*.{ts,tsx}"',
+      },
+    }),
   ],
   root: path.join(__dirname, 'src'),
   resolve: {
@@ -26,7 +33,7 @@ export default defineConfig({
   },
   test: {
     root: process.cwd(),
-    environment: 'jsdom',
+    environment: 'happy-dom',
     globals: true,
   },
 });
