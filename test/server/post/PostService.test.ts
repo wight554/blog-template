@@ -179,7 +179,7 @@ describe('PostService', () => {
         vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{
           author: { id: '2' },
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await postService.delete(postId, userId);
@@ -219,7 +219,7 @@ describe('PostService', () => {
 
     it('should commit transaction', async () => {
       const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
       await postService.delete(postId, userId);
 
@@ -233,7 +233,7 @@ describe('PostService', () => {
           deletedCount: 0,
           acknowledged: true,
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await postService.delete(postId, userId);
@@ -263,7 +263,7 @@ describe('PostService', () => {
           deletedCount: mockMongoPost.comments.length - 1,
           acknowledged: true,
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await postService.delete(postId, userId);
@@ -292,7 +292,7 @@ describe('PostService', () => {
 
     it('should end session', async () => {
       const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
       await postService.delete(postId, userId);
 

@@ -117,7 +117,7 @@ describe('CommentService', () => {
 
     it('should commit transaction', async () => {
       const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
       await commentService.create(mockUpsertComment, postId, userId);
 
@@ -128,7 +128,7 @@ describe('CommentService', () => {
       it('should abort transaction', async () => {
         const session = await connection.startSession();
         vi.spyOn(commentModel, 'create').mockResolvedValueOnce();
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await commentService.create(mockUpsertComment, postId, userId);
@@ -155,7 +155,7 @@ describe('CommentService', () => {
           ...mockPostUpdateResult,
           modifiedCount: 0,
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await commentService.create(mockUpsertComment, postId, userId);
@@ -257,7 +257,7 @@ describe('CommentService', () => {
         vi.spyOn(commentService, 'getById').mockResolvedValueOnce(<CommentDocument>{
           author: { id: '2' },
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await commentService.delete(commentId, userId);
@@ -299,7 +299,7 @@ describe('CommentService', () => {
 
     it('should commit transaction', async () => {
       const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
       await commentService.delete(commentId, userId);
 
@@ -313,7 +313,7 @@ describe('CommentService', () => {
           deletedCount: 0,
           acknowledged: true,
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await commentService.delete(commentId, userId);
@@ -343,7 +343,7 @@ describe('CommentService', () => {
           ...mockPostUpdateResult,
           modifiedCount: 0,
         });
-        vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+        vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
         try {
           await commentService.delete(commentId, userId);
@@ -372,7 +372,7 @@ describe('CommentService', () => {
 
     it('should end session', async () => {
       const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(() => session);
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
 
       await commentService.delete(commentId, userId);
 
