@@ -43,7 +43,13 @@ export class PostService {
   async create(post: CreatePostDto, userId: string): Promise<PostDocument> {
     const createdPost = await this.postModel.create({ ...post, author: userId });
 
-    return createdPost.populate('author');
+    return createdPost.populate([
+      'author',
+      {
+        path: 'comments',
+        populate: 'author',
+      },
+    ]);
   }
 
   async update(postId: string, post: UpdatePostDto, userId: string): Promise<PostDocument> {
@@ -53,15 +59,19 @@ export class PostService {
       throw new ForbiddenException();
     }
 
-    const updatedPost = await this.postModel.findOneAndUpdate({ _id: postId }, post, {
-      new: true,
-    });
+    const updatedPost = await this.postModel.findByIdAndUpdate(postId, post, { new: true });
 
     if (!updatedPost) {
       throw new NotFoundException();
     }
 
-    return updatedPost.populate('author');
+    return updatedPost.populate([
+      'author',
+      {
+        path: 'comments',
+        populate: 'author',
+      },
+    ]);
   }
 
   async delete(postId: string, userId: string): Promise<void> {

@@ -18,6 +18,7 @@ import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
 import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
 import { mockCommentUpdateResult } from './mocks/mockCommentUpdateResult';
 import { mockPostUpdateResult } from '../post/mocks/mockPostUpdateResult';
+import { mockUpdatedMongoComment } from './mocks/mockUpdatedMongoComment';
 
 const commentId = '1';
 const postId = '1';
@@ -179,8 +180,10 @@ describe('CommentService', () => {
     });
 
     describe('comment model success', () => {
-      it('should return undefined', async () => {
-        expect(await commentService.create(mockUpsertComment, postId, userId)).toBe(undefined);
+      it('should return created comment', async () => {
+        expect(await commentService.create(mockUpsertComment, postId, userId)).toBe(
+          mockMongoComment,
+        );
       });
     });
   });
@@ -209,12 +212,16 @@ describe('CommentService', () => {
     it('should update comment using comment model', async () => {
       await commentService.update(commentId, mockUpsertComment, userId);
 
-      expect(commentModel.updateOne).toHaveBeenCalledWith({ _id: commentId }, mockUpsertComment);
+      expect(commentModel.findByIdAndUpdate).toHaveBeenCalledWith(commentId, mockUpsertComment, {
+        new: true,
+      });
     });
 
     describe('comment was updated', () => {
-      it('should return undefined', async () => {
-        expect(await commentService.update(commentId, mockUpsertComment, userId)).toBe(undefined);
+      it('should return updated comment', async () => {
+        expect(await commentService.update(commentId, mockUpsertComment, userId)).toBe(
+          mockUpdatedMongoComment,
+        );
       });
     });
 

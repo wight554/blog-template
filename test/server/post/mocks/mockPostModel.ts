@@ -16,7 +16,7 @@ export const mockPostModel = {
   create: vi.fn().mockImplementation(() => ({
     populate: vi.fn().mockResolvedValue(mockMongoPost),
   })),
-  findOneAndUpdate: vi.fn().mockImplementation(() => ({
+  findByIdAndUpdate: vi.fn().mockImplementation(() => ({
     populate: vi.fn().mockResolvedValue(mockUpdatedMongoPost),
   })),
   deleteOne: vi.fn().mockResolvedValue(mockPostDeleteResult),

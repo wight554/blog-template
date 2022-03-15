@@ -30,7 +30,11 @@ export class CommentService {
     return comment.populate('author');
   }
 
-  async create(comment: CreateCommentDto, postId: string, userId: string): Promise<void> {
+  async create(
+    comment: CreateCommentDto,
+    postId: string,
+    userId: string,
+  ): Promise<CommentDocument> {
     const session = await this.connection.startSession();
 
     session.startTransaction();
@@ -59,6 +63,8 @@ export class CommentService {
       }
 
       await session.commitTransaction();
+
+      return createdComment.populate('author');
     } catch (error) {
       await session.abortTransaction();
 
@@ -68,18 +74,26 @@ export class CommentService {
     }
   }
 
-  async update(commentId: string, comment: UpdateCommentDto, userId: string): Promise<void> {
+  async update(
+    commentId: string,
+    comment: UpdateCommentDto,
+    userId: string,
+  ): Promise<CommentDocument> {
     const { author } = await this.getById(commentId);
 
     if (author.id !== userId) {
       throw new ForbiddenException();
     }
 
-    const { modifiedCount } = await this.commentModel.updateOne({ _id: commentId }, comment);
+    const updatedComment = await this.commentModel.findByIdAndUpdate(commentId, comment, {
+      new: true,
+    });
 
-    if (modifiedCount === 0) {
+    if (!updatedComment) {
       throw new InternalServerErrorException('Comment was not updated');
     }
+
+    return updatedComment.populate('author');
   }
 
   async delete(commentId: string, userId: string): Promise<void> {

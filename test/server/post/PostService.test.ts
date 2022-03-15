@@ -130,7 +130,7 @@ describe('PostService', () => {
     it('should update post using post model', async () => {
       await postService.update(postId, mockUpsertPost, userId);
 
-      expect(postModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: postId }, mockUpsertPost, {
+      expect(postModel.findByIdAndUpdate).toHaveBeenCalledWith(postId, mockUpsertPost, {
         new: true,
       });
     });
@@ -145,7 +145,7 @@ describe('PostService', () => {
 
     describe('post does not exist', () => {
       it('should throw not found exception', async () => {
-        vi.spyOn(postModel, 'findOneAndUpdate').mockResolvedValueOnce(null);
+        vi.spyOn(postModel, 'findByIdAndUpdate').mockResolvedValueOnce(null);
 
         try {
           await postService.update(postId, mockUpsertPost, userId);
