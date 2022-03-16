@@ -7,11 +7,15 @@ import { mockPosts } from '@test/server/post/mocks/mockPosts';
 import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
 import { mockPost } from '@test/server/post/mocks/mockPost';
 import { mockUpdatedPost } from '@test/server/post/mocks/mockUpdatedPost';
+import { mockComment } from '@test/server/comment/mocks/mockComment';
+import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
+import { CommentService } from '@server/comment/CommentService';
 
 const userId = '1';
 const postId = '1';
 
 describe('PostController', () => {
+  let commentService: CommentService;
   let postService: PostService;
   let postController: PostController;
 
@@ -29,11 +33,18 @@ describe('PostController', () => {
             delete: vi.fn(),
           },
         },
+        {
+          provide: CommentService,
+          useValue: {
+            create: vi.fn().mockResolvedValue(mockComment),
+          },
+        },
       ],
     }).compile();
 
     postController = module.get<PostController>(PostController);
     postService = module.get<PostService>(PostService);
+    commentService = module.get<CommentService>(CommentService);
   });
 
   describe('getPosts', () => {
@@ -171,6 +182,36 @@ describe('PostController', () => {
 
         try {
           await postController.deletePost(postId, mockUser);
+        } catch (e) {
+          expect(e).toBe(error);
+        }
+      });
+    });
+  });
+
+  describe('createPostComment', () => {
+    it('should create comment', async () => {
+      await postController.createPostComment(postId, mockUpsertComment, mockUser);
+
+      expect(commentService.create).toHaveBeenCalledWith(mockUpsertComment, postId, userId);
+    });
+
+    describe('comment service success', () => {
+      it('should return created comment', async () => {
+        expect(await postController.createPostComment(postId, mockUpsertComment, mockUser)).toBe(
+          mockComment,
+        );
+      });
+    });
+
+    describe('comment service error', () => {
+      it('should throw error', async () => {
+        const error = new Error('Internal Error');
+        vi.spyOn(commentService, 'create').mockRejectedValueOnce(error);
+        expect.assertions(1);
+
+        try {
+          await postController.createPostComment(postId, mockUpsertComment, mockUser);
         } catch (e) {
           expect(e).toBe(error);
         }

@@ -8,7 +8,6 @@ import { mockComment } from './mocks/mockComment';
 import { mockUpdatedComment } from './mocks/mockUpdatedComment';
 
 const userId = '1';
-const postId = '1';
 const commentId = '1';
 
 describe('CommentController', () => {
@@ -32,36 +31,6 @@ describe('CommentController', () => {
 
     commentController = module.get<CommentController>(CommentController);
     commentService = module.get<CommentService>(CommentService);
-  });
-
-  describe('createComment', () => {
-    it('should create comment', async () => {
-      await commentController.createComment(postId, mockUpsertComment, mockUser);
-
-      expect(commentService.create).toHaveBeenCalledWith(mockUpsertComment, postId, userId);
-    });
-
-    describe('comment service success', () => {
-      it('should return created comment', async () => {
-        expect(await commentController.createComment(postId, mockUpsertComment, mockUser)).toBe(
-          mockComment,
-        );
-      });
-    });
-
-    describe('comment service error', () => {
-      it('should throw error', async () => {
-        const error = new Error('Internal Error');
-        vi.spyOn(commentService, 'create').mockRejectedValueOnce(error);
-        expect.assertions(1);
-
-        try {
-          await commentController.createComment(postId, mockUpsertComment, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
-      });
-    });
   });
 
   describe('updateComment', () => {
