@@ -4,6 +4,8 @@ import { CommentController } from '@server/comment/CommentController';
 import { CommentService } from '@server/comment/CommentService';
 import { mockUser } from '@test/server/user/mocks/mockUser';
 import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
+import { mockComment } from './mocks/mockComment';
+import { mockUpdatedComment } from './mocks/mockUpdatedComment';
 
 const userId = '1';
 const postId = '1';
@@ -20,8 +22,8 @@ describe('CommentController', () => {
         {
           provide: CommentService,
           useValue: {
-            create: vi.fn(),
-            update: vi.fn(),
+            create: vi.fn().mockResolvedValue(mockComment),
+            update: vi.fn().mockResolvedValue(mockUpdatedComment),
             delete: vi.fn(),
           },
         },
@@ -40,9 +42,9 @@ describe('CommentController', () => {
     });
 
     describe('comment service success', () => {
-      it('should return undefined', async () => {
+      it('should return created comment', async () => {
         expect(await commentController.createComment(postId, mockUpsertComment, mockUser)).toBe(
-          undefined,
+          mockComment,
         );
       });
     });
@@ -70,9 +72,9 @@ describe('CommentController', () => {
     });
 
     describe('comment service success', () => {
-      it('should return undefined', async () => {
+      it('should return updated comment', async () => {
         expect(await commentController.updateComment(commentId, mockUpsertComment, mockUser)).toBe(
-          undefined,
+          mockUpdatedComment,
         );
       });
     });
