@@ -9,7 +9,7 @@ import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
-import { UpdateCommentDto } from './dto/UpdateCommentDto';
+import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 
 @Injectable()

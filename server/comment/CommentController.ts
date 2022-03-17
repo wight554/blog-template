@@ -11,7 +11,7 @@ import { CommentService } from '@server/comment/CommentService';
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
-import { UpdateCommentDto } from './dto/UpdateCommentDto';
+import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
 
 @Controller(COMMENT_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
