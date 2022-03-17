@@ -25,7 +25,7 @@ export class Comment {
   postId: string;
 
   @Exclude()
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
 
   id: string;
 

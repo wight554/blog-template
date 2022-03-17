@@ -25,7 +25,7 @@ export class User {
   lastName?: string;
 
   @Exclude()
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
 
   id: string;
 }

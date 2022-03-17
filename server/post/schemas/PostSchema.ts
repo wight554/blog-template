@@ -29,7 +29,7 @@ export class Post {
   comments: Array<Comment>;
 
   @Exclude()
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
 
   id: string;
 
