@@ -16,7 +16,6 @@ import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment'
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
 import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
-import { mockCommentUpdateResult } from './mocks/mockCommentUpdateResult';
 import { mockPostUpdateResult } from '../post/mocks/mockPostUpdateResult';
 import { mockUpdatedMongoComment } from './mocks/mockUpdatedMongoComment';
 
@@ -172,7 +171,7 @@ describe('CommentService', () => {
         });
 
         try {
-          expect(await commentService.create(mockUpsertComment, postId, userId));
+          await commentService.create(mockUpsertComment, postId, userId);
         } catch (error) {
           expect(error).toBeInstanceOf(InternalServerErrorException);
         }
@@ -227,10 +226,7 @@ describe('CommentService', () => {
 
     describe('comment was not updated', () => {
       it('should throw not found exception', async () => {
-        vi.spyOn(commentModel, 'updateOne').mockResolvedValueOnce({
-          ...mockCommentUpdateResult,
-          modifiedCount: 0,
-        });
+        vi.spyOn(commentModel, 'findByIdAndUpdate').mockResolvedValueOnce(undefined);
 
         try {
           await commentService.update(commentId, mockUpsertComment, userId);
