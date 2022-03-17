@@ -23,10 +23,7 @@ export default defineConfig({
           lintCommand: 'eslint "./**/*.{ts,tsx}"',
         },
       }),
-    isTest &&
-      typescript({
-        tsconfigOverride: { compilerOptions: { module: 'ESNext' } },
-      }),
+    isTest && typescript(),
   ],
   ...(isTest && { esbuild: false }),
   root: path.join(__dirname, 'src'),
