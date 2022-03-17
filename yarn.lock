@@ -1789,12 +1789,12 @@ __metadata:
     prettier: ^2.5.1
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
+    rollup: ^2.70.1
     rollup-plugin-typescript2: ^0.31.2
     rxjs: ^7.5.5
     ts-node-dev: ^1.1.8
     tsc-alias: ^1.6.4
     tsconfig-paths: ^3.14.0
-    tslib: ^2.3.1
     typescript: ^4.6.2
     vite: ^2.8.6
     vite-plugin-checker: ^0.4.3
@@ -5625,6 +5625,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: c4013a2ceef6918375fd07a6548e05d0f3df1db9f0a0281aebe6e993a45c0e667c5a06f53b55c0ffaf72f72266c1879bc181b13199aace97d93f0fc47691d4a9
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.70.1":
+  version: 2.70.1
+  resolution: "rollup@npm:2.70.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 06c62933e6e81a1c8c684d7d576e507081aabdb63cc0c91bca86b7348b66df03b77827068e4990b8b6c738bd3ef66dcc8c7ed7e0ea40b736068e7618f693133e
   languageName: node
   linkType: hard
 
