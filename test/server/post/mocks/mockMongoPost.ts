@@ -9,7 +9,7 @@ import { Comment } from '@server/comment/schemas/CommentSchema';
 
 export const mockMongoPost = <PostDocument>{
   ...mockPost,
-  _id: new Types.ObjectId(),
+  _id: new Types.ObjectId(1),
   author: <User>{
     ...mockMongoUser,
   },

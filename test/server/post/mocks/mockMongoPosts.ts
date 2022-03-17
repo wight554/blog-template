@@ -13,11 +13,11 @@ export const mockMongoPosts: Array<PostDocument> = [
   <PostDocument>{
     ...mockMongoPost,
     id: '2',
-    _id: new Types.ObjectId(),
+    _id: new Types.ObjectId(2),
     author: <User>{
       ...mockMongoPost.author,
       id: '2',
-      _id: new Types.ObjectId(),
+      _id: new Types.ObjectId(2),
     },
     description: 'description 2',
     title: 'title 2',

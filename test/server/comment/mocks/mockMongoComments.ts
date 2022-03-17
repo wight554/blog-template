@@ -12,12 +12,12 @@ export const mockMongoComments: Array<CommentDocument> = [
   <CommentDocument>{
     ...mockMongoComment,
     id: '2',
-    _id: new Types.ObjectId(),
+    _id: new Types.ObjectId(2),
     text: 'comment 2',
     author: <User>{
       ...mockMongoComment.author,
       id: '2',
-      _id: new Types.ObjectId(),
+      _id: new Types.ObjectId(2),
     },
   },
 ];

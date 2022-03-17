@@ -7,7 +7,7 @@ import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
 
 export const mockMongoComment = <CommentDocument>{
   ...mockComment,
-  _id: new Types.ObjectId(),
+  _id: new Types.ObjectId(1),
   author: <User>{
     ...mockMongoUser,
   },
