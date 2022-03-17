@@ -38,7 +38,6 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.7",
     "@nestjs/testing": "^8.4.1",
     "@preact/preset-vite": "^2.1.7",
     "@testing-library/preact": "^2.0.1",
@@ -59,7 +58,6 @@
     "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.70.1",
     "rollup-plugin-typescript2": "^0.31.2",
     "ts-node-dev": "^1.1.8",
     "tsc-alias": "^1.6.4",
