@@ -28,7 +28,7 @@ export default defineConfig({
         tsconfigOverride: { compilerOptions: { module: 'ESNext' } },
       }),
   ],
-  esbuild: !isTest && false,
+  esbuild: isTest && false,
   root: path.join(__dirname, 'src'),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
