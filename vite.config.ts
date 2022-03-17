@@ -2,10 +2,10 @@
 
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
-import swc from 'unplugin-swc';
 import checker from 'vite-plugin-checker';
 import path from 'path';
-import hq from 'alias-hq';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import typescript from 'rollup-plugin-typescript2';
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -15,18 +15,21 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    isTest && swc.vite(),
-    checker({
-      typescript: true,
-      eslint: {
-        lintCommand: 'eslint "./**/*.{ts,tsx}"',
-      },
-    }),
+    tsconfigPaths({ root: __dirname }),
+    !isTest &&
+      checker({
+        typescript: true,
+        eslint: {
+          lintCommand: 'eslint "./**/*.{ts,tsx}"',
+        },
+      }),
+    isTest &&
+      typescript({
+        tsconfigOverride: { compilerOptions: { module: 'ESNext' } },
+      }),
   ],
+  ...(isTest && { esbuild: false }),
   root: path.join(__dirname, 'src'),
-  resolve: {
-    alias: hq.get('rollup'),
-  },
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
