@@ -28,9 +28,13 @@ import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
 import { CommentService } from '@server/comment/CommentService';
+import { Comment } from '@server/comment/schemas/CommentSchema';
 
 @Controller(POST_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(PostType))
+@UseInterceptors(
+  MongooseClassSerializerInterceptor(PostType),
+  MongooseClassSerializerInterceptor(Comment),
+)
 export class PostController {
   constructor(private postService: PostService, private commentService: CommentService) {}
 
