@@ -7,9 +7,11 @@ import fastifyStatic from 'fastify-static';
 import { join } from 'path';
 
 import { AppModule } from '@server/app/AppModule';
+import { prettyPrintAddress } from '@server/utils/prettyPrintAddress';
 
-const port = process.env.PORT || 3000;
-const host = process.env.PORT ? '::' : 'localhost';
+const { PORT, HOST } = process.env;
+const port = PORT || 3000;
+const host = HOST || '0.0.0.0';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
@@ -20,7 +22,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { getViteServer } = require('@server/get-vite-server');
+    const { getViteServer } = require('@server/getViteServer');
 
     const vite = await getViteServer();
 
@@ -31,8 +33,8 @@ async function bootstrap() {
     });
   }
 
-  await app.listen(port, host, () => {
-    console.log(`Server listening on port ${port}...`);
+  await app.listen(port, host, (_, address) => {
+    prettyPrintAddress(address);
   });
 }
 
