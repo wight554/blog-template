@@ -9,7 +9,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { USER_CONTROLLER_ROUTE, USER_POST_ENDPOINT, USER_PUT_ENDPOINT } from '@server/constants';
+import {
+  USER_CONTROLLER_ROUTE,
+  USER_CREATE_ENDPOINT,
+  USER_UPDATE_ENDPOINT,
+} from '@server/constants/controllers';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
 import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
@@ -23,13 +27,13 @@ import { UserService } from './UserService';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post(USER_POST_ENDPOINT)
+  @Post(USER_CREATE_ENDPOINT)
   async signup(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(USER_PUT_ENDPOINT)
+  @Put(USER_UPDATE_ENDPOINT)
   async update(
     @Param('id') userId: string,
     @Body() updateUserDto: UpdateUserDto,

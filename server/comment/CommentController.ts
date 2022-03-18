@@ -3,8 +3,8 @@ import { Body, Controller, Delete, Param, Put, UseGuards, UseInterceptors } from
 import {
   COMMENT_CONTROLLER_ROUTE,
   COMMENT_DELETE_ENDPOINT,
-  COMMENT_PUT_ENDPOINT,
-} from '@server/constants';
+  COMMENT_UPDATE_ENDPOINT,
+} from '@server/constants/controllers';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { Comment } from '@server/comment/schemas/CommentSchema';
 import { CommentService } from '@server/comment/CommentService';
@@ -19,7 +19,7 @@ export class CommentController {
   constructor(private commentService: CommentService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Put(COMMENT_PUT_ENDPOINT)
+  @Put(COMMENT_UPDATE_ENDPOINT)
   public updateComment(
     @Param('id') id: string,
     @Body() updateCommentDto: UpdateCommentDto,
