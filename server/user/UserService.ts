@@ -11,16 +11,23 @@ import { User, UserDocument } from '@server/user/schemas/UserSchema';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
 import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
 import { MongoError } from '@server/enums/MongoError';
+import { CryptoService } from '@server/crypto/CryptoService';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    private readonly cryptoService: CryptoService,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+  ) {}
 
   async create(user: CreateUserDto): Promise<UserDocument> {
     let createdUser: UserDocument | null;
 
     try {
-      createdUser = await this.userModel.create(user);
+      const password = await this.cryptoService.hash(user.password, 10);
+      const payload = { ...user, password };
+
+      createdUser = await this.userModel.create(payload);
     } catch (error: any) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');
@@ -36,7 +43,10 @@ export class UserService {
     let updatedUser: UserDocument | null;
 
     try {
-      updatedUser = await this.userModel.findByIdAndUpdate(userId, user, { new: true });
+      const password = user.password && (await this.cryptoService.hash(user.password, 10));
+      const payload = { ...user, password };
+
+      updatedUser = await this.userModel.findByIdAndUpdate(userId, payload, { new: true });
     } catch (error: any) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');

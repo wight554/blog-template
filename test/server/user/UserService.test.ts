@@ -15,9 +15,13 @@ import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
 import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
 import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
 import { mockUserModel } from '@test/server/user/mocks/mockUserModel';
+import { CryptoService } from '@server/crypto/CryptoService';
 
 const userId = '1';
 const username = 'username';
+const password = 'password';
+const hashedPassword = 'hashedPassword';
+let cryptoService: CryptoService;
 
 describe('UserService', () => {
   let userModel: Model<UserDocument>;
@@ -31,18 +35,49 @@ describe('UserService', () => {
           provide: getModelToken(User.name),
           useValue: mockUserModel,
         },
+        {
+          provide: CryptoService,
+          useValue: {
+            compare: vi.fn().mockResolvedValue(true),
+            hash: vi.fn().mockResolvedValue(hashedPassword),
+          },
+        },
       ],
     }).compile();
 
     userModel = module.get<Model<UserDocument>>(getModelToken(User.name));
     userService = module.get<UserService>(UserService);
+    cryptoService = module.get<CryptoService>(CryptoService);
   });
 
   describe('create', () => {
+    it('should get hashed password from crypto service', async () => {
+      await userService.create(mockUpsertUser);
+
+      expect(cryptoService.hash).toBeCalledWith(password, 10);
+    });
+
+    describe('crypto service error', () => {
+      it('should throw internal server error', async () => {
+        const error = new Error('Internal Error');
+        vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
+        expect.assertions(1);
+
+        try {
+          await userService.create(mockUpsertUser);
+        } catch (e) {
+          expect(e).toBeInstanceOf(InternalServerErrorException);
+        }
+      });
+    });
+
     it('should create user using user model', async () => {
       await userService.create(mockUpsertUser);
 
-      expect(userModel.create).toHaveBeenCalledWith(mockUpsertUser);
+      expect(userModel.create).toHaveBeenCalledWith({
+        ...mockUpsertUser,
+        password: hashedPassword,
+      });
     });
 
     describe('user model success', () => {
@@ -81,12 +116,39 @@ describe('UserService', () => {
   });
 
   describe('update', () => {
+    it('should get hashed password from crypto service', async () => {
+      await userService.update(userId, mockUpsertUser);
+
+      expect(cryptoService.hash).toBeCalledWith(password, 10);
+    });
+
+    describe('crypto service error', () => {
+      it('should throw internal server error', async () => {
+        const error = new Error('Internal Error');
+        vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
+        expect.assertions(1);
+
+        try {
+          await userService.update(userId, mockUpsertUser);
+        } catch (e) {
+          expect(e).toBeInstanceOf(InternalServerErrorException);
+        }
+      });
+    });
+
     it('should update user using user model', async () => {
       await userService.update(userId, mockUpsertUser);
 
-      expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(userId, mockUpsertUser, {
-        new: true,
-      });
+      expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(
+        userId,
+        {
+          ...mockUpsertUser,
+          password: hashedPassword,
+        },
+        {
+          new: true,
+        },
+      );
     });
 
     describe('user exists', () => {
