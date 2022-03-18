@@ -1,6 +1,15 @@
+import 'preact/debug';
 import { render } from 'preact';
-import { App } from '@src/app';
+import { CssBaseline } from '@mui/material';
+
+import { App } from '@src/components/App/App';
 import '@src/index.css';
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-render(<App />, document.getElementById('app')!);
+render(
+  <>
+    <CssBaseline />
+    <App />
+  </>,
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  document.getElementById('app')!,
+);

@@ -17,6 +17,10 @@
     "postinstall": "node ./scripts/postinstall.js"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.5.1",
+    "@mui/material": "^5.5.1",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/styled-engine-sc": "^5.4.2",
     "@nestjs/common": "^8.4.1",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.1",
@@ -35,7 +39,8 @@
     "passport-local": "^1.0.0",
     "preact": "^10.6.6",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.5",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@nestjs/testing": "^8.4.1",
@@ -68,5 +73,8 @@
     "vite-tsconfig-paths": "^3.4.1",
     "vitest": "^0.7.4"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+  }
 }

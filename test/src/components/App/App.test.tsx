@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/preact';
 
-import { App } from '@src/app';
+vi.mock('@src/components/Header', () => () => ({
+  Header: <div>aaa</div>,
+}));
+
+import { App } from '@src/components/App';
 
 describe('App', () => {
   it('should render title', () => {
