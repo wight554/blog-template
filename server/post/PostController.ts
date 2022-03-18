@@ -15,10 +15,10 @@ import {
   POST_DELETE_ENDPOINT,
   POST_GET_ALL_ENDPOINT,
   POST_GET_ENDPOINT,
-  POST_POST_COMMENT_ENDPOINT,
-  POST_POST_ENDPOINT,
-  POST_PUT_ENDPOINT,
-} from '@server/constants';
+  POST_CREATE_COMMENT_ENDPOINT,
+  POST_CREATE_ENDPOINT,
+  POST_UPDATE_ENDPOINT,
+} from '@server/constants/controllers';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { Post as PostType } from '@server/post/schemas/PostSchema';
 import { PostService } from '@server/post/PostService';
@@ -46,13 +46,13 @@ export class PostController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post(POST_POST_ENDPOINT)
+  @Post(POST_CREATE_ENDPOINT)
   public createPost(@Body() createPostDto: CreatePostDto, @User() user: UserType) {
     return this.postService.create(createPostDto, user.id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(POST_PUT_ENDPOINT)
+  @Put(POST_UPDATE_ENDPOINT)
   public updatePost(
     @Param('id') id: string,
     @Body() updatePostDto: CreatePostDto,
@@ -69,7 +69,7 @@ export class PostController {
 
   @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
   @UseGuards(JwtAuthGuard)
-  @Post(POST_POST_COMMENT_ENDPOINT)
+  @Post(POST_CREATE_COMMENT_ENDPOINT)
   public createPostComment(
     @Param('id') id: string,
     @Body() createCommentDto: CreateCommentDto,

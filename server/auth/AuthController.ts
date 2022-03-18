@@ -1,7 +1,7 @@
 import { FastifyReply } from 'fastify';
 import { Controller, Post, UseGuards, UseInterceptors, Res } from '@nestjs/common';
 
-import { AUTH_CONTROLLER_ROUTE, AUTH_LOGIN_ENDPOINT } from '@server/constants';
+import { AUTH_CONTROLLER_ROUTE, AUTH_LOGIN_ENDPOINT } from '@server/constants/controllers';
 import { LocalAuthGuard } from '@server/auth/guards/LocalAuthGuard';
 import { AuthService } from '@server/auth/AuthService';
 import { User } from '@server/decorators/UserDecorator';
