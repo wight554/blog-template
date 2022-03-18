@@ -507,19 +507,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/config@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@nestjs/config@npm:1.2.0"
+"@nestjs/config@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@nestjs/config@npm:2.0.0"
   dependencies:
     dotenv: 16.0.0
-    dotenv-expand: 8.0.1
+    dotenv-expand: 8.0.2
     lodash: 4.17.21
     uuid: 8.3.2
   peerDependencies:
     "@nestjs/common": ^7.0.0 || ^8.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^6.0.0 || ^7.2.0
-  checksum: f18a4444e85992a0ab33dfdf8f8526711266830cf331eea8d8aa59e349ba40df81e7cabc3c7f87b482eac8cb206bbc59deb3941e3c4c422f34671e59c2f5c27d
+  checksum: f0aedec1b6a6fd44f686121c05d38b7ff32f3e70c5df1ded91fae788ee73e1371f6f1a6a9223c82f41c5e15a38ccf09aaf6650fc71714c0813452595fb5f3917
   languageName: node
   linkType: hard
 
@@ -1651,7 +1651,7 @@ __metadata:
   resolution: "blog-template@workspace:."
   dependencies:
     "@nestjs/common": ^8.4.1
-    "@nestjs/config": ^1.2.0
+    "@nestjs/config": ^2.0.0
     "@nestjs/core": ^8.4.1
     "@nestjs/jwt": ^8.0.0
     "@nestjs/mongoose": ^9.0.3
@@ -1676,16 +1676,16 @@ __metadata:
     eslint-config-preact: ^1.3.0
     eslint-config-prettier: ^8.5.0
     fastify-cookie: ^5.6.0
-    fastify-static: ^4.5.0
-    happy-dom: ^2.47.2
+    fastify-static: ^4.6.1
+    happy-dom: ^2.49.0
     husky: ^7.0.4
-    lint-staged: ^12.3.5
-    mongoose: ^6.2.6
+    lint-staged: ^12.3.7
+    mongoose: ^6.2.7
     passport: ^0.5.2
     passport-jwt: ^4.0.0
     passport-local: ^1.0.0
     preact: ^10.6.6
-    prettier: ^2.5.1
+    prettier: ^2.6.0
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
     rollup-plugin-typescript2: ^0.31.2
@@ -1697,7 +1697,7 @@ __metadata:
     vite: ^2.8.6
     vite-plugin-checker: ^0.4.3
     vite-tsconfig-paths: ^3.4.1
-    vitest: ^0.6.1
+    vitest: ^0.7.4
   languageName: unknown
   linkType: soft
 
@@ -2307,10 +2307,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-expand@npm:8.0.1":
-  version: 8.0.1
-  resolution: "dotenv-expand@npm:8.0.1"
-  checksum: 872a573d64c5cc1d0773df5822546fa47022124dbbf5d260756e081970dc27adf6b0822db952280b5ba3d175971ca8faf23b64204ee5003588a08152fd5e806e
+"dotenv-expand@npm:8.0.2":
+  version: 8.0.2
+  resolution: "dotenv-expand@npm:8.0.2"
+  checksum: 4b42b2602478bccf1bfde25c97ecc0fee4059e74df4f8fda7f076b2ef428315e00b301bda43eec3707bfa083837abb284d6fec91571f164449243001ed8eef81
   languageName: node
   linkType: hard
 
@@ -3058,9 +3058,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-static@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "fastify-static@npm:4.5.0"
+"fastify-static@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "fastify-static@npm:4.6.1"
   dependencies:
     content-disposition: ^0.5.3
     encoding-negotiator: ^2.0.1
@@ -3069,7 +3069,7 @@ __metadata:
     p-limit: ^3.1.0
     readable-stream: ^3.4.0
     send: ^0.17.1
-  checksum: 82dcf90a9a899b72b4ffd38f3a24f86bce0eac0231d41f7cef6f681bc9dfe2fc0a45aba4f3cc65c39092b62c8e60666ae7d7b099396fdbee89bfd675e4bd543f
+  checksum: f2276167bac8176cd943a67b5a4f4dbd683c27e06313d8d53ed48f405cbfae3a1bb5b95bc3a7cf0ce1f553e5ea0a434f292be4edc9779f4380cf5bd7477eef42
   languageName: node
   linkType: hard
 
@@ -3468,9 +3468,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^2.47.2":
-  version: 2.47.2
-  resolution: "happy-dom@npm:2.47.2"
+"happy-dom@npm:^2.49.0":
+  version: 2.49.0
+  resolution: "happy-dom@npm:2.49.0"
   dependencies:
     css.escape: ^1.5.1
     he: ^1.1.1
@@ -3479,7 +3479,7 @@ __metadata:
     webidl-conversions: ^7.0.0
     whatwg-encoding: ^1.0.5
     whatwg-mimetype: ^2.3.0
-  checksum: 57cf0815b8c0ba46066254e3377c16eeae2e3bb0e9f076bab56e70af3fea0d4e5a0bcb7e17169ad54917bdb028e26b91e34fcd0bbc052e72abaf7d7c15582687
+  checksum: f8a83fd4f32277348b863d2e3a8e59d365b70f6c8ba1053fdf550ec78f0ab656ed478e2dbbe05f4f6c069d36e04ec6583c450f4a39a0e08080ee5dc331f5e584
   languageName: node
   linkType: hard
 
@@ -4139,9 +4139,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.5":
-  version: 12.3.5
-  resolution: "lint-staged@npm:12.3.5"
+"lint-staged@npm:^12.3.7":
+  version: 12.3.7
+  resolution: "lint-staged@npm:12.3.7"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -4153,12 +4153,13 @@ __metadata:
     micromatch: ^4.0.4
     normalize-path: ^3.0.0
     object-inspect: ^1.12.0
+    pidtree: ^0.5.0
     string-argv: ^0.3.1
     supports-color: ^9.2.1
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 6653c7078b36741e521e5f309b56bb75db198a05cbdd188124ff82a290e352ade3eb1e6080265729e19711ac08d190e300874af00e4e540b57b3c8f0690e2573
+  checksum: b595097556880eb2ab7ce2cf105047f6f22525ccfd608fbdc63ab243259aa36a26949576fadff673748fb885e7cb37ad3f4471d964ad54c1205d57a58999ba24
   languageName: node
   linkType: hard
 
@@ -4577,9 +4578,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.2.6":
-  version: 6.2.6
-  resolution: "mongoose@npm:6.2.6"
+"mongoose@npm:^6.2.7":
+  version: 6.2.7
+  resolution: "mongoose@npm:6.2.7"
   dependencies:
     bson: ^4.2.2
     kareem: 2.3.4
@@ -4588,7 +4589,7 @@ __metadata:
     mquery: 4.0.2
     ms: 2.1.3
     sift: 16.0.0
-  checksum: 95ea67a2c6ff2e0052b4aa738c52ad9e911fe60425e3b3474c5ac5d29defdebcdac57813803339fe527969736d5a61074810570810f03aa83dc849d2f09301aa
+  checksum: 01258cd4371a290077bb3b653c0fc42b846a247367aea0be5f25c32711e94b314d620d81525121a06d93ea86315a7a764517401b92c3a81de8bfcb0249c958b6
   languageName: node
   linkType: hard
 
@@ -5090,6 +5091,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pidtree@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "pidtree@npm:0.5.0"
+  bin:
+    pidtree: bin/pidtree.js
+  checksum: 371cd14bbc9bdee2a6a44596dd521dd3565e223481e0b1afffdca3f1c29831850bfa7784114dc30d245d37e7d186cec035e036256b39f75d878d19498fe0df6a
+  languageName: node
+  linkType: hard
+
 "pino-std-serializers@npm:^3.1.0":
   version: 3.2.0
   resolution: "pino-std-serializers@npm:3.2.0"
@@ -5157,12 +5167,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
+"prettier@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "prettier@npm:2.6.0"
   bin:
     prettier: bin-prettier.js
-  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
+  checksum: 3e527ad62279676778a8404d18174d7ca2365ada4caba6eebbcdd9907d1187afd3bc6ade5b4e5f5d4549bb9fb71e45ca8930d71500017635524f8fc05bc52e93
   languageName: node
   linkType: hard
 
@@ -6526,9 +6536,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "vitest@npm:0.6.1"
+"vitest@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "vitest@npm:0.7.4"
   dependencies:
     "@types/chai": ^4.3.0
     "@types/chai-subset": ^1.3.3
@@ -6553,7 +6563,7 @@ __metadata:
       optional: true
   bin:
     vitest: vitest.mjs
-  checksum: 2064a0cc2fbe70cb11531f8bbdfb4e11b2cd32b83947ce434588c6395d590d91be5d88e1b45452d047c09530d362ba62e6ce444b9e69106a5ed55b3e0b5e1ad7
+  checksum: 35de66c4f750dec07ed083cd39788eef095feba5011cd188ab3c253365d2123b1a1769d03b56e53f15f0757140e7003927d8fd0f99861e36e84a223bcbf1b877
   languageName: node
   linkType: hard
 
