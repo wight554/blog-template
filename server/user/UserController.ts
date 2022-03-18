@@ -20,7 +20,7 @@ import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { UserService } from './UserService';
+import { UserService } from '@server/user/UserService';
 
 @Controller(USER_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(UserType))
