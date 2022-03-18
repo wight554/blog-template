@@ -31,10 +31,7 @@ import { CommentService } from '@server/comment/CommentService';
 import { Comment } from '@server/comment/schemas/CommentSchema';
 
 @Controller(POST_CONTROLLER_ROUTE)
-@UseInterceptors(
-  MongooseClassSerializerInterceptor(PostType),
-  MongooseClassSerializerInterceptor(Comment),
-)
+@UseInterceptors(MongooseClassSerializerInterceptor(PostType))
 export class PostController {
   constructor(private postService: PostService, private commentService: CommentService) {}
 
@@ -70,6 +67,7 @@ export class PostController {
     return this.postService.delete(id, user.id);
   }
 
+  @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
   @UseGuards(JwtAuthGuard)
   @Post(POST_POST_COMMENT_ENDPOINT)
   public createPostComment(
