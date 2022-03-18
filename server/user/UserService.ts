@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '@server/user/schemas/UserSchema';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
 import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { MongoError } from '@server/enums/EMongoError';
+import { MongoError } from '@server/enums/MongoError';
 
 @Injectable()
 export class UserService {
@@ -36,9 +36,7 @@ export class UserService {
     let updatedUser: UserDocument | null;
 
     try {
-      updatedUser = await this.userModel.findOneAndUpdate({ _id: userId }, user, {
-        new: true,
-      });
+      updatedUser = await this.userModel.findByIdAndUpdate(userId, user, { new: true });
     } catch (error: any) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');

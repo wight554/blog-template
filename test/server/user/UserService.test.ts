@@ -10,7 +10,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { MongoErrorException } from '@test/utils/errors/MongoErrorException';
-import { MongoError } from '@server/enums/EMongoError';
+import { MongoError } from '@server/enums/MongoError';
 import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
 import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
 import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
@@ -59,7 +59,7 @@ describe('UserService', () => {
 
           try {
             await userService.create(mockUpsertUser);
-          } catch (error: any) {
+          } catch (error) {
             expect(error).toBeInstanceOf(BadRequestException);
           }
         });
@@ -84,7 +84,7 @@ describe('UserService', () => {
     it('should update user using user model', async () => {
       await userService.update(userId, mockUpsertUser);
 
-      expect(userModel.findOneAndUpdate).toHaveBeenCalledWith({ _id: userId }, mockUpsertUser, {
+      expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(userId, mockUpsertUser, {
         new: true,
       });
     });
@@ -100,11 +100,11 @@ describe('UserService', () => {
         describe('error is duplicate key error', () => {
           it('should throw bad request exception', async () => {
             const error = new MongoErrorException(MongoError.DuplicateKey);
-            vi.spyOn(userModel, 'findOneAndUpdate').mockRejectedValueOnce(error);
+            vi.spyOn(userModel, 'findByIdAndUpdate').mockRejectedValueOnce(error);
 
             try {
               await userService.update(userId, mockUpsertUser);
-            } catch (error: any) {
+            } catch (error) {
               expect(error).toBeInstanceOf(BadRequestException);
             }
           });
@@ -113,7 +113,7 @@ describe('UserService', () => {
         describe('error is not duplicate key error', () => {
           it('should throw internal server error exception', async () => {
             const error = new Error();
-            vi.spyOn(userModel, 'findOneAndUpdate').mockRejectedValueOnce(error);
+            vi.spyOn(userModel, 'findByIdAndUpdate').mockRejectedValueOnce(error);
 
             try {
               await userService.update(userId, mockUpsertUser);
@@ -127,7 +127,7 @@ describe('UserService', () => {
 
     describe('user does not exist', () => {
       it('should throw not found exception', async () => {
-        vi.spyOn(userModel, 'findOneAndUpdate').mockResolvedValueOnce(null);
+        vi.spyOn(userModel, 'findByIdAndUpdate').mockResolvedValueOnce(null);
 
         try {
           await userService.update(userId, mockUpsertUser);

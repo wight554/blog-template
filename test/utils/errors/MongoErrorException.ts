@@ -1,4 +1,4 @@
-import { MongoError } from '@server/enums/EMongoError';
+import { MongoError } from '@server/enums/MongoError';
 
 export class MongoErrorException extends Error {
   public readonly code: MongoError;

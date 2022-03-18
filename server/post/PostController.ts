@@ -15,6 +15,7 @@ import {
   POST_DELETE_ENDPOINT,
   POST_GET_ALL_ENDPOINT,
   POST_GET_ENDPOINT,
+  POST_POST_COMMENT_ENDPOINT,
   POST_POST_ENDPOINT,
   POST_PUT_ENDPOINT,
 } from '@server/constants';
@@ -25,11 +26,14 @@ import { CreatePostDto } from '@server/post/dto/CreatePostDto';
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
+import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
+import { CommentService } from '@server/comment/CommentService';
+import { Comment } from '@server/comment/schemas/CommentSchema';
 
 @Controller(POST_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(PostType))
 export class PostController {
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService, private commentService: CommentService) {}
 
   @Get(POST_GET_ALL_ENDPOINT)
   public getPosts() {
@@ -61,5 +65,16 @@ export class PostController {
   @Delete(POST_DELETE_ENDPOINT)
   public deletePost(@Param('id') id: string, @User() user: UserType) {
     return this.postService.delete(id, user.id);
+  }
+
+  @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  @UseGuards(JwtAuthGuard)
+  @Post(POST_POST_COMMENT_ENDPOINT)
+  public createPostComment(
+    @Param('id') id: string,
+    @Body() createCommentDto: CreateCommentDto,
+    @User() user: UserType,
+  ) {
+    return this.commentService.create(createCommentDto, id, user.id);
   }
 }
