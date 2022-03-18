@@ -7,7 +7,6 @@ import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
 import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
 import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
-import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
 
 const userId = '1';
 const username = 'username';
@@ -29,7 +28,7 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            sign: vi.fn().mockReturnValue(token),
+            signAsync: vi.fn().mockReturnValue(token),
           },
         },
         {
@@ -85,124 +84,18 @@ describe('AuthService', () => {
 
     describe('getCookieWithJwtToken', () => {
       it('should get token from jwt service', async () => {
-        authService.getCookieWithJwtToken(userId);
+        await authService.getCookieWithJwtToken(userId);
 
-        expect(jwtService.sign).toBeCalledWith({ userId });
+        expect(jwtService.signAsync).toBeCalledWith({ userId });
       });
 
       it('should return cookie with token', async () => {
         const token = 'token';
         const jwtExpirationTime = 1;
 
-        expect(authService.getCookieWithJwtToken(userId)).toBe(
+        expect(await authService.getCookieWithJwtToken(userId)).toBe(
           `Authentication=${token}; HttpOnly; Path=/; Max-Age=${jwtExpirationTime}`,
         );
-      });
-    });
-
-    describe('createUser', () => {
-      describe('crypto service success', () => {
-        it('should get hashed password from crypto service', async () => {
-          await authService.createUser(mockUpsertUser);
-
-          expect(cryptoService.hash).toBeCalledWith(password, 10);
-        });
-
-        it('should create user', async () => {
-          await authService.createUser(mockUpsertUser);
-
-          expect(userService.create).toBeCalledWith({
-            ...mockUpsertUser,
-            password: hashedPassword,
-          });
-        });
-      });
-
-      describe('crypto service error', () => {
-        it('should throw error', async () => {
-          const error = new Error('Internal Error');
-          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
-          expect.assertions(1);
-
-          try {
-            await authService.createUser(mockUpsertUser);
-          } catch (e) {
-            expect(e).toBe(error);
-          }
-        });
-      });
-
-      describe('user service success', () => {
-        it('should return created user', async () => {
-          expect(await authService.createUser(mockUpsertUser)).toBe(mockMongoUser);
-        });
-      });
-
-      describe('user service error', () => {
-        it('should throw error', async () => {
-          const error = new Error('Internal Error');
-          vi.spyOn(userService, 'create').mockRejectedValueOnce(error);
-          expect.assertions(1);
-
-          try {
-            await authService.createUser(mockUpsertUser);
-          } catch (e) {
-            expect(e).toBe(error);
-          }
-        });
-      });
-    });
-
-    describe('updateUser', () => {
-      describe('crypto service success', () => {
-        it('should get hashed password from crypto service', async () => {
-          await authService.updateUser(userId, mockUpsertUser);
-
-          expect(cryptoService.hash).toBeCalledWith(password, 10);
-        });
-
-        it('should update user', async () => {
-          await authService.updateUser(userId, mockUpsertUser);
-
-          expect(userService.update).toBeCalledWith(userId, {
-            ...mockUpsertUser,
-            password: hashedPassword,
-          });
-        });
-      });
-
-      describe('crypto service error', () => {
-        it('should throw error', async () => {
-          const error = new Error('Internal Error');
-          vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
-          expect.assertions(1);
-
-          try {
-            await authService.updateUser(userId, mockUpsertUser);
-          } catch (e) {
-            expect(e).toBe(error);
-          }
-        });
-      });
-
-      describe('user service success', () => {
-        it('should return updated user', async () => {
-          expect(await authService.updateUser(userId, mockUpsertUser)).toBe(mockUpdatedMongoUser);
-        });
-      });
-
-      describe('user service error', () => {
-        it('should throw error', async () => {
-          const error = new Error('Internal Error');
-          vi.spyOn(userService, 'update').mockRejectedValueOnce(error);
-          expect.assertions(1);
-
-          try {
-            await authService.updateUser(userId, mockUpsertUser);
-          } catch (e) {
-            expect(e).toBe(error);
-          }
-        });
       });
     });
   });
