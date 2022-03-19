@@ -19,7 +19,9 @@ export default defineConfig({
     tsconfigPaths({ root: __dirname }),
     !isTest &&
       checker({
-        typescript: true,
+        typescript: {
+          tsconfigPath: './tsconfig.client.json',
+        },
         eslint: {
           lintCommand: 'eslint "./**/*.{ts,tsx}"',
         },

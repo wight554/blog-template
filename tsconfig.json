@@ -10,6 +10,7 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
+    "skipLibCheck": false,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -28,16 +29,12 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@server/*": ["./server/*"],
-      "@test/*": ["./test/*"],
-      "react": ["preact/compat"],
-      "react-dom": ["react/compat"]
+      "@test/*": ["./test/*"]
     },
     // required for nestjs
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
-    // required for preact/compat
-    "skipLibCheck": true
+    "strictPropertyInitialization": false
   },
   "include": ["src", "server", "test"]
 }
