@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import { html } from 'htm/preact';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -21,40 +22,42 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  return (
-    <AppBar position="static">
-      <S.Toolbar>
-        <Typography variant="h6" component="div">
+  return html`
+    <${AppBar} position="static">
+      <${S.Toolbar}>
+        <${Typography} variant="h6" component="div">
           Blog demo
-        </Typography>
+        </${Typography}>
         <div>
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar>V</Avatar>
-          </IconButton>
-          <Menu
-            sx={{ mt: '45px' }}
+          <${IconButton} onClick=${handleOpenUserMenu} sx=${{ p: 0 }}>
+            <${Avatar}>V</${Avatar}>
+          </${IconButton}>
+          <${Menu}
+            sx=${{ mt: '45px' }}
             id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
+            anchorEl=${anchorEl}
+            anchorOrigin=${{
               vertical: 'top',
               horizontal: 'right',
             }}
             keepMounted
-            transformOrigin={{
+            transformOrigin=${{
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={Boolean(anchorEl)}
-            onClose={handleCloseUserMenu}
+            open=${Boolean(anchorEl)}
+            onClose=${handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+          ${settings.map(
+            (setting) => html`
+              <${MenuItem} key=${setting} onClick=${handleCloseUserMenu}>
+                <${Typography} textAlign="center">${setting}</${Typography}>
+              </${MenuItem}>
+            `,
+          )}
+          </${Menu}>
         </div>
-      </S.Toolbar>
-    </AppBar>
-  );
+      </${S.Toolbar}>
+    </${AppBar}>
+  `;
 };

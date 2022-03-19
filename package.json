@@ -33,6 +33,7 @@
     "class-validator": "^0.13.2",
     "fastify-cookie": "^5.6.0",
     "fastify-static": "^4.6.1",
+    "htm": "^3.1.0",
     "mongoose": "^6.2.7",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
