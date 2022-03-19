@@ -40,7 +40,7 @@
   "devDependencies": {
     "@nestjs/testing": "^8.4.1",
     "@preact/preset-vite": "^2.1.7",
-    "@swc/core": "^1.2.158",
+    "@swc/core": "^1.2.159",
     "@testing-library/preact": "^2.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.2",
