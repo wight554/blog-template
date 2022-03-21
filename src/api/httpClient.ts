@@ -55,14 +55,28 @@ enum RequestMethod {
   PATCH = 'PATCH',
 }
 
+const DEFAULT_HEADERS = Object.freeze({
+  'Content-Type': 'application/json; charset=utf-8',
+});
+
 const createHttpClientInstance = (): HttpClientInstance => {
   const makeRequest = async <T = unknown, B = unknown>(
     url: string,
     method: RequestMethod,
     init: HttpClientRequestInit<B> = {},
   ): Promise<HttpClientResponse<T>> => {
-    const response = await fetch(url, { ...init, method, body: JSON.stringify(init.body) });
-    const data: T = await response.json();
+    const body = JSON.stringify(init.body);
+    const headers = { ...DEFAULT_HEADERS, ...init.headers };
+
+    const response = await fetch(url, { ...init, method, body, headers });
+
+    let data: any;
+
+    try {
+      data = await response.json();
+    } catch (err) {
+      data = '';
+    }
 
     return {
       data,

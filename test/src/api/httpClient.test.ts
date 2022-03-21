@@ -22,6 +22,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'DELETE',
       });
     });
@@ -37,6 +38,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'GET',
       });
     });
@@ -52,6 +54,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'HEAD',
       });
     });
@@ -67,6 +70,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'OPTIONS',
       });
     });
@@ -82,6 +86,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(body),
         method: 'PATCH',
       });
@@ -98,6 +103,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(body),
         method: 'PATCH',
       });
@@ -114,6 +120,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(body),
         method: 'PATCH',
       });
