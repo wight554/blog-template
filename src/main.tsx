@@ -1,7 +1,8 @@
 import { render } from 'preact';
+import { RecoilRoot } from 'recoil';
+
 import { App } from '@src/app';
 import '@src/index.css';
-import { RecoilRoot } from 'recoil';
 
 render(
   <RecoilRoot>
