@@ -17,8 +17,6 @@ export function MongooseClassSerializerInterceptor(
     private prepareResponse(
       response: PlainLiteralObject | PlainLiteralObject[],
     ): PlainLiteralObject {
-      if (!response) return response;
-
       if (!Array.isArray(response) && response.results) {
         const results = this.prepareResponse(response.results);
         return {
@@ -34,7 +32,10 @@ export function MongooseClassSerializerInterceptor(
       return this.changePlainObjectToClass(response);
     }
 
-    serialize(response: PlainLiteralObject | PlainLiteralObject[], options: ClassTransformOptions) {
+    serialize(
+      response: PlainLiteralObject | PlainLiteralObject[] = {},
+      options: ClassTransformOptions,
+    ) {
       return super.serialize(this.prepareResponse(response), options);
     }
   };

@@ -2,7 +2,7 @@ import { ClassSerializerInterceptor, Type } from '@nestjs/common';
 import { Exclude } from 'class-transformer';
 
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { createMockDocument } from '@test/utils/mocks/createMockDocument';
+import { createMockDocument } from '@test/server/mockUtils';
 
 class MockClass {
   include: string;
@@ -61,14 +61,6 @@ describe('MongooseClassSerializerInterceptor', () => {
 
     describe('response is not an instance of Document', () => {
       const response = { test: 'test' };
-
-      test('should return response', () => {
-        expect(instance.serialize(response, {})).toEqual(response);
-      });
-    });
-
-    describe('response is empty', () => {
-      const response: any = undefined;
 
       test('should return response', () => {
         expect(instance.serialize(response, {})).toEqual(response);

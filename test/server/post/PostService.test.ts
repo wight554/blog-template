@@ -9,14 +9,16 @@ import {
 
 import { PostService } from '@server/post/PostService';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { mockMongoPost } from '@test/server/post/mocks/mockMongoPost';
-import { mockMongoPosts } from '@test/server/post/mocks/mockMongoPosts';
-import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
-import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
-import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
 import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
+import { mockCommentModel } from '@test/server/comment/mocks';
+import {
+  mockPostModel,
+  mockMongoPosts,
+  mockMongoPost,
+  mockUpsertPost,
+  mockUpdatedMongoPost,
+} from '@test/server/post/mocks';
 
 const postId = '1';
 const userId = '1';

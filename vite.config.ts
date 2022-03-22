@@ -16,26 +16,22 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    tsconfigPaths({ root: __dirname }),
+    tsconfigPaths(),
     !isTest &&
       checker({
-        typescript: {
-          tsconfigPath: './tsconfig.client.json',
-        },
+        typescript: { tsconfigPath: 'tsconfig.client.json' },
         eslint: {
-          lintCommand: 'eslint "./**/*.{ts,tsx}"',
+          lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
       }),
     isTest && typescript(),
   ],
   ...(isTest && { esbuild: false }),
-  root: path.join(__dirname, 'src'),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
   },
   test: {
-    root: process.cwd(),
     environment: 'happy-dom',
     globals: true,
     coverage: {
