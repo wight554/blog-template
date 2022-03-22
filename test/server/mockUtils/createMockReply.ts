@@ -1,11 +1,11 @@
 import { FastifyReply } from 'fastify';
 
 export const createMockReply = (): FastifyReply => {
-  const res = <FastifyReply>{};
+  const reply = <FastifyReply>{};
 
-  res.header = vi.fn();
-  res.status = vi.fn();
-  res.send = vi.fn();
+  reply.header = vi.fn();
+  reply.status = vi.fn();
+  reply.send = vi.fn();
 
-  return res;
+  return reply;
 };

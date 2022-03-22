@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { MongoError } from 'mongodb';
 
 import { User, UserDocument } from '@server/user/schemas/UserSchema';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
@@ -28,9 +29,11 @@ export class UserService {
       const payload = { ...user, password };
 
       createdUser = await this.userModel.create(payload);
-    } catch (error: any) {
-      if (error?.code === MongoErrorCode.DuplicateKey) {
-        throw new BadRequestException('User with that username already exists');
+    } catch (error) {
+      if (error instanceof MongoError && error.code === MongoErrorCode.DuplicateKey) {
+        if (error.code === MongoErrorCode.DuplicateKey) {
+          throw new BadRequestException('User with that username already exists');
+        }
       }
 
       throw new InternalServerErrorException();
@@ -47,8 +50,8 @@ export class UserService {
       const payload = { ...user, password };
 
       updatedUser = await this.userModel.findByIdAndUpdate(userId, payload, { new: true });
-    } catch (error: any) {
-      if (error?.code === MongoErrorCode.DuplicateKey) {
+    } catch (error) {
+      if (error instanceof MongoError && error.code === MongoErrorCode.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');
       }
 

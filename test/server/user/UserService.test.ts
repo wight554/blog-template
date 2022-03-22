@@ -9,7 +9,6 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { MockMongoError } from '@test/server/mockUtils';
 import { MongoErrorCode } from '@server/enums/MongoErrorCode';
 import { CryptoService } from '@server/crypto/CryptoService';
 import {
@@ -18,6 +17,7 @@ import {
   mockMongoUser,
   mockUpdatedMongoUser,
 } from '@test/server/user/mocks';
+import { createMockMongoError } from '../mockUtils/createMockMongoError';
 
 const userId = '1';
 const username = 'username';
@@ -89,9 +89,9 @@ describe('UserService', () => {
     });
 
     describe('user model error', () => {
-      describe('error is duplicate key error', () => {
+      describe('error is mongo duplicate key error', () => {
         it('should throw bad request exception', async () => {
-          const error = new MockMongoError(MongoErrorCode.DuplicateKey);
+          const error = createMockMongoError(MongoErrorCode.DuplicateKey);
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
           try {
@@ -161,9 +161,9 @@ describe('UserService', () => {
       });
 
       describe('user model error', () => {
-        describe('error is duplicate key error', () => {
+        describe('error is mongo duplicate key error', () => {
           it('should throw bad request exception', async () => {
-            const error = new MockMongoError(MongoErrorCode.DuplicateKey);
+            const error = createMockMongoError(MongoErrorCode.DuplicateKey);
             vi.spyOn(userModel, 'findByIdAndUpdate').mockRejectedValueOnce(error);
 
             try {
