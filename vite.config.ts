@@ -6,7 +6,7 @@ import preact from '@preact/preset-vite';
 import checker from 'vite-plugin-checker';
 import path from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@rollup/plugin-typescript';
 
 const isTest = process.env.NODE_ENV === 'test';
 
