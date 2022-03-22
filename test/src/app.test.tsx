@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/preact';
+import { render, screen } from '@test/src/testUtils';
 
 import { App } from '@src/app';
 
