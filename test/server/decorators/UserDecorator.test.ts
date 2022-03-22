@@ -1,7 +1,7 @@
 import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
 
 import { User } from '@server/decorators/UserDecorator';
-import { getParamDecoratorFactory } from '@test/utils/mocks/getParamDecoratorFactory';
+import { getParamDecoratorFactory } from '@test/server/testUtils';
 import { mockUser } from '@test/server/user/mocks/mockUser';
 
 const mockSwitchToHttp = (): HttpArgumentsHost => ({

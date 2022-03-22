@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '@server/user/schemas/UserSchema';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
 import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { MongoError } from '@server/enums/MongoError';
+import { MongoErrorCode } from '@server/enums/MongoErrorCode';
 import { CryptoService } from '@server/crypto/CryptoService';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class UserService {
 
       createdUser = await this.userModel.create(payload);
     } catch (error: any) {
-      if (error?.code === MongoError.DuplicateKey) {
+      if (error?.code === MongoErrorCode.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');
       }
 
@@ -48,7 +48,7 @@ export class UserService {
 
       updatedUser = await this.userModel.findByIdAndUpdate(userId, payload, { new: true });
     } catch (error: any) {
-      if (error?.code === MongoError.DuplicateKey) {
+      if (error?.code === MongoErrorCode.DuplicateKey) {
         throw new BadRequestException('User with that username already exists');
       }
 
