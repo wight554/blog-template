@@ -11,11 +11,13 @@ import {
 } from '@nestjs/common';
 import { MockMongoError } from '@test/server/mockUtils';
 import { MongoErrorCode } from '@server/enums/MongoErrorCode';
-import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
-import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
-import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
-import { mockUserModel } from '@test/server/user/mocks/mockUserModel';
 import { CryptoService } from '@server/crypto/CryptoService';
+import {
+  mockUserModel,
+  mockUpsertUser,
+  mockMongoUser,
+  mockUpdatedMongoUser,
+} from '@test/server/user/mocks';
 
 const userId = '1';
 const username = 'username';

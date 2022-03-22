@@ -1,3 +1,3 @@
-export * from './createMockDocument';
-export * from './createMockReply';
-export * from './MockMongoError';
+export * from '@test/server/mockUtils/createMockDocument';
+export * from '@test/server/mockUtils/createMockReply';
+export * from '@test/server/mockUtils/MockMongoError';
