@@ -36,6 +36,7 @@ export default defineConfig({
     globals: true,
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
+      100: true,
     },
   },
 });
