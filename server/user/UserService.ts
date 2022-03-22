@@ -21,7 +21,7 @@ export class UserService {
   ) {}
 
   async create(user: CreateUserDto): Promise<UserDocument> {
-    let createdUser: UserDocument | null;
+    let createdUser: UserDocument;
 
     try {
       const password = await this.cryptoService.hash(user.password, 10);
