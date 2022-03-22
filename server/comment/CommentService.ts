@@ -39,8 +39,10 @@ export class CommentService {
 
     session.startTransaction();
 
+    let createdComment: CommentDocument;
+
     try {
-      const createdComment = await this.commentModel.create({
+      createdComment = await this.commentModel.create({
         ...comment,
         author: userId,
         postId,
@@ -63,8 +65,6 @@ export class CommentService {
       }
 
       await session.commitTransaction();
-
-      return createdComment.populate('author');
     } catch (error) {
       await session.abortTransaction();
 
@@ -72,6 +72,8 @@ export class CommentService {
     } finally {
       session.endSession();
     }
+
+    return createdComment.populate('author');
   }
 
   async update(

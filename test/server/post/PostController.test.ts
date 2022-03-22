@@ -2,14 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { PostController } from '@server/post/PostController';
 import { PostService } from '@server/post/PostService';
-import { mockUser } from '@test/server/user/mocks/mockUser';
-import { mockPosts } from '@test/server/post/mocks/mockPosts';
-import { mockUpsertPost } from '@test/server/post/mocks/mockUpsertPost';
-import { mockPost } from '@test/server/post/mocks/mockPost';
-import { mockUpdatedPost } from '@test/server/post/mocks/mockUpdatedPost';
-import { mockComment } from '@test/server/comment/mocks/mockComment';
-import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
 import { CommentService } from '@server/comment/CommentService';
+import { mockUser } from '@test/server/user/mocks';
+import { mockComment, mockUpsertComment } from '@test/server/comment/mocks';
+import { mockPosts, mockPost, mockUpdatedPost, mockUpsertPost } from '@test/server/post/mocks';
 
 const userId = '1';
 const postId = '1';
