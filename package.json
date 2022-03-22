@@ -36,6 +36,7 @@
     "preact": "^10.6.6",
     "react": "npm:@preact/compat@latest",
     "react-dom": "npm:@preact/compat@latest",
+    "recoil": "^0.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
