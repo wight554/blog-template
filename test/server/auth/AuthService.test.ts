@@ -5,8 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '@server/auth/AuthService';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
-import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
-import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
+import { mockMongoUser, mockUpdatedMongoUser } from '@test/server/user/mocks';
 
 const userId = '1';
 const username = 'username';

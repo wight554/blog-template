@@ -9,14 +9,15 @@ import {
 
 import { CommentService } from '@server/comment/CommentService';
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockMongoComment } from '@test/server/comment/mocks/mockMongoComment';
-import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
-import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
-import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
-import { mockPostUpdateResult } from '@test/server/post/mocks/mockPostUpdateResult';
-import { mockUpdatedMongoComment } from '@test/server/comment/mocks/mockUpdatedMongoComment';
+import { mockMongoConnection } from '@test/server/mocks';
+import {
+  mockCommentModel,
+  mockMongoComment,
+  mockUpsertComment,
+  mockUpdatedMongoComment,
+} from '@test/server/comment/mocks';
+import { mockPostModel, mockPostUpdateResult } from '@test/server/post/mocks';
 
 const commentId = '1';
 const postId = '1';

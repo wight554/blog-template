@@ -2,7 +2,7 @@ import { ClassSerializerInterceptor, Type } from '@nestjs/common';
 import { Exclude } from 'class-transformer';
 
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { createMockDocument } from '@test/utils/mocks/createMockDocument';
+import { createMockDocument } from '@test/server/mockUtils';
 
 class MockClass {
   include: string;
