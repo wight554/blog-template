@@ -66,13 +66,5 @@ describe('MongooseClassSerializerInterceptor', () => {
         expect(instance.serialize(response, {})).toEqual(response);
       });
     });
-
-    describe('response is empty', () => {
-      const response: any = undefined;
-
-      test('should return response', () => {
-        expect(instance.serialize(response, {})).toEqual(response);
-      });
-    });
   });
 });
