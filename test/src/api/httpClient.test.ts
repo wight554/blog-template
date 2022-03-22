@@ -5,11 +5,7 @@ const body = { data: 'data' };
 const init = { headers: { Authorization: 'Bearer token' } };
 const response = 'response';
 
-const mockResponse = {
-  json: vi.fn().mockResolvedValue(response),
-};
-
-global.fetch = vi.fn().mockImplementation(() => mockResponse);
+global.fetch = vi.fn().mockImplementation(() => ({ json: vi.fn().mockResolvedValue(response) }));
 
 describe('httpClient', () => {
   beforeAll(() => {
@@ -32,7 +28,7 @@ describe('httpClient', () => {
     });
 
     it('should return response from fetch api', async () => {
-      expect(await httpClient.delete(url, init)).toEqual({ data: response });
+      expect(await httpClient.get(url, init)).toEqual({ data: response });
     });
   });
 
@@ -47,19 +43,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.get(url, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.get(url, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.get(url, init)).toEqual({ data: response });
     });
   });
 
@@ -74,19 +59,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.head(url, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.head(url, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.head(url, init)).toEqual({ data: response });
     });
   });
 
@@ -101,19 +75,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.options(url, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.options(url, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.options(url, init)).toEqual({ data: response });
     });
   });
 
@@ -129,19 +92,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.patch(url, body, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.patch(url, body, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.patch(url, body, init)).toEqual({ data: response });
     });
   });
 
@@ -157,19 +109,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.post(url, body, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.post(url, body, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.post(url, body, init)).toEqual({ data: response });
     });
   });
 
@@ -185,19 +126,8 @@ describe('httpClient', () => {
       });
     });
 
-    describe('response payload is valid JSON', () => {
-      it('should return response from fetch api', async () => {
-        expect(await httpClient.put(url, body, init)).toEqual({ data: response });
-      });
-    });
-
-    describe('response payload can not be parsed as JSON', () => {
-      it('should return empty string response from fetch api', async () => {
-        const error = new Error();
-        vi.spyOn(mockResponse, 'json').mockRejectedValueOnce(error);
-
-        expect(await httpClient.put(url, body, init)).toEqual({ data: '' });
-      });
+    it('should return response from fetch api', async () => {
+      expect(await httpClient.put(url, body, init)).toEqual({ data: response });
     });
   });
 });

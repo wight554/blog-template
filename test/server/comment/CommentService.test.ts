@@ -87,7 +87,7 @@ describe('CommentService', () => {
     it('should start session', async () => {
       vi.spyOn(connection, 'startSession');
 
-      await commentService.create(mockUpsertComment, postId, userId);
+      await commentService.delete(commentId, userId);
 
       expect(connection.startSession).toHaveBeenCalledOnce();
     });
@@ -177,19 +177,12 @@ describe('CommentService', () => {
       });
     });
 
-    it('should return created comment if comment was successfully created', async () => {
-      expect(await commentService.create(mockUpsertComment, postId, userId)).toEqual(
-        mockMongoComment,
-      );
-    });
-
-    it('should end session', async () => {
-      const session = await connection.startSession();
-      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
-
-      await commentService.create(mockUpsertComment, postId, userId);
-
-      expect(session.endSession).toHaveBeenCalledOnce();
+    describe('comment model success', () => {
+      it('should return created comment', async () => {
+        expect(await commentService.create(mockUpsertComment, postId, userId)).toBe(
+          mockMongoComment,
+        );
+      });
     });
   });
 
