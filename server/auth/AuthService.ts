@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { ITokenPayload } from '@server/auth/interfaces/ITokenPayload';
+import { TokenPayload } from '@server/auth/interfaces/TokenPayload';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
 import { UserDocument } from '@server/user/schemas/UserSchema';
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async getCookieWithJwtToken(userId: string): Promise<string> {
-    const payload: ITokenPayload = { userId };
+    const payload: TokenPayload = { userId };
     const token = await this.jwtService.signAsync(payload);
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
       'JWT_EXPIRATION_TIME',

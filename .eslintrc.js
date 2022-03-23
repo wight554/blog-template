@@ -31,6 +31,25 @@ module.exports = {
       },
     ],
     'import/order': ['error', { alphabetize: { order: 'asc' } }],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'typeParameter',
+        format: ['PascalCase'],
+        prefix: ['T'],
+      },
+    ],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^I[A-Z]',
+          match: false,
+        },
+      },
+    ],
   },
   settings: {
     jest: { version: 'latest' },

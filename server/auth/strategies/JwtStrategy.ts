@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { FastifyRequest } from 'fastify';
 import { Strategy } from 'passport-jwt';
 
-import { ITokenPayload } from '@server/auth/interfaces/ITokenPayload';
+import { TokenPayload } from '@server/auth/interfaces/TokenPayload';
 import { UserService } from '@server/user/UserService';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: ITokenPayload) {
+  async validate(payload: TokenPayload) {
     const user = await this.userService.getById(payload.userId);
 
     return user;
