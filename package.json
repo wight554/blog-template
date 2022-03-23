@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write .",
-    "postinstall": "node ./scripts/postinstall.js"
+    "postinstall": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
   },
   "dependencies": {
     "@nestjs/common": "^8.4.2",
