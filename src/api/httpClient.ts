@@ -70,13 +70,11 @@ const createHttpClientInstance = (): HttpClientInstance => {
 
     const response = await fetch(url, { ...init, method, body, headers });
 
-    let data: any;
+    let data: any = await response.text();
 
     try {
-      data = await response.json();
-    } catch (err) {
-      data = '';
-    }
+      data = JSON.parse(data);
+    } catch {}
 
     return {
       data,
