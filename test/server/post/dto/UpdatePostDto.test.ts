@@ -1,6 +1,7 @@
-import { UpdatePostDto } from '@server/post/dto/UpdatePostDto';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+
+import { UpdatePostDto } from '@server/post/dto/UpdatePostDto';
 
 describe('UpdatePostDto', () => {
   describe('title', () => {

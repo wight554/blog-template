@@ -1,12 +1,13 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite';
-import { configDefaults } from 'vitest/config';
-import preact from '@preact/preset-vite';
-import checker from 'vite-plugin-checker';
 import path from 'path';
-import tsconfigPaths from 'vite-tsconfig-paths';
+
+import preact from '@preact/preset-vite';
 import typescript from '@rollup/plugin-typescript';
+import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -37,5 +38,6 @@ export default defineConfig({
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
     },
+    setupFiles: ['test/testSetup.ts'],
   },
 });
