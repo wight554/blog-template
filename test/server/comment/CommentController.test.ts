@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommentController } from '@server/comment/CommentController';
 import { CommentService } from '@server/comment/CommentService';
-import { mockUser } from '@test/server/user/mocks';
 import { mockComment, mockUpdatedComment, mockUpsertComment } from '@test/server/comment/mocks';
+import { mockUser } from '@test/server/user/mocks';
 
 const userId = '1';
 const commentId = '1';

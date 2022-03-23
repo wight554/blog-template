@@ -1,17 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import {
   BadRequestException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { Model } from 'mongoose';
 
-import { createMockMongoError } from '@test/server/mockUtils';
+import { CryptoService } from '@server/crypto/CryptoService';
+import { MongoErrorCode } from '@server/enums/MongoErrorCode';
 import { UserService } from '@server/user/UserService';
 import { User, UserDocument } from '@server/user/schemas/UserSchema';
-import { MongoErrorCode } from '@server/enums/MongoErrorCode';
-import { CryptoService } from '@server/crypto/CryptoService';
+import { createMockMongoError } from '@test/server/mockUtils';
 import {
   mockUserModel,
   mockUpsertUser,

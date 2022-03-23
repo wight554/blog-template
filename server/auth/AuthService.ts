@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
+import { ITokenPayload } from '@server/auth/interfaces/ITokenPayload';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
-import { ITokenPayload } from '@server/auth/interfaces/ITokenPayload';
 import { UserDocument } from '@server/user/schemas/UserSchema';
 
 @Injectable()

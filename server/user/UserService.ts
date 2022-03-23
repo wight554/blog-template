@@ -5,14 +5,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { MongoError } from 'mongodb';
+import { Model } from 'mongoose';
 
-import { User, UserDocument } from '@server/user/schemas/UserSchema';
+import { CryptoService } from '@server/crypto/CryptoService';
+import { MongoErrorCode } from '@server/enums/MongoErrorCode';
 import { CreateUserDto } from '@server/user/dto/CreateUserDto';
 import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { MongoErrorCode } from '@server/enums/MongoErrorCode';
-import { CryptoService } from '@server/crypto/CryptoService';
+import { User, UserDocument } from '@server/user/schemas/UserSchema';
 
 @Injectable()
 export class UserService {

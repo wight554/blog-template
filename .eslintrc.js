@@ -30,6 +30,7 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'import/order': ['error', { alphabetize: { order: 'asc' } }],
   },
   settings: {
     jest: { version: 'latest' },

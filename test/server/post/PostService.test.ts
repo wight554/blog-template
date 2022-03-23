@@ -1,17 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 
+import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { PostService } from '@server/post/PostService';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
 import { mockCommentModel } from '@test/server/comment/mocks';
+import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
 import {
   mockPostModel,
   mockMongoPosts,

@@ -1,5 +1,5 @@
-import { render, screen } from '@test/src/testUtils';
 import { App } from '@src/app';
+import { render, screen } from '@test/src/testUtils';
 
 describe('App', () => {
   it('should render title', () => {

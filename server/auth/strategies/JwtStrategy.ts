@@ -1,8 +1,8 @@
-import { FastifyRequest } from 'fastify';
-import { Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { FastifyRequest } from 'fastify';
+import { Strategy } from 'passport-jwt';
 
 import { ITokenPayload } from '@server/auth/interfaces/ITokenPayload';
 import { UserService } from '@server/user/UserService';
