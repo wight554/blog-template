@@ -1,4 +1,3 @@
-import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   Injectable,
@@ -6,10 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 
-import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
 import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
+import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
 
 @Injectable()

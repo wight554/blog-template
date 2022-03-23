@@ -48,11 +48,7 @@ describe('UserController', () => {
         vi.spyOn(userService, 'create').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await userController.signup(mockUpsertUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(userController.signup(mockUpsertUser)).rejects.toThrowError(error);
       });
     });
   });
@@ -72,11 +68,9 @@ describe('UserController', () => {
       it('should update user', async () => {
         const badUserId = '2';
 
-        try {
-          await userController.update(badUserId, mockUpsertUser, mockUser);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ForbiddenException);
-        }
+        await expect(
+          userController.update(badUserId, mockUpsertUser, mockUser),
+        ).rejects.toThrowError(ForbiddenException);
       });
     });
 
@@ -92,11 +86,9 @@ describe('UserController', () => {
         vi.spyOn(userService, 'update').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await userController.update(userId, mockUpsertUser, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(userController.update(userId, mockUpsertUser, mockUser)).rejects.toThrowError(
+          error,
+        );
       });
     });
   });

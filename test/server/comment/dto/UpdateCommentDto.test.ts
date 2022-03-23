@@ -1,6 +1,7 @@
-import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+
+import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
 
 describe('UpdateCommentDto', () => {
   describe('text', () => {

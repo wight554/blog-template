@@ -1,6 +1,6 @@
+import { Comment } from '@server/comment/schemas/CommentSchema';
 import { PostDocument } from '@server/post/schemas/PostSchema';
 import { User } from '@server/user/schemas/UserSchema';
-import { Comment } from '@server/comment/schemas/CommentSchema';
 import { mockComments } from '@test/server/comment/mocks';
 import { mockUser } from '@test/server/user/mocks';
 

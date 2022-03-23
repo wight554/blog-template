@@ -16,8 +16,8 @@ const mockCtx = <ExecutionContext>{
   switchToHttp: mockSwitchToHttp,
 };
 
-describe('UserDecorator', function () {
-  it('should return user', function () {
+describe('UserDecorator', () => {
+  it('should return user', () => {
     const factory = getParamDecoratorFactory(User);
     const result = factory(null, mockCtx);
 
