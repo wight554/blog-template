@@ -3,9 +3,14 @@ import { httpClient } from '@src/api/httpClient';
 const url = 'url';
 const body = { data: 'data' };
 const init = { headers: { Authorization: 'Bearer token' } };
-const response = 'response';
+const jsonResponse = '{"respose":"response"}';
+const textResponse = 'response';
 
-global.fetch = vi.fn().mockImplementation(() => ({ json: vi.fn().mockResolvedValue(response) }));
+const mockResponse = {
+  text: vi.fn().mockResolvedValue(jsonResponse),
+};
+
+global.fetch = vi.fn().mockImplementation(() => mockResponse);
 
 describe('httpClient', () => {
   beforeAll(() => {
@@ -27,8 +32,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.get(url, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.delete(url, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.delete(url, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -43,8 +58,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.get(url, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.get(url, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.get(url, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -59,8 +84,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.head(url, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.head(url, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.head(url, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -75,8 +110,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.options(url, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.options(url, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.options(url, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -92,8 +137,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.patch(url, body, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.patch(url, body, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.patch(url, body, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -109,8 +164,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.post(url, body, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.post(url, body, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.post(url, body, init)).toEqual({ data: textResponse });
+      });
     });
   });
 
@@ -126,8 +191,18 @@ describe('httpClient', () => {
       });
     });
 
-    it('should return response from fetch api', async () => {
-      expect(await httpClient.put(url, body, init)).toEqual({ data: response });
+    describe('response payload is valid JSON', () => {
+      it('should return parsed response from fetch api', async () => {
+        expect(await httpClient.put(url, body, init)).toEqual({ data: JSON.parse(jsonResponse) });
+      });
+    });
+
+    describe('response payload is not valid JSON', () => {
+      it('should return string response from fetch api', async () => {
+        vi.spyOn(mockResponse, 'text').mockResolvedValueOnce(textResponse);
+
+        expect(await httpClient.put(url, body, init)).toEqual({ data: textResponse });
+      });
     });
   });
 });

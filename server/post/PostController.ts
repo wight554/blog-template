@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -62,6 +64,7 @@ export class PostController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(POST_DELETE_ENDPOINT)
   public deletePost(@Param('id') id: string, @User() user: UserType) {
     return this.postService.delete(id, user.id);

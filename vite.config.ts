@@ -32,7 +32,7 @@ export default defineConfig({
     emptyOutDir: true,
   },
   test: {
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],

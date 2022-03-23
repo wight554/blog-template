@@ -9,14 +9,15 @@ import {
 
 import { CommentService } from '@server/comment/CommentService';
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockMongoComment } from '@test/server/comment/mocks/mockMongoComment';
-import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
-import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
-import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
-import { mockPostUpdateResult } from '@test/server/post/mocks/mockPostUpdateResult';
-import { mockUpdatedMongoComment } from '@test/server/comment/mocks/mockUpdatedMongoComment';
+import { mockMongoConnection } from '@test/server/mocks';
+import {
+  mockCommentModel,
+  mockMongoComment,
+  mockUpsertComment,
+  mockUpdatedMongoComment,
+} from '@test/server/comment/mocks';
+import { mockPostModel, mockPostUpdateResult } from '@test/server/post/mocks';
 
 const commentId = '1';
 const postId = '1';
@@ -87,7 +88,7 @@ describe('CommentService', () => {
     it('should start session', async () => {
       vi.spyOn(connection, 'startSession');
 
-      await commentService.delete(commentId, userId);
+      await commentService.create(mockUpsertComment, postId, userId);
 
       expect(connection.startSession).toHaveBeenCalledOnce();
     });
@@ -177,12 +178,19 @@ describe('CommentService', () => {
       });
     });
 
-    describe('comment model success', () => {
-      it('should return created comment', async () => {
-        expect(await commentService.create(mockUpsertComment, postId, userId)).toBe(
-          mockMongoComment,
-        );
-      });
+    it('should return created comment if comment was successfully created', async () => {
+      expect(await commentService.create(mockUpsertComment, postId, userId)).toEqual(
+        mockMongoComment,
+      );
+    });
+
+    it('should end session', async () => {
+      const session = await connection.startSession();
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
+
+      await commentService.create(mockUpsertComment, postId, userId);
+
+      expect(session.endSession).toHaveBeenCalledOnce();
     });
   });
 

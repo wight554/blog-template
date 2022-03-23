@@ -1,6 +1,6 @@
 import { CommentDocument } from '@server/comment/schemas/CommentSchema';
 import { User } from '@server/user/schemas/UserSchema';
-import { mockUser } from '@test/server/user/mocks/mockUser';
+import { mockUser } from '@test/server/user/mocks';
 
 export const mockComment = <CommentDocument>{
   id: '1',
