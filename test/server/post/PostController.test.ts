@@ -62,11 +62,7 @@ describe('PostController', () => {
         vi.spyOn(postService, 'getAll').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.getPosts();
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(postController.getPosts()).rejects.toThrowError(error);
       });
     });
   });
@@ -90,11 +86,7 @@ describe('PostController', () => {
         vi.spyOn(postService, 'getById').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.getPost(postId);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(postController.getPost(postId)).rejects.toThrowError(error);
       });
     });
   });
@@ -118,11 +110,9 @@ describe('PostController', () => {
         vi.spyOn(postService, 'create').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.createPost(mockUpsertPost, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(postController.createPost(mockUpsertPost, mockUser)).rejects.toThrowError(
+          error,
+        );
       });
     });
   });
@@ -148,11 +138,9 @@ describe('PostController', () => {
         vi.spyOn(postService, 'update').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.updatePost(postId, mockUpsertPost, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(
+          postController.updatePost(postId, mockUpsertPost, mockUser),
+        ).rejects.toThrowError(error);
       });
     });
   });
@@ -176,11 +164,7 @@ describe('PostController', () => {
         vi.spyOn(postService, 'delete').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.deletePost(postId, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(postController.deletePost(postId, mockUser)).rejects.toThrowError(error);
       });
     });
   });
@@ -206,11 +190,9 @@ describe('PostController', () => {
         vi.spyOn(commentService, 'create').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await postController.createPostComment(postId, mockUpsertComment, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(
+          postController.createPostComment(postId, mockUpsertComment, mockUser),
+        ).rejects.toThrowError(error);
       });
     });
   });

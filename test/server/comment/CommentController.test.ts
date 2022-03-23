@@ -52,11 +52,9 @@ describe('CommentController', () => {
         vi.spyOn(commentService, 'update').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await commentController.updateComment(commentId, mockUpsertComment, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(
+          commentController.updateComment(commentId, mockUpsertComment, mockUser),
+        ).rejects.toThrowError(error);
       });
     });
   });
@@ -80,11 +78,9 @@ describe('CommentController', () => {
         vi.spyOn(commentService, 'delete').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await commentController.deleteComment(commentId, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(commentController.deleteComment(commentId, mockUser)).rejects.toThrowError(
+          error,
+        );
       });
     });
   });

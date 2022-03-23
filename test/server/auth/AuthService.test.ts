@@ -67,13 +67,13 @@ describe('AuthService', () => {
       expect(userService.getByUsername).toBeCalledWith(username);
     });
 
-    describe('password is valid', async () => {
+    describe('password is valid', () => {
       it('should return user', async () => {
         expect(await authService.validateUser(username, password)).toBe(mockMongoUser);
       });
     });
 
-    describe('password is invalid', async () => {
+    describe('password is invalid', () => {
       it('should return null', async () => {
         vi.spyOn(cryptoService, 'compare').mockResolvedValueOnce(false);
 

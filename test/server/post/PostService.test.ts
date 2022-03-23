@@ -87,11 +87,7 @@ describe('PostService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(postModel, 'findById').mockResolvedValueOnce(null);
 
-        try {
-          await postService.getById(postId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(postService.getById(postId)).rejects.toThrowError(NotFoundException);
       });
     });
   });
@@ -122,11 +118,9 @@ describe('PostService', () => {
     it('should throw forbidden exception if author id does not match user id', async () => {
       vi.spyOn(postService, 'getById').mockResolvedValueOnce(<PostDocument>{ author: { id: '2' } });
 
-      try {
-        await postService.update(postId, mockUpsertPost, userId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ForbiddenException);
-      }
+      await expect(postService.update(postId, mockUpsertPost, userId)).rejects.toThrowError(
+        ForbiddenException,
+      );
     });
 
     it('should update post using post model', async () => {
@@ -149,11 +143,9 @@ describe('PostService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(postModel, 'findByIdAndUpdate').mockResolvedValueOnce(null);
 
-        try {
-          await postService.update(postId, mockUpsertPost, userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(postService.update(postId, mockUpsertPost, userId)).rejects.toThrowError(
+          NotFoundException,
+        );
       });
     });
   });
@@ -185,9 +177,9 @@ describe('PostService', () => {
 
         try {
           await postService.delete(postId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw forbidden exception', async () => {
@@ -195,11 +187,7 @@ describe('PostService', () => {
           author: { id: '2' },
         });
 
-        try {
-          await postService.delete(postId, userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ForbiddenException);
-        }
+        await expect(postService.delete(postId, userId)).rejects.toThrowError(ForbiddenException);
       });
     });
 
@@ -239,9 +227,9 @@ describe('PostService', () => {
 
         try {
           await postService.delete(postId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
@@ -250,11 +238,9 @@ describe('PostService', () => {
           acknowledged: true,
         });
 
-        try {
-          expect(await postService.delete(postId, userId)).toEqual(undefined);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(postService.delete(postId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
@@ -269,9 +255,9 @@ describe('PostService', () => {
 
         try {
           await postService.delete(postId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
@@ -280,11 +266,9 @@ describe('PostService', () => {
           acknowledged: true,
         });
 
-        try {
-          expect(await postService.delete(postId, userId)).toEqual(undefined);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(postService.delete(postId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 

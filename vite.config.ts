@@ -37,5 +37,6 @@ export default defineConfig({
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
     },
+    setupFiles: ['test/testSetup.ts'],
   },
 });
