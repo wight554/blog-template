@@ -1,7 +1,7 @@
 import { html } from 'htm/preact';
 
-import { Logo } from '@src/components/Logo';
 import { Header } from '@src/components/Header';
+import { Logo } from '@src/components/Logo';
 
 import * as S from './styles';
 

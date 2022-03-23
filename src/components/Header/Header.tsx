@@ -1,11 +1,11 @@
-import { useState } from 'preact/hooks';
-import { html } from 'htm/preact';
 import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import { html } from 'htm/preact';
+import { useState } from 'preact/hooks';
 
 import * as S from './styles';
 

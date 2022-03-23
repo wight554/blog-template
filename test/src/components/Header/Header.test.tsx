@@ -5,7 +5,7 @@ describe('Header', () => {
   it('should render app title', () => {
     render(<Header />);
 
-    expect(screen.getByText(/Blog demo/i)).toBeDefined();
+    expect(screen.getByText(/Blog demo/i)).toBeInTheDocument();
   });
 
   it('should render avatar', () => {

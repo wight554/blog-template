@@ -32,6 +32,14 @@ module.exports = {
       {
         'newlines-between': 'always',
         alphabetize: { order: 'asc' },
+        pathGroups: [
+          {
+            pattern: '@{server,src,test}/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
     '@typescript-eslint/naming-convention': [

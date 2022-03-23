@@ -1,8 +1,8 @@
 import 'preact/debug';
-import { render } from 'preact';
-import { html } from 'htm/preact';
-import { RecoilRoot } from 'recoil';
 import { CssBaseline } from '@mui/material';
+import { html } from 'htm/preact';
+import { render } from 'preact';
+import { RecoilRoot } from 'recoil';
 
 import { App } from '@src/components/App/App';
 import '@src/index.css';
