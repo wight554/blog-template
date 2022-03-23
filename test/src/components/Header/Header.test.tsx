@@ -23,9 +23,11 @@ describe('Header', () => {
   it('should open menu when avatar is clicked', async () => {
     const { baseElement, container } = render(<Header />);
 
-    const avatar = container.querySelector('.MuiAvatar-root')!;
+    const avatar = container.querySelector('.MuiAvatar-root');
 
-    fireEvent.click(avatar);
+    expect(avatar).toBeInTheDocument();
+
+    if (avatar) fireEvent.click(avatar);
 
     await waitFor(() => {
       expect(baseElement.querySelector('#menu-appbar')).toBeVisible();
@@ -35,9 +37,11 @@ describe('Header', () => {
   it('should close menu when menu item is clicked', async () => {
     const { baseElement, container } = render(<Header />);
 
-    const avatar = container.querySelector('.MuiAvatar-root')!;
+    const avatar = container.querySelector('.MuiAvatar-root');
 
-    fireEvent.click(avatar);
+    expect(avatar).toBeInTheDocument();
+
+    if (avatar) fireEvent.click(avatar);
 
     await waitFor(() => {
       expect(baseElement.querySelector('#menu-appbar')).toBeVisible();
