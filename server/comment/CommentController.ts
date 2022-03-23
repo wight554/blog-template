@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Put,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import {
   COMMENT_CONTROLLER_ROUTE,
@@ -29,6 +39,7 @@ export class CommentController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(COMMENT_DELETE_ENDPOINT)
   public deleteComment(@Param('id') id: string, @User() user: UserType) {
     return this.commentService.delete(id, user.id);
