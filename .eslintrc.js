@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
+    project: 'tsconfig.eslint.json',
     sourceType: 'module',
   },
   extends: [
@@ -16,12 +16,15 @@ module.exports = {
   env: {
     node: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'vite.config.ts'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        ignoreRestSiblings: true,
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': ['error'],
     'import/order': [
@@ -43,6 +46,14 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.d.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 0,
+      },
+    },
+  ],
   settings: {
     jest: { version: 'latest' },
     'import/parsers': {

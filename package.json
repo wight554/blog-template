@@ -11,9 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "yarn test --coverage",
-    "lint": "eslint \"{src,server,test}/**/*.{ts,tsx}\"",
+    "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"server/**/*.ts\" \"test/**/*.{ts,tsx}\"",
+    "format": "prettier --write .",
     "postinstall": "node ./scripts/postinstall.js"
   },
   "dependencies": {

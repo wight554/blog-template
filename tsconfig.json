@@ -24,8 +24,6 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "types": ["node", "vitest/globals"],
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "paths": {
       "@src/*": ["./src/*"],
       "@server/*": ["./server/*"],
