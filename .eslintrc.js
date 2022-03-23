@@ -28,15 +28,7 @@ module.exports = {
       'error',
       {
         'newlines-between': 'always',
-      },
-    ],
-    'import/order': ['error', { alphabetize: { order: 'asc' } }],
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        selector: 'typeParameter',
-        format: ['PascalCase'],
-        prefix: ['T'],
+        alphabetize: { order: 'asc' },
       },
     ],
     '@typescript-eslint/naming-convention': [
