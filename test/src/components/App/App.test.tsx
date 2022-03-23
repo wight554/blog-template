@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/preact';
 import { html } from 'htm/preact';
 import { App } from '@src/components/App';
+import { render, screen } from '@test/src/testUtils';
 
 vi.mock('@src/components/Header', () => () => ({
   Header: html`<div></div>`,
