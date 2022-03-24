@@ -64,9 +64,6 @@ module.exports = {
   ],
   settings: {
     jest: { version: 'latest' },
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
