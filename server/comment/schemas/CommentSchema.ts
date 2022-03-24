@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from '@server/user/schemas/UserSchema';
 import { Exclude, Transform, Type } from 'class-transformer';
 import { Document, Schema as MongooseSchema, Types } from 'mongoose';
+
+import { User } from '@server/user/schemas/UserSchema';
 
 export type CommentDocument = Comment & Document;
 

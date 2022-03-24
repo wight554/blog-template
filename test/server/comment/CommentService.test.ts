@@ -1,22 +1,23 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Model, Connection as MongooseConnection } from 'mongoose';
 import {
   ForbiddenException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { Model, Connection as MongooseConnection } from 'mongoose';
 
 import { CommentService } from '@server/comment/CommentService';
 import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockMongoComment } from '@test/server/comment/mocks/mockMongoComment';
-import { mockPostModel } from '@test/server/post/mocks/mockPostModel';
-import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
 import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { mockCommentModel } from '@test/server/comment/mocks/mockCommentModel';
-import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
-import { mockPostUpdateResult } from '@test/server/post/mocks/mockPostUpdateResult';
-import { mockUpdatedMongoComment } from '@test/server/comment/mocks/mockUpdatedMongoComment';
+import {
+  mockCommentModel,
+  mockMongoComment,
+  mockUpsertComment,
+  mockUpdatedMongoComment,
+} from '@test/server/comment/mocks';
+import { mockMongoConnection } from '@test/server/mocks';
+import { mockPostModel, mockPostUpdateResult } from '@test/server/post/mocks';
 
 const commentId = '1';
 const postId = '1';
@@ -74,11 +75,7 @@ describe('CommentService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(commentModel, 'findById').mockResolvedValueOnce(null);
 
-        try {
-          await commentService.getById(commentId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(commentService.getById(commentId)).rejects.toThrowError(NotFoundException);
       });
     });
   });
@@ -87,7 +84,7 @@ describe('CommentService', () => {
     it('should start session', async () => {
       vi.spyOn(connection, 'startSession');
 
-      await commentService.delete(commentId, userId);
+      await commentService.create(mockUpsertComment, postId, userId);
 
       expect(connection.startSession).toHaveBeenCalledOnce();
     });
@@ -131,19 +128,17 @@ describe('CommentService', () => {
 
         try {
           await commentService.create(mockUpsertComment, postId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
         vi.spyOn(commentModel, 'create').mockResolvedValueOnce();
 
-        try {
-          expect(await commentService.create(mockUpsertComment, postId, userId));
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(commentService.create(mockUpsertComment, postId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
@@ -158,9 +153,9 @@ describe('CommentService', () => {
 
         try {
           await commentService.create(mockUpsertComment, postId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
@@ -169,20 +164,25 @@ describe('CommentService', () => {
           modifiedCount: 0,
         });
 
-        try {
-          await commentService.create(mockUpsertComment, postId, userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(commentService.create(mockUpsertComment, postId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
-    describe('comment model success', () => {
-      it('should return created comment', async () => {
-        expect(await commentService.create(mockUpsertComment, postId, userId)).toBe(
-          mockMongoComment,
-        );
-      });
+    it('should return created comment if comment was successfully created', async () => {
+      expect(await commentService.create(mockUpsertComment, postId, userId)).toEqual(
+        mockMongoComment,
+      );
+    });
+
+    it('should end session', async () => {
+      const session = await connection.startSession();
+      vi.spyOn(connection, 'startSession').mockImplementationOnce(async () => session);
+
+      await commentService.create(mockUpsertComment, postId, userId);
+
+      expect(session.endSession).toHaveBeenCalledOnce();
     });
   });
 
@@ -200,11 +200,9 @@ describe('CommentService', () => {
         author: { id: '2' },
       });
 
-      try {
-        await commentService.update(commentId, mockUpsertComment, userId);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ForbiddenException);
-      }
+      await expect(
+        commentService.update(commentId, mockUpsertComment, userId),
+      ).rejects.toThrowError(ForbiddenException);
     });
 
     it('should update comment using comment model', async () => {
@@ -227,11 +225,9 @@ describe('CommentService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(commentModel, 'findByIdAndUpdate').mockResolvedValueOnce(undefined);
 
-        try {
-          await commentService.update(commentId, mockUpsertComment, userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(
+          commentService.update(commentId, mockUpsertComment, userId),
+        ).rejects.toThrowError(InternalServerErrorException);
       });
     });
   });
@@ -263,9 +259,9 @@ describe('CommentService', () => {
 
         try {
           await commentService.delete(commentId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw forbidden exception', async () => {
@@ -273,11 +269,9 @@ describe('CommentService', () => {
           author: { id: '2' },
         });
 
-        try {
-          await commentService.delete(commentId, userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(ForbiddenException);
-        }
+        await expect(commentService.delete(commentId, userId)).rejects.toThrowError(
+          ForbiddenException,
+        );
       });
     });
 
@@ -319,9 +313,9 @@ describe('CommentService', () => {
 
         try {
           await commentService.delete(commentId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
@@ -330,11 +324,9 @@ describe('CommentService', () => {
           acknowledged: true,
         });
 
-        try {
-          expect(await commentService.delete(commentId, userId)).toEqual(undefined);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(commentService.delete(commentId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
@@ -349,9 +341,9 @@ describe('CommentService', () => {
 
         try {
           await commentService.delete(commentId, userId);
-        } catch (error) {
-          expect(session.abortTransaction).toHaveBeenCalledOnce();
-        }
+        } catch {}
+
+        expect(session.abortTransaction).toHaveBeenCalledOnce();
       });
 
       it('should throw internal server error', async () => {
@@ -360,11 +352,9 @@ describe('CommentService', () => {
           modifiedCount: 0,
         });
 
-        try {
-          expect(await commentService.delete(commentId, userId)).toEqual(undefined);
-        } catch (error) {
-          expect(error).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(commentService.delete(commentId, userId)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 

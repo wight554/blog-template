@@ -1,12 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthService } from '@server/auth/AuthService';
 import { CryptoService } from '@server/crypto/CryptoService';
 import { UserService } from '@server/user/UserService';
-import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
-import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
+import { mockMongoUser, mockUpdatedMongoUser } from '@test/server/user/mocks';
 
 const userId = '1';
 const username = 'username';
@@ -68,13 +67,13 @@ describe('AuthService', () => {
       expect(userService.getByUsername).toBeCalledWith(username);
     });
 
-    describe('password is valid', async () => {
+    describe('password is valid', () => {
       it('should return user', async () => {
         expect(await authService.validateUser(username, password)).toBe(mockMongoUser);
       });
     });
 
-    describe('password is invalid', async () => {
+    describe('password is invalid', () => {
       it('should return null', async () => {
         vi.spyOn(cryptoService, 'compare').mockResolvedValueOnce(false);
 

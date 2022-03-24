@@ -9,18 +9,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import {
   USER_CONTROLLER_ROUTE,
   USER_CREATE_ENDPOINT,
   USER_UPDATE_ENDPOINT,
 } from '@server/constants/controllers';
-import { CreateUserDto } from '@server/user/dto/CreateUserDto';
-import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
-import { User as UserType } from '@server/user/schemas/UserSchema';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { UserService } from '@server/user/UserService';
+import { CreateUserDto } from '@server/user/dto/CreateUserDto';
+import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
+import { User as UserType } from '@server/user/schemas/UserSchema';
 
 @Controller(USER_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(UserType))

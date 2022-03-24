@@ -1,8 +1,8 @@
 import { mockMongoPost } from '@test/server/post/mocks/mockMongoPost';
 import { mockMongoPosts } from '@test/server/post/mocks/mockMongoPosts';
 import { mockPostDeleteResult } from '@test/server/post/mocks/mockPostDeleteResult';
-import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
 import { mockPostUpdateResult } from '@test/server/post/mocks/mockPostUpdateResult';
+import { mockUpdatedMongoPost } from '@test/server/post/mocks/mockUpdatedMongoPost';
 
 export const mockPostModel = {
   find: vi.fn().mockImplementation(() => ({

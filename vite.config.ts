@@ -1,12 +1,14 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite';
-import { configDefaults } from 'vitest/config';
-import preact from '@preact/preset-vite';
-import swc from 'unplugin-swc';
-import checker from 'vite-plugin-checker';
 import path from 'path';
+
+import preact from '@preact/preset-vite';
+import typescript from '@rollup/plugin-typescript';
+import swc from 'unplugin-swc';
+import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -16,27 +18,27 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    tsconfigPaths({ root: __dirname }),
+    tsconfigPaths(),
     !isTest &&
       checker({
-        typescript: true,
+        typescript: { tsconfigPath: 'tsconfig.client.json' },
         eslint: {
-          lintCommand: 'eslint "./**/*.{ts,tsx}"',
+          lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
       }),
     isTest && swc.vite(),
   ],
-  root: path.join(__dirname, 'src'),
+  ...(isTest && { esbuild: false }),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
   },
   test: {
-    root: process.cwd(),
-    environment: 'happy-dom',
+    environment: 'jsdom',
     globals: true,
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
     },
+    setupFiles: ['test/testSetup.ts'],
   },
 });

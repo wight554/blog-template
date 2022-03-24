@@ -2,10 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { CommentController } from '@server/comment/CommentController';
 import { CommentService } from '@server/comment/CommentService';
-import { mockUser } from '@test/server/user/mocks/mockUser';
-import { mockUpsertComment } from '@test/server/comment/mocks/mockUpsertComment';
-import { mockComment } from '@test/server/comment/mocks/mockComment';
-import { mockUpdatedComment } from '@test/server/comment/mocks/mockUpdatedComment';
+import { mockComment, mockUpdatedComment, mockUpsertComment } from '@test/server/comment/mocks';
+import { mockUser } from '@test/server/user/mocks';
 
 const userId = '1';
 const commentId = '1';
@@ -54,11 +52,9 @@ describe('CommentController', () => {
         vi.spyOn(commentService, 'update').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await commentController.updateComment(commentId, mockUpsertComment, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(
+          commentController.updateComment(commentId, mockUpsertComment, mockUser),
+        ).rejects.toThrowError(error);
       });
     });
   });
@@ -82,11 +78,9 @@ describe('CommentController', () => {
         vi.spyOn(commentService, 'delete').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await commentController.deleteComment(commentId, mockUser);
-        } catch (e) {
-          expect(e).toBe(error);
-        }
+        await expect(commentController.deleteComment(commentId, mockUser)).rejects.toThrowError(
+          error,
+        );
       });
     });
   });

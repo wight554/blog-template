@@ -1,6 +1,7 @@
-import { CreatePostDto } from '@server/post/dto/CreatePostDto';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+
+import { CreatePostDto } from '@server/post/dto/CreatePostDto';
 
 describe('CreatePostDto', () => {
   describe('title', () => {

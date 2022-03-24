@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -10,6 +12,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
+import { CommentService } from '@server/comment/CommentService';
+import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
+import { Comment } from '@server/comment/schemas/CommentSchema';
 import {
   POST_CONTROLLER_ROUTE,
   POST_DELETE_ENDPOINT,
@@ -19,16 +25,12 @@ import {
   POST_CREATE_ENDPOINT,
   POST_UPDATE_ENDPOINT,
 } from '@server/constants/controllers';
+import { User } from '@server/decorators/UserDecorator';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { Post as PostType } from '@server/post/schemas/PostSchema';
 import { PostService } from '@server/post/PostService';
 import { CreatePostDto } from '@server/post/dto/CreatePostDto';
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
-import { User } from '@server/decorators/UserDecorator';
+import { Post as PostType } from '@server/post/schemas/PostSchema';
 import { User as UserType } from '@server/user/schemas/UserSchema';
-import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
-import { CommentService } from '@server/comment/CommentService';
-import { Comment } from '@server/comment/schemas/CommentSchema';
 
 @Controller(POST_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(PostType))
@@ -62,6 +64,7 @@ export class PostController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(POST_DELETE_ENDPOINT)
   public deletePost(@Param('id') id: string, @User() user: UserType) {
     return this.postService.delete(id, user.id);

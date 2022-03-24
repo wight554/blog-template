@@ -1,21 +1,23 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-
-import { UserService } from '@server/user/UserService';
-import { User, UserDocument } from '@server/user/schemas/UserSchema';
 import {
   BadRequestException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { MongoErrorException } from '@test/utils/errors/MongoErrorException';
-import { MongoError } from '@server/enums/MongoError';
-import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser';
-import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser';
-import { mockUpsertUser } from '@test/server/user/mocks/mockUpsertUser';
-import { mockUserModel } from '@test/server/user/mocks/mockUserModel';
+import { getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { Model } from 'mongoose';
+
 import { CryptoService } from '@server/crypto/CryptoService';
+import { MongoErrorCode } from '@server/enums/MongoErrorCode';
+import { UserService } from '@server/user/UserService';
+import { User, UserDocument } from '@server/user/schemas/UserSchema';
+import { createMockMongoError } from '@test/server/mockUtils';
+import {
+  mockUserModel,
+  mockUpsertUser,
+  mockMongoUser,
+  mockUpdatedMongoUser,
+} from '@test/server/user/mocks';
 
 const userId = '1';
 const username = 'username';
@@ -63,11 +65,9 @@ describe('UserService', () => {
         vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await userService.create(mockUpsertUser);
-        } catch (e) {
-          expect(e).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(userService.create(mockUpsertUser)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
@@ -87,16 +87,14 @@ describe('UserService', () => {
     });
 
     describe('user model error', () => {
-      describe('error is duplicate key error', () => {
+      describe('error is mongo duplicate key error', () => {
         it('should throw bad request exception', async () => {
-          const error = new MongoErrorException(MongoError.DuplicateKey);
+          const error = createMockMongoError(MongoErrorCode.DuplicateKey);
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
-          try {
-            await userService.create(mockUpsertUser);
-          } catch (error) {
-            expect(error).toBeInstanceOf(BadRequestException);
-          }
+          await expect(userService.create(mockUpsertUser)).rejects.toThrowError(
+            BadRequestException,
+          );
         });
       });
 
@@ -105,11 +103,9 @@ describe('UserService', () => {
           const error = new Error();
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
-          try {
-            await userService.create(mockUpsertUser);
-          } catch (error) {
-            expect(error).toBeInstanceOf(InternalServerErrorException);
-          }
+          await expect(userService.create(mockUpsertUser)).rejects.toThrowError(
+            InternalServerErrorException,
+          );
         });
       });
     });
@@ -128,11 +124,9 @@ describe('UserService', () => {
         vi.spyOn(cryptoService, 'hash').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        try {
-          await userService.update(userId, mockUpsertUser);
-        } catch (e) {
-          expect(e).toBeInstanceOf(InternalServerErrorException);
-        }
+        await expect(userService.update(userId, mockUpsertUser)).rejects.toThrowError(
+          InternalServerErrorException,
+        );
       });
     });
 
@@ -159,16 +153,14 @@ describe('UserService', () => {
       });
 
       describe('user model error', () => {
-        describe('error is duplicate key error', () => {
+        describe('error is mongo duplicate key error', () => {
           it('should throw bad request exception', async () => {
-            const error = new MongoErrorException(MongoError.DuplicateKey);
+            const error = createMockMongoError(MongoErrorCode.DuplicateKey);
             vi.spyOn(userModel, 'findByIdAndUpdate').mockRejectedValueOnce(error);
 
-            try {
-              await userService.update(userId, mockUpsertUser);
-            } catch (error) {
-              expect(error).toBeInstanceOf(BadRequestException);
-            }
+            await expect(userService.update(userId, mockUpsertUser)).rejects.toThrowError(
+              BadRequestException,
+            );
           });
         });
 
@@ -177,11 +169,9 @@ describe('UserService', () => {
             const error = new Error();
             vi.spyOn(userModel, 'findByIdAndUpdate').mockRejectedValueOnce(error);
 
-            try {
-              await userService.update(userId, mockUpsertUser);
-            } catch (error) {
-              expect(error).toBeInstanceOf(InternalServerErrorException);
-            }
+            await expect(userService.update(userId, mockUpsertUser)).rejects.toThrowError(
+              InternalServerErrorException,
+            );
           });
         });
       });
@@ -191,11 +181,9 @@ describe('UserService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(userModel, 'findByIdAndUpdate').mockResolvedValueOnce(null);
 
-        try {
-          await userService.update(userId, mockUpsertUser);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(userService.update(userId, mockUpsertUser)).rejects.toThrowError(
+          NotFoundException,
+        );
       });
     });
   });
@@ -217,11 +205,7 @@ describe('UserService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(userModel, 'findOne').mockResolvedValueOnce(null);
 
-        try {
-          await userService.getByUsername(username);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(userService.getByUsername(username)).rejects.toThrowError(NotFoundException);
       });
     });
   });
@@ -243,11 +227,7 @@ describe('UserService', () => {
       it('should throw not found exception', async () => {
         vi.spyOn(userModel, 'findById').mockResolvedValueOnce(null);
 
-        try {
-          await userService.getById(userId);
-        } catch (error) {
-          expect(error).toBeInstanceOf(NotFoundException);
-        }
+        await expect(userService.getById(userId)).rejects.toThrowError(NotFoundException);
       });
     });
   });
