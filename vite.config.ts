@@ -3,11 +3,12 @@
 import path from 'path';
 
 import preact from '@preact/preset-vite';
-import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults } from 'vitest/config';
+
+import { typescript } from './vite/plugins/typescript';
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -27,7 +28,6 @@ export default defineConfig({
       }),
     isTest && typescript(),
   ],
-  ...(isTest && { esbuild: false }),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
