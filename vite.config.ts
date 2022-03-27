@@ -5,10 +5,9 @@ import path from 'path';
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
+import typescript from 'vite-plugin-typescript';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults } from 'vitest/config';
-
-import { typescript } from './vite/plugins/typescript';
 
 const isTest = process.env.NODE_ENV === 'test';
 
