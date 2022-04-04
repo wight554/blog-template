@@ -1813,6 +1813,7 @@ __metadata:
     typescript: ^4.6.2
     vite: ^2.8.6
     vite-plugin-checker: ^0.4.3
+    vite-plugin-typescript: ^1.0.3
     vite-tsconfig-paths: ^3.4.1
     vitest: ^0.7.7
   languageName: unknown
@@ -6829,6 +6830,16 @@ __metadata:
   bin:
     vite-plugin-checker-vls: bin/vls
   checksum: 5ac8eed0851ded79cfe16bc45677763a4c52ac8b810ccc7ec3b0223b5c8a1004bc3a4879bc666d63e881e44bb6a75432dafc5e161a7960697dd6fd23d4c73e25
+  languageName: node
+  linkType: hard
+
+"vite-plugin-typescript@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "vite-plugin-typescript@npm:1.0.3"
+  peerDependencies:
+    "@rollup/plugin-typescript": "*"
+    vite: "*"
+  checksum: c3bbb55b216d060017fe12bfa1efe4186aa601360149fd4905015123ed6d2a2a380dc049f6b28957aad1e3261f004ad7b638d589a4a951c3935217461b194b58
   languageName: node
   linkType: hard
 
