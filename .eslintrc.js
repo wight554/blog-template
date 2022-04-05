@@ -62,7 +62,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/__tests__/**/*.tsx', '**/?(*.)+(spec|test).tsx'],
+      files: ['src/**/__tests__/**/*.[jt]s?(x)', '{test/,}src/**/?(*.)+(spec|test).[jt]s?(x)'],
       extends: ['plugin:testing-library/react'],
     },
   ],

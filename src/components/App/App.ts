@@ -17,7 +17,7 @@ export const App = () => {
             Learn Preact!
           </a>
         </p>
-      </${S.MainContent}>
-    </${S.App}>
+      <//>
+    <//>
   `;
 };

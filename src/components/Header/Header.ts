@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
@@ -25,13 +26,13 @@ export const Header = () => {
   return html`
     <${AppBar} position="static">
       <${S.Toolbar}>
-        <${Typography} variant="h6" component="div">
-          Blog demo
-        </${Typography}>
+        <${Typography} variant="h6" component="div"> Blog demo <//>
         <div>
-          <${IconButton} onClick=${handleOpenUserMenu} sx=${{ p: 0 }}>
-            <${Avatar}>V</${Avatar}>
-          </${IconButton}>
+          <${Tooltip} title="Open settings">
+            <${IconButton} aria-label="open user menu" onClick=${handleOpenUserMenu} sx=${{ p: 0 }}>
+              <${Avatar}>V<//>
+            <//>
+          <//>
           <${Menu}
             sx=${{ mt: '45px' }}
             id="menu-appbar"
@@ -48,16 +49,16 @@ export const Header = () => {
             open=${Boolean(anchorEl)}
             onClose=${handleCloseUserMenu}
           >
-          ${settings.map(
-            (setting) => html`
+            ${settings.map(
+              (setting) => html`
               <${MenuItem} key=${setting} onClick=${handleCloseUserMenu}>
                 <${Typography} textAlign="center">${setting}</${Typography}>
               </${MenuItem}>
             `,
-          )}
-          </${Menu}>
+            )}
+          <//>
         </div>
-      </${S.Toolbar}>
-    </${AppBar}>
+      <//>
+    <//>
   `;
 };

@@ -363,6 +363,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emmetio/abbreviation@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "@emmetio/abbreviation@npm:2.2.3"
+  dependencies:
+    "@emmetio/scanner": ^1.0.0
+  checksum: 8637ff0c2afeb7a4498bf628510a8332f3ec70474a445131125d8049dfa1b917c18210829c12e1c9044fec5d13cfb9bb498b0af670e8d4905e6dd88e215bd135
+  languageName: node
+  linkType: hard
+
+"@emmetio/css-abbreviation@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "@emmetio/css-abbreviation@npm:2.1.4"
+  dependencies:
+    "@emmetio/scanner": ^1.0.0
+  checksum: ede72dafc412180ced63046c648bee6e8b7a5511622ed3192f7f11d813e119fd5e71cd60b95ed6a07d2c9809d6567d8c6fb6c36a4e8dbbcca9bd19df92192eba
+  languageName: node
+  linkType: hard
+
+"@emmetio/extract-abbreviation@npm:0.1.6":
+  version: 0.1.6
+  resolution: "@emmetio/extract-abbreviation@npm:0.1.6"
+  checksum: d7a8396f4079382ec70f92de6c860c234ea4313182e17189365a7aad3a56f4b789859cfe9121b8b1e8dcbaff103df3551a7ab39bce9d5fc470960efa4f336442
+  languageName: node
+  linkType: hard
+
+"@emmetio/scanner@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@emmetio/scanner@npm:1.0.0"
+  checksum: 4e4366bf0b56de0a53de361a125dd88b9f652ffea2961a4035fe6acc46670ef483ce86a5e5b66124562a27322099170c3cbfed524b2d07ad048a84e304ab70bd
+  languageName: node
+  linkType: hard
+
 "@emotion/is-prop-valid@npm:^0.8.8":
   version: 0.8.8
   resolution: "@emotion/is-prop-valid@npm:0.8.8"
@@ -2155,6 +2187,8 @@ __metadata:
     tsconfig-paths: ^3.14.0
     tslib: ^2.3.1
     typescript: ^4.6.2
+    typescript-lit-html-plugin: ^0.9.0
+    typescript-styled-plugin: ^0.18.2
     vite: ^2.8.6
     vite-plugin-checker: ^0.4.3
     vite-plugin-typescript: ^1.0.3
@@ -2955,6 +2989,16 @@ __metadata:
   version: 1.4.71
   resolution: "electron-to-chromium@npm:1.4.71"
   checksum: ecb2546eed6b0e95003d787c259de730f32e2f5c0fa2acb27069c0cd21378cbc2a6c7516f4ec677a5960db4e180644f87ed91a729825a238454e31e4e74617db
+  languageName: node
+  linkType: hard
+
+"emmet@npm:^2.3.0":
+  version: 2.3.6
+  resolution: "emmet@npm:2.3.6"
+  dependencies:
+    "@emmetio/abbreviation": ^2.2.3
+    "@emmetio/css-abbreviation": ^2.1.4
+  checksum: 96d56212d76023b7ecd4fd3b269a6b85b5a38d95d3135557d6321e38955e9c322d75b135435678d7697ed3d56741494ebf3f3974b74f2b89292b65565447ba4b
   languageName: node
   linkType: hard
 
@@ -4771,6 +4815,20 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: e88fc5274bb58fc99547baa777886b069d2dd96d9cfc4490b305fd16d711dabd5979e35a4f90873cefbeb552e216b041a304fe56702bedba76e19bc7845f208d
+  languageName: node
+  linkType: hard
+
+"jsonc-parser@npm:^1.0.0":
+  version: 1.0.3
+  resolution: "jsonc-parser@npm:1.0.3"
+  checksum: 9f922acb87995e5efb72b0ac0e9589b56f8b4439b0ac4b21c92bfd6d5fc52fe1b3bdc034866a40444b1d2ae17e27046c5a173ff092393865a21e60b02b7e6362
+  languageName: node
+  linkType: hard
+
+"jsonc-parser@npm:^2.3.0":
+  version: 2.3.1
+  resolution: "jsonc-parser@npm:2.3.1"
+  checksum: de37640bd1d0dcc5b2e19f2514b3c2e05832ec6fdb86da65102509524d3eef0f2cc49bd471a0b28b8af2f8069bbca8396a9bd5cad4ae04001e1893e47df265eb
   languageName: node
   linkType: hard
 
@@ -7163,6 +7221,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript-lit-html-plugin@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "typescript-lit-html-plugin@npm:0.9.0"
+  dependencies:
+    typescript-styled-plugin: ^0.13.0
+    typescript-template-language-service-decorator: ^2.2.0
+    vscode-html-languageservice: ^2.1.10
+    vscode-languageserver-types: ^3.13.0
+  checksum: 16f3ef6e06773ec4391557f7d55869fe722cefc10dde94ecbababfec2de2bee0d37049ed0eb684744d7b9a412229bc3de9bce001e26f53862c6f19b0a9d574af
+  languageName: node
+  linkType: hard
+
+"typescript-styled-plugin@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "typescript-styled-plugin@npm:0.13.0"
+  dependencies:
+    typescript-template-language-service-decorator: ^2.0.0
+    vscode-css-languageservice: ^3.0.12
+    vscode-emmet-helper: 1.2.11
+    vscode-languageserver-types: ^3.13.0
+  checksum: 3c5aab72da5162dc0a911f459d3e6997cf71cdff0bcfdaccb6bd52070b0d1007142ec0b617ca02f747416d67f225218c8b6914a6c2fd330c8e7c1f328869f9e8
+  languageName: node
+  linkType: hard
+
+"typescript-styled-plugin@npm:^0.18.2":
+  version: 0.18.2
+  resolution: "typescript-styled-plugin@npm:0.18.2"
+  dependencies:
+    typescript-template-language-service-decorator: ^2.2.0
+    vscode-css-languageservice: ^5.1.4
+    vscode-emmet-helper: ^2.6.4
+    vscode-languageserver-textdocument: ^1.0.1
+    vscode-languageserver-types: ^3.16.0
+  checksum: a410974ba8c604ae1826962b602f9ed0e7e2f134227e7418a9495c798886859664ed20cd1774978ab017645936d896143091a30980c7b09f06650ca97b344ffe
+  languageName: node
+  linkType: hard
+
+"typescript-template-language-service-decorator@npm:^2.0.0, typescript-template-language-service-decorator@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "typescript-template-language-service-decorator@npm:2.2.0"
+  checksum: a9781d893b3123050fd3c1efe24ffc5b62c298f07e4b9c17884ebf33cb3f4821f3e12d9f17fe382fc31ccd6599255b1ea36ae602d2b519550241f221a37815d4
+  languageName: node
+  linkType: hard
+
 "typescript@npm:^4.6.2":
   version: 4.6.2
   resolution: "typescript@npm:4.6.2"
@@ -7388,6 +7490,64 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vscode-css-languageservice@npm:^3.0.12":
+  version: 3.0.13
+  resolution: "vscode-css-languageservice@npm:3.0.13"
+  dependencies:
+    vscode-languageserver-types: ^3.13.0
+    vscode-nls: ^4.0.0
+  checksum: 246c6774721163f70575c8c858756d70d85901228a7fdd0cbe4c88de3914bc41f2ff3b0a7a39580c7db28d6b58dd123be4cb0996c0d52280df644c3b6639522a
+  languageName: node
+  linkType: hard
+
+"vscode-css-languageservice@npm:^5.1.4":
+  version: 5.4.1
+  resolution: "vscode-css-languageservice@npm:5.4.1"
+  dependencies:
+    vscode-languageserver-textdocument: ^1.0.4
+    vscode-languageserver-types: ^3.16.0
+    vscode-nls: ^5.0.0
+    vscode-uri: ^3.0.3
+  checksum: a8864dbe2164600180fd5bd0dd6d519f6f02ea27f4b8d81c6262eaea06b602f1ef16b16436675721478324a15f2fe00a973fe0a752f256a9004f2bcfd798a5b8
+  languageName: node
+  linkType: hard
+
+"vscode-emmet-helper@npm:1.2.11":
+  version: 1.2.11
+  resolution: "vscode-emmet-helper@npm:1.2.11"
+  dependencies:
+    "@emmetio/extract-abbreviation": 0.1.6
+    jsonc-parser: ^1.0.0
+    vscode-languageserver-types: ^3.6.0-next.1
+  checksum: c3b51c8369bcbb18182c86e618417882be6fddd2182584eae154815f572b21c33f46cbe04750853f711669b7227d701ad8134d7fc281c982c2bf22894388b8c2
+  languageName: node
+  linkType: hard
+
+"vscode-emmet-helper@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "vscode-emmet-helper@npm:2.6.4"
+  dependencies:
+    emmet: ^2.3.0
+    jsonc-parser: ^2.3.0
+    vscode-languageserver-textdocument: ^1.0.1
+    vscode-languageserver-types: ^3.15.1
+    vscode-nls: ^5.0.0
+    vscode-uri: ^2.1.2
+  checksum: ccee14eadae599fa619f714865ef47b6fbabfe684eabeee00311ac078bbf340cd07c0481af4028e2565412be2fb272dbabd268174a8c835243f699cdd6b5c09e
+  languageName: node
+  linkType: hard
+
+"vscode-html-languageservice@npm:^2.1.10":
+  version: 2.1.12
+  resolution: "vscode-html-languageservice@npm:2.1.12"
+  dependencies:
+    vscode-languageserver-types: ^3.13.0
+    vscode-nls: ^4.0.0
+    vscode-uri: ^1.0.6
+  checksum: 1c61d3ec897d3698b9818f14c4db027b4b3637e15bee36c47698a986d8ff26fa6177c66f6dabf6e56edf69b90b68061bc8c1097bb84644960e6a45501c654272
+  languageName: node
+  linkType: hard
+
 "vscode-jsonrpc@npm:6.0.0":
   version: 6.0.0
   resolution: "vscode-jsonrpc@npm:6.0.0"
@@ -7416,14 +7576,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-languageserver-textdocument@npm:^1.0.1":
+"vscode-languageserver-textdocument@npm:^1.0.1, vscode-languageserver-textdocument@npm:^1.0.4":
   version: 1.0.4
   resolution: "vscode-languageserver-textdocument@npm:1.0.4"
   checksum: d0b63abb9d22c1177c26df15807b028129fb966f0dfd01c9ae1d114f1c2a1262d8588bea3e6f6f2e400ada3836da844553d8bc21c64122242a212502ccf5f702
   languageName: node
   linkType: hard
 
-"vscode-languageserver-types@npm:3.16.0":
+"vscode-languageserver-types@npm:3.16.0, vscode-languageserver-types@npm:^3.13.0, vscode-languageserver-types@npm:^3.15.1, vscode-languageserver-types@npm:^3.16.0, vscode-languageserver-types@npm:^3.6.0-next.1":
   version: 3.16.0
   resolution: "vscode-languageserver-types@npm:3.16.0"
   checksum: 7a44fb10b9fbeb9529f832337b7f0430fc6275d62945b86851d425a950e22da3917ef5f6c552688191769dd1eae047c6ee9ec3d9f2280498353007c2dfe0725c
@@ -7441,7 +7601,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-uri@npm:^3.0.2":
+"vscode-nls@npm:^4.0.0":
+  version: 4.1.2
+  resolution: "vscode-nls@npm:4.1.2"
+  checksum: ad2059d732bd8964210a205158614986d278ecd86c44f610d0f962471961db43b9f5dd1f0962d28ac9f8347f679f3d0a5d6d8ea4e90a7fccf45bfbf9ccc4ab3c
+  languageName: node
+  linkType: hard
+
+"vscode-nls@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "vscode-nls@npm:5.0.0"
+  checksum: 8b12d1a3b0f783b91a98747fce76d2c26299db0c288089703bc3de53cc503f3ededa9833c21c3cb3b4857bd1c4e5d93663da38d4ddbf7b970dc63b6892d4639a
+  languageName: node
+  linkType: hard
+
+"vscode-uri@npm:^1.0.6":
+  version: 1.0.8
+  resolution: "vscode-uri@npm:1.0.8"
+  checksum: 3246d9375e27ca0324d4c685b1a6ad8c14e0afc01b5a556534afb8711b49bb289e8d81ca73fc163fe239e2b07c9b311b29497d86fdac531230cf0535fcdf4798
+  languageName: node
+  linkType: hard
+
+"vscode-uri@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "vscode-uri@npm:2.1.2"
+  checksum: 58c2d21018b86825b5a7f65f8879f837828a367bbf31d07ed59268fb2b56c9621a6996547d5e8f966d6ac05f0f921a7005f4541927007f788c2e4c6e5d6735e0
+  languageName: node
+  linkType: hard
+
+"vscode-uri@npm:^3.0.2, vscode-uri@npm:^3.0.3":
   version: 3.0.3
   resolution: "vscode-uri@npm:3.0.3"
   checksum: 683bf9de835c3cef0b51c104a4949bf746148ded7c2287ebafcc506d20aa0e90b99385a972dba8132903420dba67fc33a5e146e30212c4a6b3ca5d74d1f95702
