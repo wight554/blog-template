@@ -10,13 +10,15 @@ export const App = () => {
     <${S.App}>
       <${Header} />
       <${S.MainContent}>
-        <${Logo} />
-        <p>Hello Vite + Preact!</p>
-        <p>
-          <a class="link" href="https://preactjs.com/" target="_blank" rel="noopener noreferrer">
-            Learn Preact!
-          </a>
-        </p>
+        <${S.HelloContainer}>
+          <${Logo} />
+          <p>Hello Vite + Preact!</p>
+          <p>
+            <a class="link" href="https://preactjs.com/" target="_blank" rel="noopener noreferrer">
+              Learn Preact!
+            </a>
+          </p>
+        <//>
       <//>
     <//>
   `;

@@ -8,6 +8,14 @@ export const App = styled('div')`
   font-size: 1.5em;
 `;
 
-export const MainContent = styled('div')`
-  padding-top: 100px;
+export const MainContent = styled('main')`
+  display: flex;
+  overflow: auto;
+  flex-grow: 1;
+  align-items: flex-start;
+`;
+
+export const HelloContainer = styled('div')`
+  height: 100%;
+  width: 100%;
 `;

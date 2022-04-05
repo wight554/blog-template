@@ -1,5 +1,4 @@
-import { styled } from '@mui/material';
-import MuiToolbar from '@mui/material/Toolbar';
+import { styled, Toolbar as MuiToolbar } from '@mui/material';
 
 export const Toolbar = styled(MuiToolbar)`
   display: flex;
