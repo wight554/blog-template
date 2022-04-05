@@ -9,7 +9,6 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:testing-library/react',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
@@ -53,6 +52,10 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-unused-vars': 0,
       },
+    },
+    {
+      files: ['**/__tests__/**/*.tsx', '**/?(*.)+(spec|test).tsx'],
+      extends: ['plugin:testing-library/react'],
     },
   ],
   settings: {
