@@ -9,6 +9,7 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
+    'plugin:testing-library/react',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
