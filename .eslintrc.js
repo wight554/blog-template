@@ -32,6 +32,14 @@ module.exports = {
       {
         'newlines-between': 'always',
         alphabetize: { order: 'asc' },
+        pathGroups: [
+          {
+            pattern: '@{server,src,test}/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
     '@typescript-eslint/naming-convention': [
@@ -54,15 +62,12 @@ module.exports = {
       },
     },
     {
-      files: ['**/__tests__/**/*.tsx', '**/?(*.)+(spec|test).tsx'],
+      files: ['src/**/__tests__/**/*.[jt]s?(x)', '{test/,}src/**/?(*.)+(spec|test).[jt]s?(x)'],
       extends: ['plugin:testing-library/react'],
     },
   ],
   settings: {
     jest: { version: 'latest' },
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
