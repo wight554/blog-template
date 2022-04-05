@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "@mui/icons-material": "^5.5.1",
-    "@mui/material": "^5.5.1",
+    "@mui/material": "^5.5.3",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@mui/styled-engine-sc": "^5.4.2",
+    "@mui/styled-engine-sc": "^5.5.2",
     "@nestjs/common": "^8.4.2",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.2",
@@ -44,7 +44,7 @@
     "recoil": "^0.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@nestjs/testing": "^8.4.2",

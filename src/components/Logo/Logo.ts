@@ -8,6 +8,7 @@ export const Logo = () => html`
     title="Preact"
     style="
       display: inline-block;
+      margin: -0.25em 0px 0px;
       vertical-align: middle;
     "
   >
