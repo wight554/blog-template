@@ -3,9 +3,9 @@
 import path from 'path';
 
 import preact from '@preact/preset-vite';
-import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
+import typescript from 'vite-plugin-typescript';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults } from 'vitest/config';
 
@@ -27,7 +27,6 @@ export default defineConfig({
       }),
     isTest && typescript(),
   ],
-  ...(isTest && { esbuild: false }),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,

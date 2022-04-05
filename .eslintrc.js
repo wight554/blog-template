@@ -61,6 +61,10 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 0,
       },
     },
+    {
+      files: ['**/__tests__/**/*.tsx', '**/?(*.)+(spec|test).tsx'],
+      extends: ['plugin:testing-library/react'],
+    },
   ],
   settings: {
     jest: { version: 'latest' },
