@@ -1,3 +1,5 @@
+import { createHttpError } from '@src/utils/httpError';
+
 interface HttpClientRequestInit<B> extends Omit<RequestInit, 'body'> {
   body?: B;
 }
@@ -65,24 +67,34 @@ const createHttpClientInstance = (): HttpClientInstance => {
     method: RequestMethod,
     init: HttpClientRequestInit<B> = {},
   ): Promise<HttpClientResponse<T>> => {
-    const body = JSON.stringify(init.body);
     const headers = { ...DEFAULT_HEADERS, ...init.headers };
 
-    const response = await fetch(url, { ...init, method, body, headers });
+    let body;
+    if (![RequestMethod.GET, RequestMethod.HEAD].includes(method)) {
+      body = JSON.stringify(init.body || {});
+    }
+
+    const fetchResponse = await fetch(url, { ...init, method, body, headers });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let data: any = await response.text();
+    let data: any = await fetchResponse.text();
 
     try {
       data = JSON.parse(data);
     } catch {}
 
-    return {
+    if (!fetchResponse.ok) {
+      throw createHttpError(fetchResponse.status, data?.message);
+    }
+
+    const response = {
       data,
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
+      status: fetchResponse.status,
+      statusText: fetchResponse.statusText,
+      headers: fetchResponse.headers,
     };
+
+    return response;
   };
 
   return {

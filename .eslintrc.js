@@ -17,6 +17,7 @@ module.exports = {
     node: true,
   },
   rules: {
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['decoratedFunctions'] }],
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

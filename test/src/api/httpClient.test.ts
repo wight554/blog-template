@@ -8,6 +8,7 @@ const textResponse = 'response';
 
 const mockResponse = {
   text: vi.fn().mockResolvedValue(jsonResponse),
+  ok: true,
 };
 
 global.fetch = vi.fn().mockImplementation(() => mockResponse);
@@ -21,12 +22,17 @@ describe('httpClient', () => {
     vi.useRealTimers();
   });
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe('delete', () => {
     it('should make delete request with given init', async () => {
       await httpClient.delete(url, init);
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        body: '{}',
         headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'DELETE',
       });
@@ -105,6 +111,7 @@ describe('httpClient', () => {
 
       expect(fetch).toHaveBeenCalledWith(url, {
         ...init,
+        body: '{}',
         headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         method: 'OPTIONS',
       });
@@ -160,7 +167,7 @@ describe('httpClient', () => {
         ...init,
         headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(body),
-        method: 'PATCH',
+        method: 'POST',
       });
     });
 
@@ -187,7 +194,7 @@ describe('httpClient', () => {
         ...init,
         headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify(body),
-        method: 'PATCH',
+        method: 'PUT',
       });
     });
 

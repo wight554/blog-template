@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip, Link as MuiLink, Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
@@ -6,13 +6,20 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { html } from 'htm/preact';
+import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
+import { Link } from 'react-router-dom';
+
+import { User } from '@src/interfaces/User';
 
 import * as S from './styles';
 
-const settings = ['Profile', 'Logout'];
+interface HeaderProps {
+  user: User | null;
+  onLogout: () => void;
+}
 
-export const Header = () => {
+export const Header: FunctionComponent<HeaderProps> = ({ user, onLogout }) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
@@ -23,14 +30,21 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    onLogout();
+    handleCloseUserMenu();
+  };
+
   return html`
     <${AppBar} position="static">
       <${S.Toolbar}>
-        <${Typography} variant="h6" component="div"> Blog demo <//>
-        <div>
+        <${MuiLink} component=${Link} to="/" underline="none" color="inherit" variant="h6">
+          Blog demo
+        <//>
+        <${Box}>
           <${Tooltip} title="Open settings">
             <${IconButton} aria-label="open user menu" onClick=${handleOpenUserMenu} sx=${{ p: 0 }}>
-              <${Avatar}>V<//>
+              <${Avatar}>${user ? user.username.charAt(0).toUpperCase() : 'U'}<//>
             <//>
           <//>
           <${Menu}
@@ -49,15 +63,14 @@ export const Header = () => {
             open=${Boolean(anchorEl)}
             onClose=${handleCloseUserMenu}
           >
-            ${settings.map(
-              (setting) => html`
-              <${MenuItem} key=${setting} onClick=${handleCloseUserMenu}>
-                <${Typography} textAlign="center">${setting}</${Typography}>
-              </${MenuItem}>
-            `,
-            )}
+            <${MenuItem} onClick=${handleCloseUserMenu}>
+              <${Typography} textAlign="center">Profile<//>
+            <//>
+            <${MenuItem} onClick=${handleLogout}>
+              <${Typography} textAlign="center">Logout<//>
+            <//>
           <//>
-        </div>
+        <//>
       <//>
     <//>
   `;
