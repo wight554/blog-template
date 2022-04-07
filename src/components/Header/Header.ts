@@ -10,7 +10,7 @@ import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 
-import { User } from '@src/interfaces/User';
+import { User } from '@src/interfaces/model/User';
 
 import * as S from './styles';
 

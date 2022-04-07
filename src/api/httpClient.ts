@@ -13,7 +13,7 @@ interface HttpClientResponse<T = unknown> {
   headers: HttpClientHeaders;
 }
 
-interface HttpClientInstance {
+interface HttpClient {
   delete<T = unknown, B = unknown>(
     url: string,
     init?: HttpClientRequestInit<B>,
@@ -61,7 +61,7 @@ const DEFAULT_HEADERS = Object.freeze({
   'Content-Type': 'application/json; charset=utf-8',
 });
 
-const createHttpClientInstance = (): HttpClientInstance => {
+const createHttpClientInstance = (): HttpClient => {
   const makeRequest = async <T = unknown, B = unknown>(
     url: string,
     method: RequestMethod,

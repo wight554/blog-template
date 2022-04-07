@@ -10,7 +10,7 @@ import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
 import { SignUp } from '@src/components/SignUp';
-import { User } from '@src/interfaces/User';
+import { User } from '@src/interfaces/model/User';
 import { loadingState } from '@src/store/loadingState';
 import { userState } from '@src/store/userState';
 import { HttpError } from '@src/utils/httpError';
@@ -54,10 +54,7 @@ export const App = () => {
     <${S.App}>
       <${Header} user=${user} onLogout=${handleLogout} />
       <${S.MainContent}>
-        <${Backdrop}
-          sx=${{ color: '#fff', zIndex: (theme: Theme) => theme.zIndex.drawer + 1 }}
-          open=${isLoading}
-        >
+        <${S.Backdrop} open=${isLoading}>
           <${CircularProgress} color="inherit" />
         <//>
         <${Routes}>
