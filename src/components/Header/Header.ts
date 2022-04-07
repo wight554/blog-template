@@ -63,12 +63,23 @@ export const Header: FunctionComponent<HeaderProps> = ({ user, onLogout }) => {
             open=${Boolean(anchorEl)}
             onClose=${handleCloseUserMenu}
           >
-            <${MenuItem} onClick=${handleCloseUserMenu}>
-              <${Typography} textAlign="center">Profile<//>
-            <//>
-            <${MenuItem} onClick=${handleLogout}>
-              <${Typography} textAlign="center">Logout<//>
-            <//>
+            ${user
+              ? html`
+                  <${MenuItem} onClick=${handleCloseUserMenu}>
+                    <${Typography} textAlign="center">Profile<//>
+                  <//>
+                  <${MenuItem} onClick=${handleLogout}>
+                    <${Typography} textAlign="center">Logout<//>
+                  <//>
+                `
+              : html`
+                  <${MenuItem} component=${Link} to="/login" onClick=${handleCloseUserMenu}>
+                    Login
+                  <//>
+                  <${MenuItem} component=${Link} to="/sign-up" onClick=${handleCloseUserMenu}>
+                    Sign-up
+                  <//>
+                `}
           <//>
         <//>
       <//>

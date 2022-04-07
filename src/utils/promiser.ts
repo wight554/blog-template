@@ -19,13 +19,13 @@ export function createPromiserInstance(): Promiser {
     promise: Promise<Awaited<T>>,
   ): Promise<PromiserResult<T>> => {
     return promise
-      .then<PromiserResult<T>>((data) => [data, null])
+      .then<PromiserFulfilled<T>>((data) => [data, null])
       .catch<PromiserRejected>((error) => [null, error]);
   };
 
   promiser.all = async <T = unknown>(values: Array<Awaited<T>>) => {
     const promises: Promise<PromiserResult<Array<T>>> = Promise.all(values)
-      .then<PromiserResult<Array<T>>>((data) => [data, null])
+      .then<PromiserFulfilled<Array<T>>>((data) => [data, null])
       .catch<PromiserRejected>((error) => [null, error]);
 
     return promises;
@@ -34,7 +34,7 @@ export function createPromiserInstance(): Promiser {
   promiser.allSettled = async <T = unknown>(values: Array<Awaited<T>>) => {
     const promises: Promise<PromiserResult<Array<PromiseSettledResult<Awaited<T>>>>> =
       Promise.allSettled<T>(values)
-        .then<PromiserResult<Array<PromiseSettledResult<Awaited<T>>>>>((data) => [data, null])
+        .then<PromiserFulfilled<Array<PromiseSettledResult<Awaited<T>>>>>((data) => [data, null])
         .catch<PromiserRejected>((error) => [null, error]);
 
     return promises;
@@ -42,7 +42,7 @@ export function createPromiserInstance(): Promiser {
 
   promiser.any = async <T = unknown>(values: Array<Awaited<T>>) => {
     const promise: Promise<PromiserResult<T>> = Promise.any<T>(values)
-      .then<PromiserResult<T>>((data) => [data, null])
+      .then<PromiserFulfilled<T>>((data) => [data, null])
       .catch<PromiserRejected>((error) => [null, error]);
 
     return promise;
@@ -50,7 +50,7 @@ export function createPromiserInstance(): Promiser {
 
   promiser.race = async <T = unknown>(values: Array<Awaited<T>>) => {
     const promise: Promise<PromiserResult<T>> = Promise.race(values)
-      .then<PromiserResult<T>>((data) => [data, null])
+      .then<PromiserFulfilled<T>>((data) => [data, null])
       .catch<PromiserRejected>((error) => [null, error]);
 
     return promise;

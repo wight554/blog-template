@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { httpClient } from '@src/api/httpClient';
@@ -18,9 +18,16 @@ import { promiser } from '@src/utils/promiser';
 
 import * as S from './styles';
 
+export interface LoginPayload {
+  username: string;
+  password: string;
+}
+
 export const App = () => {
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = useRecoilState(loadingState);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -60,6 +67,24 @@ export const App = () => {
     }
   };
 
+  const handleLogin = async (payload: LoginPayload) => {
+    setIsLoading(true);
+
+    const [data, error] = await promiser(httpClient.post<User>('/api/v1/auth/login', payload));
+
+    setIsLoading(false);
+
+    if (data?.data) setUser(data?.data);
+
+    if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+      console.error(error);
+    } else if (error) {
+      throw error;
+    }
+
+    navigate('/');
+  };
+
   return html`
     <${S.App}>
       <${Header} user=${user} onLogout=${handleLogout} />
@@ -87,7 +112,7 @@ export const App = () => {
               <//>
             `}
           />
-          <${Route} path="/login" element=${html`<${Login} />`} />
+          <${Route} path="/login" element=${html`<${Login} onLogin=${handleLogin} />`} />
           <${Route} path="/sign-up" element=${html`<${SignUp} />`} />
         <//>
       <//>
