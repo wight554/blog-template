@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Theme } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
@@ -44,10 +44,20 @@ export const App = () => {
     }
   }, [user, setUser, setIsLoading]);
 
-  const handleLogout = () => {
-    httpClient.post('/api/v1/auth/logout').then(() => {
-      setUser(null);
-    });
+  const handleLogout = async () => {
+    setIsLoading(true);
+
+    const [data, error] = await promiser(httpClient.post('/api/v1/auth/logout'));
+
+    setIsLoading(false);
+
+    if (data) setUser(null);
+
+    if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+      console.error(error);
+    } else if (error) {
+      throw error;
+    }
   };
 
   return html`
