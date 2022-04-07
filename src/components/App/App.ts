@@ -14,6 +14,7 @@ import { User } from '@src/interfaces/User';
 import { loadingState } from '@src/store/loadingState';
 import { userState } from '@src/store/userState';
 import { HttpError } from '@src/utils/httpError';
+import { promiser } from '@src/utils/promiser';
 
 import * as S from './styles';
 
@@ -22,24 +23,24 @@ export const App = () => {
   const [isLoading, setIsLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
-    if (!user) {
+    const fetchUser = async () => {
       setIsLoading(true);
-      httpClient
-        .get<User>('/api/v1/users')
-        .then((response) => {
-          setUser(response.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoading(false);
 
-          if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-            console.error(error);
-            return;
-          }
+      const [data, error] = await promiser(httpClient.get<User>('/api/v1/users'));
 
-          throw error;
-        });
+      if (data) setUser(data?.data);
+
+      setIsLoading(false);
+
+      if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+        console.error(error);
+      } else if (error) {
+        throw error;
+      }
+    };
+
+    if (!user) {
+      fetchUser();
     }
   }, [user, setUser, setIsLoading]);
 
