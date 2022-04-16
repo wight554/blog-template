@@ -6,6 +6,8 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { httpClient } from '@src/api/httpClient';
+import { HttpError } from '@src/api/httpError';
+import { promiser } from '@src/api/promiser';
 import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
@@ -13,8 +15,6 @@ import { SignUp } from '@src/components/SignUp';
 import { User } from '@src/interfaces/model/User';
 import { loadingState } from '@src/store/loadingState';
 import { userState } from '@src/store/userState';
-import { HttpError } from '@src/utils/httpError';
-import { promiser } from '@src/utils/promiser';
 
 import * as S from './styles';
 
