@@ -14,6 +14,11 @@ interface HttpClientResponse<T = unknown> {
 }
 
 export interface HttpClientInstance {
+  <T = unknown, B = unknown>(
+    url: string,
+    method?: RequestMethod,
+    init?: HttpClientRequestInit<B>,
+  ): Promise<HttpClientResponse<T>>;
   delete<T = unknown, B = unknown>(
     url: string,
     init?: HttpClientRequestInit<B>,
@@ -47,7 +52,7 @@ export interface HttpClientInstance {
   ): Promise<HttpClientResponse<T>>;
 }
 
-enum RequestMethod {
+export enum RequestMethod {
   GET = 'GET',
   HEAD = 'HEAD',
   POST = 'POST',
@@ -64,7 +69,7 @@ const DEFAULT_HEADERS = Object.freeze({
 export class HttpClient {
   public async call<T = unknown, B = unknown>(
     url: string,
-    method: RequestMethod,
+    method: RequestMethod = RequestMethod.GET,
     init: HttpClientRequestInit<B> = {},
   ): Promise<HttpClientResponse<T>> {
     const headers = { ...DEFAULT_HEADERS, ...init.headers };
@@ -155,7 +160,7 @@ export class HttpClient {
     return Object.assign(
       async <T = unknown, B = unknown>(
         url: string,
-        method: RequestMethod,
+        method: RequestMethod = RequestMethod.GET,
         init: HttpClientRequestInit<B> = {},
       ) => instance.call<T, B>(url, method, init),
       {
