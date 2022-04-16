@@ -1,9 +1,8 @@
 import { CircularProgress } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
-import { useEffect } from 'preact/hooks';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { Route, Routes } from 'react-router-dom';
+import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
 import { httpClient } from '@src/api/httpClient';
 import { HttpError } from '@src/api/httpError';
@@ -12,9 +11,9 @@ import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
 import { SignUp } from '@src/components/SignUp';
-import { User } from '@src/interfaces/model/User';
-import { loadingState } from '@src/store/loadingState';
-import { userState } from '@src/store/userState';
+import { userInfoState } from '@src/store/userState';
+
+import { Backdrop } from '../Backdrop';
 
 import * as S from './styles';
 
@@ -24,72 +23,29 @@ export interface LoginPayload {
 }
 
 export const App = () => {
-  const [user, setUser] = useRecoilState(userState);
-  const [isLoading, setIsLoading] = useRecoilState(loadingState);
+  const userLoadable = useRecoilValueLoadable(userInfoState);
+  const user = userLoadable.contents;
 
-  const navigate = useNavigate();
+  const handleLogout = useRecoilCallback(
+    ({ set }) =>
+      async () => {
+        const [data, error] = await promiser(httpClient.post('/api/v1/auth/logout'));
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setIsLoading(true);
-
-      const [data, error] = await promiser(httpClient.get<User>('/api/v1/users'));
-
-      if (data) setUser(data?.data);
-
-      setIsLoading(false);
-
-      if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-        console.error(error);
-      } else if (error) {
-        throw error;
-      }
-    };
-
-    if (!user) {
-      fetchUser();
-    }
-  }, [user, setUser, setIsLoading]);
-
-  const handleLogout = async () => {
-    setIsLoading(true);
-
-    const [data, error] = await promiser(httpClient.post('/api/v1/auth/logout'));
-
-    setIsLoading(false);
-
-    if (data) setUser(null);
-
-    if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-      console.error(error);
-    } else if (error) {
-      throw error;
-    }
-  };
-
-  const handleLogin = async (payload: LoginPayload) => {
-    setIsLoading(true);
-
-    const [data, error] = await promiser(httpClient.post<User>('/api/v1/auth/login', payload));
-
-    setIsLoading(false);
-
-    if (data?.data) setUser(data?.data);
-
-    if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-      console.error(error);
-    } else if (error) {
-      throw error;
-    }
-
-    navigate('/');
-  };
+        if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+          console.error(error);
+        } else if (error) {
+          throw error;
+        }
+        if (data) set(userInfoState, null);
+      },
+    [],
+  );
 
   return html`
     <${S.App}>
-      <${Header} user=${user} onLogout=${handleLogout} />
+      <${Header} user=${userLoadable.state === 'hasValue' && user} onLogout=${handleLogout} />
       <${S.MainContent}>
-        <${S.Backdrop} open=${isLoading}>
+        <${Backdrop} open=${userLoadable.state === 'loading'}>
           <${CircularProgress} color="inherit" />
         <//>
         <${Routes}>
@@ -98,7 +54,7 @@ export const App = () => {
             element=${html`
               <${S.HelloContainer}>
                 <${Logo} />
-                <p>Hello Vite + Preact!</p>
+                <p>Hello ${user?.username || 'User'}!</p>
                 <p>
                   <a
                     class="link"
@@ -112,7 +68,7 @@ export const App = () => {
               <//>
             `}
           />
-          <${Route} path="/login" element=${html`<${Login} onLogin=${handleLogin} />`} />
+          <${Route} path="/login" element=${html`<${Login} />`} />
           <${Route} path="/sign-up" element=${html`<${SignUp} />`} />
         <//>
       <//>
