@@ -29,6 +29,7 @@
       "@server/*": ["./server/*"],
       "@test/*": ["./test/*"]
     },
+    "plugins": [{ "name": "typescript-lit-html-plugin" }, { "name": "typescript-styled-plugin" }],
     // required for nestjs
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
