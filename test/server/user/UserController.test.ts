@@ -19,6 +19,7 @@ describe('UserController', () => {
           provide: UserService,
           useValue: {
             create: vi.fn().mockResolvedValue(mockUser),
+            getById: vi.fn().mockResolvedValue(mockUser),
             update: vi.fn().mockResolvedValue(mockUpdatedUser),
           },
         },
@@ -29,16 +30,40 @@ describe('UserController', () => {
     userService = module.get<UserService>(UserService);
   });
 
-  describe('signup', () => {
+  describe('get', () => {
+    it('should get user', async () => {
+      await userController.get(mockUser);
+
+      expect(userService.getById).toBeCalledWith(mockUser.id);
+    });
+
+    describe('user service success', () => {
+      it('should return user', async () => {
+        expect(await userController.get(mockUser)).toBe(mockUser);
+      });
+    });
+
+    describe('user service error', () => {
+      it('should throw error', async () => {
+        const error = new Error('Internal Error');
+        vi.spyOn(userService, 'getById').mockRejectedValueOnce(error);
+        expect.assertions(1);
+
+        await expect(userController.get(mockUser)).rejects.toThrowError(error);
+      });
+    });
+  });
+
+  describe('create', () => {
     it('should create user', async () => {
-      await userController.signup(mockUpsertUser);
+      await userController.create(mockUpsertUser);
 
       expect(userService.create).toBeCalledWith(mockUpsertUser);
     });
 
     describe('user service success', () => {
       it('should return created user', async () => {
-        expect(await userController.signup(mockUpsertUser)).toBe(mockUser);
+        expect(await userController.create(mockUpsertUser)).toBe(mockUser);
       });
     });
 
@@ -48,7 +73,7 @@ describe('UserController', () => {
         vi.spyOn(userService, 'create').mockRejectedValueOnce(error);
         expect.assertions(1);
 
-        await expect(userController.signup(mockUpsertUser)).rejects.toThrowError(error);
+        await expect(userController.create(mockUpsertUser)).rejects.toThrowError(error);
       });
     });
   });
