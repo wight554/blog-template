@@ -17,10 +17,10 @@
     "postinstall": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
   },
   "dependencies": {
-    "@mui/icons-material": "^5.5.1",
-    "@mui/material": "^5.5.3",
+    "@mui/icons-material": "^5.6.1",
+    "@mui/material": "^5.6.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@mui/styled-engine-sc": "^5.5.2",
+    "@mui/styled-engine-sc": "^5.6.1",
     "@nestjs/common": "^8.4.4",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.4",
@@ -67,7 +67,7 @@
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest-dom": "^4.0.1",
-    "eslint-plugin-testing-library": "^5.2.1",
+    "eslint-plugin-testing-library": "^5.3.1",
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
     "lint-staged": "^12.3.8",
