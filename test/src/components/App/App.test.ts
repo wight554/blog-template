@@ -18,6 +18,6 @@ vi.mock('@src/api/httpClient', () => ({
 describe('App', () => {
   it('should render title', () => {
     render(html`<${App} />`);
-    expect(screen.getByText(/Hello Vite \+ Preact!/i)).toBeInTheDocument();
+    expect(screen.getByText(/Hello User!/i)).toBeInTheDocument();
   });
 });
