@@ -1,12 +1,8 @@
 import { CircularProgress } from '@mui/material';
 import { html } from 'htm/preact';
-import { StatusCodes } from 'http-status-codes';
 import { Route, Routes } from 'react-router-dom';
-import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
-import { httpClient } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
-import { promiser } from '@src/api/promiser';
 import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
@@ -26,24 +22,9 @@ export const App = () => {
   const userLoadable = useRecoilValueLoadable(userInfoState);
   const user = userLoadable.contents;
 
-  const handleLogout = useRecoilCallback(
-    ({ set }) =>
-      async () => {
-        const [data, error] = await promiser(httpClient.post('/api/v1/auth/logout'));
-
-        if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-          console.error(error);
-        } else if (error) {
-          throw error;
-        }
-        if (data) set(userInfoState, null);
-      },
-    [],
-  );
-
   return html`
     <${S.App}>
-      <${Header} user=${userLoadable.state === 'hasValue' && user} onLogout=${handleLogout} />
+      <${Header} />
       <${S.MainContent}>
         <${Backdrop} open=${userLoadable.state === 'loading'}>
           <${CircularProgress} color="inherit" />
