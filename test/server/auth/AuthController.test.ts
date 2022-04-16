@@ -50,4 +50,10 @@ describe('AuthController', () => {
       expect(await authController.login(mockReply, mockUser)).toBe(mockUser);
     });
   });
+
+  describe('logout', () => {
+    it('should return undefined', async () => {
+      expect(await authController.logout()).toBe(undefined);
+    });
+  });
 });

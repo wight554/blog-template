@@ -1,8 +1,10 @@
 export const AUTH_CONTROLLER_ROUTE = '/api/v1/auth';
 export const AUTH_LOGIN_ENDPOINT = '/login';
+export const AUTH_LOGOUT_ENDPOINT = '/logout';
 
 export const USER_CONTROLLER_ROUTE = '/api/v1/users';
-export const USER_CREATE_ENDPOINT = '/';
+export const USER_GET_ENDPOINT = '/';
+export const USER_CREATE_ENDPOINT = USER_GET_ENDPOINT;
 export const USER_UPDATE_ENDPOINT = '/:id';
 
 export const POST_CONTROLLER_ROUTE = '/api/v1/posts';
