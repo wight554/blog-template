@@ -45,7 +45,7 @@ describe('Header', () => {
       expect(screen.getByRole('presentation')).toBeInTheDocument();
     });
 
-    const menuItem = screen.getByText('Profile');
+    const menuItem = screen.getByText('Login');
 
     fireEvent.click(menuItem);
 
