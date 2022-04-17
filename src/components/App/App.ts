@@ -34,7 +34,7 @@ export const App = () => {
 
   return html`
     <${S.App}>
-      <${Snackbar} open=${snackbar.open} autoHideDuration=${6000} onClose=${handleSnackbarClose}>
+      <${Snackbar} open=${snackbar.open} autoHideDuration=${3000} onClose=${handleSnackbarClose}>
         <${Alert}
           onClose=${handleSnackbarClose}
           severity=${snackbar.severity || 'info'}
