@@ -6,7 +6,7 @@ import { useRecoilCallback } from 'recoil';
 import { signUpUser } from '@src/api/user';
 import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload';
 import { snackbarState } from '@src/store/snackbarState';
-import { alphanumeric, composeValidators, required } from '@src/utils/validators';
+import { alphanumeric, composeValidators, mustMatch, required } from '@src/utils/validators';
 
 import { AuthFormContainer } from '../AuthFormContainer';
 import { AuthFormField } from '../AuthFormField';
@@ -63,6 +63,16 @@ export const SignUp: FunctionComponent = () => {
         label="Password"
         inputProps=${{
           autoComplete: 'new-password',
+        }}
+      />
+      <${AuthFormField}
+        required
+        name="confirm-password"
+        type="password"
+        validate=${composeValidators(required, mustMatch('password'))}
+        label="Confirm Password"
+        inputProps=${{
+          autoComplete: 'new-confirm-password',
         }}
       />
     <//>
