@@ -1,15 +1,11 @@
-type ValidatorResult = string | undefined;
-type Validator = (value: string) => ValidatorResult;
+import { FieldValidator } from 'final-form';
 
-export const required: Validator = (value) => (value ? undefined : 'Required field');
+export const required: FieldValidator<string> = (value) => (value ? undefined : 'Required field');
 
-export const alphanumeric: Validator = (value) =>
+export const alphanumeric: FieldValidator<string> = (value) =>
   /^[a-zA-Z0-9]*$/.test(value) ? undefined : 'Must contain only letters and numbers';
 
 export const composeValidators =
-  (...validators: Array<Validator>) =>
-  (value: string) =>
-    validators.reduce(
-      (result: ValidatorResult, validator) => result || validator(value),
-      undefined,
-    );
+  <T = unknown>(...validators: Array<FieldValidator<T>>): FieldValidator<T> =>
+  (value, allValues) =>
+    validators.reduce((result, validator) => result || validator(value, allValues), undefined);

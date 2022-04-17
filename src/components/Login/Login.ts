@@ -1,7 +1,5 @@
-import { Grid, Button } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
-import { Form, Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
@@ -12,7 +10,7 @@ import { userInfoState } from '@src/store/userState';
 import { alphanumeric, composeValidators, required } from '@src/utils/validators';
 
 import { AuthFormContainer } from '../AuthFormContainer';
-import { AuthTextField } from '../AuthTextField';
+import { AuthFormField } from '../AuthFormField';
 
 export const Login: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -36,55 +34,26 @@ export const Login: FunctionComponent = () => {
   };
 
   return html`
-    <${Form}
-      onSubmit=${handleSubmit}
-      render=${({
-        handleSubmit: handleFinalFormSubmit,
-        submitting,
-        invalid,
-      }: FormRenderProps) => html`
-        <${AuthFormContainer} loading=${submitting} title="Sign In">
-          <form onSubmit=${handleFinalFormSubmit}>
-            <${Grid} container spacing=${3} direction="column" justify="center" alignItems="center">
-              <${Field} name="username" validate=${composeValidators(required, alphanumeric)}>
-                ${({ input, meta }: FieldRenderProps<string, HTMLInputElement>) => html`
-                  <${Grid} item xs=${12}>
-                    <${AuthTextField}
-                      ...${input}
-                      error=${meta.error && meta.touched}
-                      helperText=${meta.touched && meta.error}
-                      label="Username"
-                      required
-                      inputProps=${{
-                        autoComplete: 'new-username',
-                      }}
-                    />
-                  <//>
-                `}
-              <//>
-              <${Field} name="password" type="password" validate=${required}>
-                ${({ input, meta }: FieldRenderProps<string, HTMLInputElement>) => html`
-                  <${Grid} item xs=${12}>
-                    <${AuthTextField}
-                      ...${input}
-                      error=${meta.error && meta.touched}
-                      helperText=${meta.touched && meta.error}
-                      label="Password"
-                      required
-                      inputProps=${{
-                        autoComplete: 'new-password',
-                      }}
-                    />
-                  <//>
-                `}
-              <//>
-              <${Grid} item xs=${12}>
-                <${Button} type="submit" fullWidth disabled=${submitting || invalid}> Login <//>
-              <//>
-            <//>
-          </form>
-        <//>
-      `}
+    <${AuthFormContainer} onSubmit=${handleSubmit} title="Sign In">
+      <${AuthFormField}
+        name="username"
+        validate=${composeValidators(required, alphanumeric)}
+        label="Username"
+        required
+        inputProps=${{
+          autoComplete: 'new-username',
+        }}
+      />
+      <${AuthFormField}
+        name="password"
+        type="password"
+        validate=${required}
+        label="Password"
+        required
+        inputProps=${{
+          autoComplete: 'new-password',
+        }}
+      />
     <//>
   `;
 };
