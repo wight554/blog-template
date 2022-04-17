@@ -1,12 +1,15 @@
-export const required = (value: string) => (value ? undefined : 'Required field');
+type ValidatorResult = string | undefined;
+type Validator = (value: string) => ValidatorResult;
 
-export const alphanumeric = (value: string) =>
+export const required: Validator = (value) => (value ? undefined : 'Required field');
+
+export const alphanumeric: Validator = (value) =>
   /^[a-zA-Z0-9]*$/.test(value) ? undefined : 'Must contain only letters and numbers';
 
 export const composeValidators =
-  (...validators: Array<(value: string) => string | undefined>) =>
+  (...validators: Array<Validator>) =>
   (value: string) =>
     validators.reduce(
-      (error: string | undefined, validator) => error || validator(value),
+      (result: ValidatorResult, validator) => result || validator(value),
       undefined,
     );
