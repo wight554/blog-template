@@ -8,25 +8,18 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { html } from 'htm/preact';
-import { StatusCodes } from 'http-status-codes';
 import { FunctionComponent } from 'preact';
-import { useCallback, useReducer } from 'preact/hooks';
+import { useReducer } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilCallback } from 'recoil';
 
-import { httpClient } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
-import { promiser } from '@src/api/promiser';
-import { User } from '@src/interfaces/model/User';
+import { signUpUser } from '@src/api/user';
+import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload';
 import { TargetedEvent } from '@src/interfaces/util/TargetedEvent';
+import { snackbarState } from '@src/store/snackbarState';
 
 import { Backdrop } from '../Backdrop';
 
-interface SignUpPayload {
-  firstName?: string;
-  lastName?: string;
-  username: string;
-  password: string;
-}
 interface SignUpReducerState extends Partial<SignUpPayload> {
   loading?: boolean;
 }
@@ -79,22 +72,20 @@ export const SignUp: FunctionComponent = () => {
 
   const navigate = useNavigate();
 
-  const handleSignUp = useCallback(
-    (payload: SignUpPayload) => async () => {
-      dispatch({ type: SignUpReducerActionType.TOGGLE_LOADING });
-      const [_, error] = await promiser(httpClient.post<User>('/api/v1/users', payload));
+  const handleSignUp = useRecoilCallback(
+    ({ set }) =>
+      async (payload: SignUpPayload) => {
+        dispatch({ type: SignUpReducerActionType.TOGGLE_LOADING });
 
-      if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-        console.error(error);
-      } else if (error) {
-        throw error;
-      }
+        const [_, error] = await signUpUser(payload);
 
-      dispatch({ type: SignUpReducerActionType.TOGGLE_LOADING });
+        if (error) set(snackbarState, { open: true, message: error.message });
 
-      navigate('/login');
-    },
-    [navigate],
+        dispatch({ type: SignUpReducerActionType.TOGGLE_LOADING });
+
+        navigate('/login');
+      },
+    [],
   );
 
   const handleSubmit = (e: TargetedEvent<HTMLFormElement>) => {
@@ -162,7 +153,7 @@ export const SignUp: FunctionComponent = () => {
               <${TextField}
                 label="Username"
                 inputProps=${{
-                  autoComplete: 'off',
+                  autoComplete: 'new-username',
                 }}
                 required
                 name="username"
@@ -174,7 +165,7 @@ export const SignUp: FunctionComponent = () => {
               <${TextField}
                 label="Password"
                 inputProps=${{
-                  autoComplete: 'off',
+                  autoComplete: 'new-password',
                 }}
                 required
                 name="password"

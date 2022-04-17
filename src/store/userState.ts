@@ -1,25 +1,16 @@
-import { StatusCodes } from 'http-status-codes';
 import { atom, selector } from 'recoil';
 
-import { httpClient } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
-import { promiser } from '@src/api/promiser';
+import { getUser } from '@src/api/user';
 import { User } from '@src/interfaces/model/User';
 
 export const userInfoQuery = selector<User | null>({
   key: 'UserInfo/Default',
   get: async () => {
-    const [data, error] = await promiser(httpClient.get<User>('/api/v1/users'));
+    const [user, error] = await getUser();
 
-    if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-      console.error(error);
-    } else if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
-    if (data) return data.data;
-
-    return data;
+    return user;
   },
 });
 

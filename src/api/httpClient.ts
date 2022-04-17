@@ -1,12 +1,12 @@
 import { createHttpError } from '@src/api/httpError';
 
-interface HttpClientRequestInit<B> extends Omit<RequestInit, 'body'> {
+export interface HttpClientRequestInit<B> extends Omit<RequestInit, 'body'> {
   body?: B;
 }
 
-type HttpClientHeaders = Headers;
+export type HttpClientHeaders = Headers;
 
-interface HttpClientResponse<T = unknown> {
+export interface HttpClientResponse<T = unknown> {
   data: T;
   status: number;
   statusText: string;

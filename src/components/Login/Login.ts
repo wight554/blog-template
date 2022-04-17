@@ -8,23 +8,20 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { html } from 'htm/preact';
-import { StatusCodes } from 'http-status-codes';
 import { FunctionComponent } from 'preact';
 import { useReducer } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
-import { httpClient } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
-import { promiser } from '@src/api/promiser';
-import { User } from '@src/interfaces/model/User';
+import { loginUser } from '@src/api/user';
+import { LoginPayload } from '@src/interfaces/payload/LoginPayload';
 import { TargetedEvent } from '@src/interfaces/util/TargetedEvent';
+import { snackbarState } from '@src/store/snackbarState';
+import { userInfoState } from '@src/store/userState';
 
 import { Backdrop } from '../Backdrop';
 
-interface LoginReducerState {
-  username?: string;
-  password?: string;
+interface LoginReducerState extends Partial<LoginPayload> {
   loading?: boolean;
 }
 
@@ -69,28 +66,25 @@ export const Login: FunctionComponent = () => {
   const { loading, username, password } = state;
 
   const handleLogin = useRecoilCallback(
-    () => async (payload) => {
-      dispatch({ type: LoginReducerActionType.TOGGLE_LOADING });
+    ({ set }) =>
+      async (payload: LoginPayload) => {
+        dispatch({ type: LoginReducerActionType.TOGGLE_LOADING });
 
-      const [_, error] = await promiser(httpClient.post<User>('/api/v1/auth/login', payload));
+        const [user, error] = await loginUser(payload);
 
-      if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
-        console.error(error);
-      } else if (error) {
-        throw error;
-      }
+        if (user) set(userInfoState, user);
 
-      dispatch({ type: LoginReducerActionType.TOGGLE_LOADING });
+        if (error) set(snackbarState, { open: true, message: error.message });
 
-      navigate('/');
-    },
+        navigate('/');
+      },
     [],
   );
 
   const handleSubmit = (e: TargetedEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    handleLogin({ username, password });
+    if (username && password) handleLogin({ username, password });
   };
 
   const handleUsernameChange = (event: TargetedEvent<HTMLInputElement>) => {
@@ -103,10 +97,10 @@ export const Login: FunctionComponent = () => {
 
   return html`
     <${Grid} container direction="column" alignItems="center" sx=${{ my: 10 }}>
-      <${Backdrop} open=${loading}>
-        <${CircularProgress} color="inherit" />
-      <//>
-      <${Paper} sx=${{ px: 5, py: 4 }}>
+      <${Paper} sx=${{ px: 5, py: 4, position: 'relative' }}>
+        <${Backdrop} open=${loading} sx=${{ position: 'absolute' }}>
+          <${CircularProgress} color="inherit" />
+        <//>
         <${Grid} container justifyContent="center" sx=${{ mb: 2 }}>
           <${Avatar} />
         <//>
