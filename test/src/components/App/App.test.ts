@@ -1,6 +1,6 @@
 const mockGetUser = vi.fn().mockResolvedValue([{ id: '1', username: 'Username 1' }, null]);
 
-vi.mock('@src/api/user', () => ({
+vi.mock('@src/services/user', () => ({
   getUser: mockGetUser,
 }));
 

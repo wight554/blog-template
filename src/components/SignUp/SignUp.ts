@@ -3,8 +3,8 @@ import { FunctionComponent } from 'preact';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
-import { signUpUser } from '@src/api/user';
 import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload';
+import { signUpUser } from '@src/services/user';
 import { snackbarState } from '@src/store/snackbarState';
 import { alphanumeric, composeValidators, mustMatch, required } from '@src/utils/validators';
 

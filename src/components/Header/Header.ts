@@ -5,8 +5,8 @@ import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
-import { logoutUser } from '@src/api/user';
 import { User } from '@src/interfaces/model/User';
+import { logoutUser } from '@src/services/user';
 import { snackbarState } from '@src/store/snackbarState';
 import { userInfoState } from '@src/store/userState';
 

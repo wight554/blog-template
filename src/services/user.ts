@@ -1,10 +1,9 @@
+import { httpClient } from '@src/api/httpClient';
+import { promiser } from '@src/api/promiser';
 import { User } from '@src/interfaces/model/User';
 import { LoginPayload } from '@src/interfaces/payload/LoginPayload';
 import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload';
 import { handlePromiserResult } from '@src/utils/api';
-
-import { httpClient } from './httpClient';
-import { promiser } from './promiser';
 
 enum UserRoutes {
   LOGIN = '/api/v1/auth/login',
