@@ -1,6 +1,6 @@
-type PromiserFulfilled<T> = [data: T, error: null];
+type PromiserFulfilled<T> = [T, null];
 
-type PromiserRejected = [data: null, error: unknown];
+type PromiserRejected = [null, unknown];
 
 type PromiserResult<T> = PromiserFulfilled<T> | PromiserRejected;
 
