@@ -1,9 +1,11 @@
 import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import { html } from 'htm/preact';
+import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
 import { Route, Routes } from 'react-router-dom';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
+import { HttpError } from '@src/api/httpError';
 import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
@@ -23,7 +25,9 @@ export const App = () => {
   const error = userLoadable.state === 'hasError' ? userLoadable.contents : null;
 
   useEffect(() => {
-    if (error) setSnackbar({ open: true, message: error.message, severity: 'error' });
+    if (error && error instanceof HttpError && error.code !== StatusCodes.UNAUTHORIZED) {
+      setSnackbar({ open: true, message: error.message, severity: 'error' });
+    }
   }, [setSnackbar, error]);
 
   const handleSnackbarClose = () => {
