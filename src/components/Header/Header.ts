@@ -1,15 +1,4 @@
-import {
-  Tooltip,
-  Link as MuiLink,
-  Box,
-  CircularProgress,
-  AppBar,
-  Avatar,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { Tooltip, Link as MuiLink, Box, AppBar, Avatar, MenuItem } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
@@ -22,6 +11,20 @@ import { snackbarState } from '@src/store/snackbarState';
 import { userInfoState } from '@src/store/userState';
 
 import * as S from './styles';
+
+interface UserMenuItem {
+  title: string;
+  action: () => void;
+}
+
+interface AuthMenuItem extends UserMenuItem {
+  link: string;
+}
+
+interface MenuSettings {
+  user: Array<UserMenuItem>;
+  auth: Array<AuthMenuItem>;
+}
 
 interface HeaderProps {
   user: User | null;
@@ -43,9 +46,11 @@ export const Header: FunctionComponent<HeaderProps> = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = useRecoilCallback(
+  const handleLogoutClick = useRecoilCallback(
     ({ set }) =>
       async () => {
+        handleCloseUserMenu();
+
         setLoading(true);
 
         const [data, error] = await logoutUser();
@@ -58,9 +63,15 @@ export const Header: FunctionComponent<HeaderProps> = () => {
     [],
   );
 
-  const handleLogoutClick = () => {
-    handleLogout();
-    handleCloseUserMenu();
+  const settings: MenuSettings = {
+    auth: [
+      { title: 'Login', action: handleCloseUserMenu, link: '/login' },
+      { title: 'Sign-up', action: handleCloseUserMenu, link: '/sign-up' },
+    ],
+    user: [
+      { title: 'Profile', action: handleCloseUserMenu },
+      { title: 'Logout', action: handleLogoutClick },
+    ],
   };
 
   return html`
@@ -71,31 +82,18 @@ export const Header: FunctionComponent<HeaderProps> = () => {
         <//>
         <${Box}>
           <${Tooltip} title="Open settings">
-            <${Box} sx=${{ m: 1, position: 'relative' }}>
-              <${IconButton}
+            <${S.AvatarWrapper}}>
+              <${S.AvatarButton}
                 aria-label="open user menu"
                 onClick=${handleOpenUserMenu}
-                sx=${{ p: 0 }}
+                disabled=${loading}
               >
                 <${Avatar}> ${user ? user.username.charAt(0).toUpperCase() : 'U'} <//>
               <//>
-              ${loading &&
-              html`
-                <${CircularProgress}
-                  size=${52}
-                  sx=${{
-                    position: 'absolute',
-                    top: -6,
-                    left: -6,
-                    zIndex: 1,
-                  }}
-                  color="inherit"
-                />
-              `}
+              ${loading && html` <${S.AvatarCircularProgress} size=${52} color="inherit" /> `}
             <//>
           <//>
-          <${Menu}
-            sx=${{ mt: '45px' }}
+          <${S.UserMenu}
             id="menu-appbar"
             anchorEl=${anchorEl}
             anchorOrigin=${{
@@ -110,23 +108,31 @@ export const Header: FunctionComponent<HeaderProps> = () => {
             open=${Boolean(anchorEl)}
             onClose=${handleCloseUserMenu}
           >
-            ${user
-              ? html`
-                  <${MenuItem} onClick=${handleCloseUserMenu}>
-                    <${Typography} textAlign="center">Profile<//>
+            ${settings.user.map(
+              (item) =>
+                html`
+                  <${MenuItem}
+                    onClick=${item.action}
+                    key=${item.title}
+                    sx=${{ display: !user && 'none' }}
+                  >
+                    ${item.title}
                   <//>
-                  <${MenuItem} onClick=${handleLogoutClick}>
-                    <${Typography} textAlign="center">Logout<//>
-                  <//>
-                `
-              : html`
-                  <${MenuItem} component=${Link} to="/login" onClick=${handleCloseUserMenu}>
-                    Login
-                  <//>
-                  <${MenuItem} component=${Link} to="/sign-up" onClick=${handleCloseUserMenu}>
-                    Sign-up
-                  <//>
-                `}
+                `,
+            )}
+            ${settings.auth.map(
+              (item) => html`
+                <${MenuItem}
+                  component=${Link}
+                  to=${item.link}
+                  onClick=${item.action}
+                  key=${item.title}
+                  sx=${{ display: user && 'none' }}
+                >
+                  ${item.title}
+                <//>
+              `,
+            )}
           <//>
         <//>
       <//>

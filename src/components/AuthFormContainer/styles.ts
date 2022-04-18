@@ -17,7 +17,7 @@ export const AuthFormContainer = styled(MuiGrid)`
 `;
 
 export const Paper = styled(MuiPaper)`
-  padding: ${({ theme }: StylableProps<MuiPaperProps>) => theme.spacing(4, 5)};
+  padding: ${({ theme }: StylableProps<MuiPaperProps>) => theme.spacing(4)};
   position: relative;
 `;
 

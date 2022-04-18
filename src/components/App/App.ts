@@ -22,8 +22,6 @@ export const App = () => {
   const user = userLoadable.state === 'hasValue' ? userLoadable.contents : null;
   const error = userLoadable.state === 'hasError' ? userLoadable.contents : null;
 
-  console.log(userLoadable.state);
-
   useEffect(() => {
     if (error) setSnackbar({ open: true, message: error.message, severity: 'error' });
   }, [setSnackbar, error]);
@@ -34,20 +32,20 @@ export const App = () => {
 
   return html`
     <${S.App}>
+      <${Backdrop} open=${userLoadable.state === 'loading'}>
+        <${CircularProgress} color="inherit" />
+      <//>
       <${Snackbar} open=${snackbar.open} autoHideDuration=${3000} onClose=${handleSnackbarClose}>
         <${Alert}
           onClose=${handleSnackbarClose}
           severity=${snackbar.severity || 'info'}
-          sx=${{ width: '100%', display: !snackbar.open && 'none' }}
+          sx=${{ display: !snackbar.open && 'none' }}
         >
           ${snackbar.message}
         <//>
       <//>
       <${Header} />
       <${S.MainContent}>
-        <${Backdrop} open=${userLoadable.state === 'loading'}>
-          <${CircularProgress} color="inherit" />
-        <//>
         <${Routes}>
           <${Route}
             path="/"

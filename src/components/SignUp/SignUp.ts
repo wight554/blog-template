@@ -14,7 +14,7 @@ import { AuthFormField } from '../AuthFormField';
 export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const handleSignUp = useRecoilCallback(
+  const handleSubmit = useRecoilCallback(
     ({ set }) =>
       async (payload: SignUpPayload) => {
         const [_, error] = await signUpUser(payload);
@@ -25,10 +25,6 @@ export const SignUp: FunctionComponent = () => {
       },
     [],
   );
-
-  const handleSubmit = async (values: SignUpPayload) => {
-    await handleSignUp(values);
-  };
 
   return html`
     <${AuthFormContainer} onSubmit=${handleSubmit} title="Sign Up">
