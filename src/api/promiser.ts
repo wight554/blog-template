@@ -1,8 +1,8 @@
-type PromiserFulfilled<T> = [T, null];
+export type PromiserFulfilled<T> = [data: T, error: null];
 
-type PromiserRejected = [null, unknown];
+export type PromiserRejected = [data: null, error: unknown];
 
-type PromiserResult<T> = PromiserFulfilled<T> | PromiserRejected;
+export type PromiserResult<T> = PromiserFulfilled<T> | PromiserRejected;
 
 export interface PromiserInstance {
   <T = unknown>(value: Promise<Awaited<T>>): Promise<PromiserResult<T>>;
