@@ -1,12 +1,16 @@
 import { createHttpError } from '@src/api/httpError';
 
-interface HttpClientRequestInit<B> extends Omit<RequestInit, 'body'> {
+const DEFAULT_HEADERS = Object.freeze({
+  'Content-Type': 'application/json; charset=utf-8',
+});
+
+export interface HttpClientRequestInit<B> extends Omit<RequestInit, 'body'> {
   body?: B;
 }
 
-type HttpClientHeaders = Headers;
+export type HttpClientHeaders = Headers;
 
-interface HttpClientResponse<T = unknown> {
+export interface HttpClientResponse<T = unknown> {
   data: T;
   status: number;
   statusText: string;
@@ -61,10 +65,6 @@ export enum RequestMethod {
   OPTIONS = 'OPTIONS',
   PATCH = 'PATCH',
 }
-
-const DEFAULT_HEADERS = Object.freeze({
-  'Content-Type': 'application/json; charset=utf-8',
-});
 
 export class HttpClient {
   public async call<T = unknown, B = unknown>(

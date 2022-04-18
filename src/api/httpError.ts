@@ -3,8 +3,10 @@ import { getReasonPhrase } from 'http-status-codes';
 export class HttpError extends Error {
   public code?: number;
 
-  constructor(message?: string, code?: number, name = 'HttpError') {
+  constructor(message?: string, code?: number, name = new.target.name) {
     super(message);
+
+    Object.setPrototypeOf(this, new.target.prototype);
 
     this.name = name;
     this.code = code;
