@@ -1,9 +1,12 @@
 import { FieldValidator } from 'final-form';
 
-export const required: FieldValidator<string> = (value) => (value ? undefined : 'Required field');
+import { ValidationError } from '@src/enums/ValidationError';
+
+export const required: FieldValidator<string> = (value) =>
+  value ? undefined : ValidationError.REQUIRED;
 
 export const alphanumeric: FieldValidator<string> = (value) =>
-  /^[a-zA-Z0-9]*$/.test(value) ? undefined : 'Must contain only letters and numbers';
+  /^[a-zA-Z0-9]*$/.test(value) ? undefined : ValidationError.ALPHANUMERIC;
 
 export const mustMatch =
   (field: string): FieldValidator<string> =>
@@ -13,5 +16,8 @@ export const mustMatch =
 
 export const composeValidators =
   <T = unknown>(...validators: Array<FieldValidator<T>>): FieldValidator<T> =>
-  (value, allValues) =>
-    validators.reduce((result, validator) => result || validator(value, allValues), undefined);
+  (value, allValues, meta) =>
+    validators.reduce(
+      (result, validator) => result || validator(value, allValues, meta),
+      undefined,
+    );
