@@ -1,8 +1,8 @@
 import { RenderOptions, RenderResult, render } from '@testing-library/preact';
-import { createMemoryHistory, MemoryHistory } from 'history';
+import { createBrowserHistory, MemoryHistory } from 'history';
 import { html } from 'htm/preact';
 import { ComponentChild, FunctionComponent } from 'preact';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 interface ProvidersProps {
@@ -13,10 +13,10 @@ type ProviderOptions = Omit<RenderOptions, 'queries'> & ProvidersProps;
 
 const Providers: FunctionComponent<ProvidersProps> = ({
   children,
-  history = createMemoryHistory(),
+  history = createBrowserHistory(),
 }) => html`
   <${RecoilRoot}>
-    <${MemoryRouter} history=${history}> ${children} <//>
+    <${BrowserRouter} history=${history}> ${children} <//>
   <//>
 `;
 
@@ -24,7 +24,8 @@ export const renderWithProviders = (
   ui: ComponentChild,
   options: ProviderOptions = {},
 ): RenderResult => {
-  const Wrapper: FunctionComponent = ({ children }) => html`<${Providers}>${children}<//>`;
+  const Wrapper: FunctionComponent = ({ children }) =>
+    html`<${Providers} history=${options.history}>${children}<//>`;
 
   return render(ui, {
     wrapper: Wrapper,

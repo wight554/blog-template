@@ -9,9 +9,13 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import { createHttpError } from '@src/api/httpError';
 import { App } from '@src/components/App';
-import { render, screen, waitFor, fireEvent } from '@test/src/testUtils';
+import { render, screen, waitFor, fireEvent, cleanup } from '@test/src/testUtils';
 
 describe('App', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   describe('user is authenticated', () => {
     it('should render title based on username', async () => {
       render(html`<${App} />`);
