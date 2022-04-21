@@ -54,10 +54,10 @@ describe('validators', () => {
     const value = 'value';
 
     it('should call given validators with given arguments', () => {
-      composeValidators(validValidator, invalidValidator)(value, {});
+      composeValidators(validValidator, invalidValidator)(value, {}, undefined);
 
-      expect(validValidator).toHaveBeenCalledWith(value, {});
-      expect(invalidValidator).toHaveBeenCalledWith(value, {});
+      expect(validValidator).toHaveBeenCalledWith(value, {}, undefined);
+      expect(invalidValidator).toHaveBeenCalledWith(value, {}, undefined);
     });
 
     describe('value is valid for all given validators', () => {
