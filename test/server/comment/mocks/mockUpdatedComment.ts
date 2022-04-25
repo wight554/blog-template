@@ -1,5 +1,5 @@
-import { CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { mockComment } from '@test/server/comment/mocks/mockComment';
+import { CommentDocument } from '@server/comment/schemas/CommentSchema.js';
+import { mockComment } from '@test/server/comment/mocks/mockComment.js';
 
 export const mockUpdatedComment = <CommentDocument>{
   ...mockComment,

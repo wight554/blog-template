@@ -1,7 +1,7 @@
 import { html } from 'htm/preact';
 
-import { Header } from '@src/components/Header';
-import { render, screen, fireEvent, waitFor } from '@test/src/testUtils';
+import { Header } from '@src/components/Header/index.js';
+import { render, screen, fireEvent, waitFor } from '@test/src/testUtils/index.js';
 
 describe('Header', () => {
   it('should render app title', () => {

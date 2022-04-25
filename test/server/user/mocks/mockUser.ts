@@ -1,4 +1,4 @@
-import { UserDocument } from '@server/user/schemas/UserSchema';
+import { UserDocument } from '@server/user/schemas/UserSchema.js';
 
 export const mockUser = <UserDocument>{
   id: '1',

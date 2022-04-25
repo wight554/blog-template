@@ -12,10 +12,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
-import { CommentService } from '@server/comment/CommentService';
-import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
-import { Comment } from '@server/comment/schemas/CommentSchema';
+import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard.js';
+import { CommentService } from '@server/comment/CommentService.js';
+import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto.js';
+import { Comment } from '@server/comment/schemas/CommentSchema.js';
 import {
   POST_CONTROLLER_ROUTE,
   POST_DELETE_ENDPOINT,
@@ -24,13 +24,13 @@ import {
   POST_CREATE_COMMENT_ENDPOINT,
   POST_CREATE_ENDPOINT,
   POST_UPDATE_ENDPOINT,
-} from '@server/constants/controllers';
-import { User } from '@server/decorators/UserDecorator';
-import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { PostService } from '@server/post/PostService';
-import { CreatePostDto } from '@server/post/dto/CreatePostDto';
-import { Post as PostType } from '@server/post/schemas/PostSchema';
-import { User as UserType } from '@server/user/schemas/UserSchema';
+} from '@server/constants/controllers.js';
+import { User } from '@server/decorators/UserDecorator.js';
+import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor.js';
+import { PostService } from '@server/post/PostService.js';
+import { CreatePostDto } from '@server/post/dto/CreatePostDto.js';
+import { Post as PostType } from '@server/post/schemas/PostSchema.js';
+import { User as UserType } from '@server/user/schemas/UserSchema.js';
 
 @Controller(POST_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(PostType))

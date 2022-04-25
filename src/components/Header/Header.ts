@@ -6,9 +6,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { html } from 'htm/preact';
-import { useState } from 'preact/hooks';
+import { useState } from 'react';
 
-import * as S from './styles';
+import * as S from './styles.js';
 
 const settings = ['Profile', 'Logout'];
 

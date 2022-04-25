@@ -1,13 +1,13 @@
 import { ClassSerializerInterceptor, PlainLiteralObject, Type } from '@nestjs/common';
 import { ClassTransformOptions, plainToClass } from 'class-transformer';
-import { Document } from 'mongoose';
+import mongoose from 'mongoose';
 
 export function MongooseClassSerializerInterceptor(
   classToIntercept: Type,
 ): Type<ClassSerializerInterceptor> {
   return class MongooseClassSerializerInterceptor extends ClassSerializerInterceptor {
     private changePlainObjectToClass(document: PlainLiteralObject) {
-      if (!(document instanceof Document)) {
+      if (!(document instanceof mongoose.Document)) {
         return document;
       }
 

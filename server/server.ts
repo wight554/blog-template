@@ -1,44 +1,36 @@
 import 'reflect-metadata';
-import { join } from 'path';
+import { fileURLToPath } from 'url';
 
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { fastifyCookie } from 'fastify-cookie';
-import fastifyStatic from 'fastify-static';
 
-import { AppModule } from '@server/app/AppModule';
-import { prettyPrintAddress } from '@server/utils/prettyPrintAddress';
+import { AppModule } from '@server/app/AppModule.js';
+import { fastifyCookie, fastifyStatic } from '@server/fastifyPlugins.js';
+import { prettyPrintAddress } from '@server/utils/prettyPrintAddress.js';
 
 const { PORT, HOST } = process.env;
 const port = PORT || 3000;
 const host = HOST || '0.0.0.0';
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
-  app.register(fastifyCookie);
+app.register(fastifyCookie);
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
+app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { getViteServer } = require('@server/getViteServer');
-
+if (process.env.NODE_ENV !== 'production') {
+  import('@server/getViteServer.js').then(async ({ getViteServer }) => {
     const vite = await getViteServer();
 
     app.use(/^(?!\/api\/.*)/, vite.middlewares);
-  } else {
-    app.register(fastifyStatic, {
-      root: join(__dirname, '../public'),
-    });
-  }
-
-  await app.listen(port, host, (_, address) => {
-    prettyPrintAddress(address);
+  });
+} else {
+  app.register(fastifyStatic, {
+    root: fileURLToPath(new URL('../public', import.meta.url)),
   });
 }
 
-bootstrap();
-
-export default bootstrap;
+await app.listen(port, host, (_, address) => {
+  prettyPrintAddress(address);
+});

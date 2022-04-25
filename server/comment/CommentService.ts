@@ -5,19 +5,19 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { Model, Connection as MongooseConnection } from 'mongoose';
+import mongoose from 'mongoose';
 
-import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
-import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
-import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { Post, PostDocument } from '@server/post/schemas/PostSchema';
+import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto.js';
+import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto.js';
+import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema.js';
+import { Post, PostDocument } from '@server/post/schemas/PostSchema.js';
 
 @Injectable()
 export class CommentService {
   constructor(
-    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
-    @InjectModel(Post.name) private postModel: Model<PostDocument>,
-    @InjectConnection() private readonly connection: MongooseConnection,
+    @InjectModel(Comment.name) private commentModel: mongoose.Model<CommentDocument>,
+    @InjectModel(Post.name) private postModel: mongoose.Model<PostDocument>,
+    @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
   async getById(commentId: string): Promise<CommentDocument> {

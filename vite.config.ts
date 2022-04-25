@@ -17,10 +17,10 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    tsconfigPaths(),
+    !isTest && tsconfigPaths(),
     !isTest &&
       checker({
-        typescript: { tsconfigPath: 'tsconfig.client.json' },
+        typescript: { tsconfigPath: 'src/tsconfig.json' },
         eslint: {
           lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
@@ -38,5 +38,8 @@ export default defineConfig({
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
+  },
+  resolve: {
+    alias: !isTest && [{ find: /^(@.*\/.*)\.js$/, replacement: '$1.ts' }],
   },
 });

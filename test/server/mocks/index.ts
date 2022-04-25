@@ -1,1 +1,1 @@
-export * from '@test/server/mocks/mockMongoConnection';
+export * from '@test/server/mocks/mockMongoConnection.js';

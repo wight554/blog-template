@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Exclude, Transform, Type } from 'class-transformer';
-import { Document, Schema as MongooseSchema, Types } from 'mongoose';
+import mongoose from 'mongoose';
 
-import { User } from '@server/user/schemas/UserSchema';
+import { User } from '@server/user/schemas/UserSchema.js';
 
-export type CommentDocument = Comment & Document;
+export type CommentDocument = Comment & mongoose.Document;
 
 @Schema({
   toJSON: {
@@ -17,16 +17,16 @@ export class Comment {
   @Prop({ type: String })
   text: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)
   author: User;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Post' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
   @Transform(({ value }) => value.toString())
   postId: string;
 
   @Exclude()
-  _id?: Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
 
   id: string;
 

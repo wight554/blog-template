@@ -1,8 +1,8 @@
-import { Comment } from '@server/comment/schemas/CommentSchema';
-import { PostDocument } from '@server/post/schemas/PostSchema';
-import { User } from '@server/user/schemas/UserSchema';
-import { mockComments } from '@test/server/comment/mocks';
-import { mockUser } from '@test/server/user/mocks';
+import { Comment } from '@server/comment/schemas/CommentSchema.js';
+import { PostDocument } from '@server/post/schemas/PostSchema.js';
+import { User } from '@server/user/schemas/UserSchema.js';
+import { mockComments } from '@test/server/comment/mocks/index.js';
+import { mockUser } from '@test/server/user/mocks/index.js';
 
 export const mockPost = <PostDocument>{
   id: '1',

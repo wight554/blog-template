@@ -5,7 +5,7 @@ import { render } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { App } from '@src/components/App/App';
+import { App } from '@src/components/App/index.js';
 import '@src/index.css';
 
 render(

@@ -5,8 +5,8 @@
     "cleanup": "rimraf dist",
     "dev": "tsnd --respawn -r tsconfig-paths/register server/server",
     "prod": "node ./dist/server/server.js",
-    "build:server": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
-    "build:client": "tsc -p tsconfig.client.json && vite build",
+    "build:server": "tsc -p server/tsconfig.json && tsc-alias",
+    "build:client": "tsc -p src/tsconfig.json && vite build",
     "build": "yarn cleanup && yarn build:client && yarn build:server",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -79,7 +79,7 @@
     "tsc-alias": "^1.6.6",
     "tsconfig-paths": "^3.14.1",
     "tslib": "^2.3.1",
-    "typescript": "^4.6.3",
+    "typescript": "next",
     "typescript-lit-html-plugin": "^0.9.0",
     "typescript-styled-plugin": "^0.18.2",
     "vite": "^2.9.5",
@@ -91,5 +91,6 @@
   "packageManager": "yarn@3.1.1",
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
-  }
+  },
+  "type": "module"
 }

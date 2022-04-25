@@ -2209,7 +2209,7 @@ __metadata:
     tsc-alias: ^1.6.6
     tsconfig-paths: ^3.14.1
     tslib: ^2.3.1
-    typescript: ^4.6.3
+    typescript: next
     typescript-lit-html-plugin: ^0.9.0
     typescript-styled-plugin: ^0.18.2
     vite: ^2.9.5
@@ -7359,23 +7359,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.3":
-  version: 4.6.3
-  resolution: "typescript@npm:4.6.3"
+"typescript@npm:next":
+  version: 4.7.0-dev.20220425
+  resolution: "typescript@npm:4.7.0-dev.20220425"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 255bb26c8cb846ca689dd1c3a56587af4f69055907aa2c154796ea28ee0dea871535b1c78f85a6212c77f2657843a269c3a742d09d81495b97b914bf7920415b
+  checksum: 9b3984483a09dd36a7d039b30eb8b085c27f04d5bc94445c609beff268df4ef11648e12651288d7010819e72d880e81841335a3ea203b5696c20f3881f39e6db
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
-  version: 4.6.3
-  resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=493e53"
+"typescript@patch:typescript@next#~builtin<compat/typescript>":
+  version: 4.7.0-dev.20220425
+  resolution: "typescript@patch:typescript@npm%3A4.7.0-dev.20220425#~builtin<compat/typescript>::version=4.7.0-dev.20220425&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: fe6bdc1afb2f145ddb7b0a3a31f96352209f6a5704d97f038414ea22ff9d8dd42f32cfb6652e30458d7d958d2d4e85de2df11c574899c6f750a6b3c0e90a3a76
+  checksum: 4d739276fe6f556dab590fa11e7b9a334b337b5bd4536758f0bca3d4f11ebdc2aaa10f36360375a9b65168302ca1b16b53e8ff590bd27cfda140337e87ace38c
   languageName: node
   linkType: hard
 
