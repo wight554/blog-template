@@ -14,6 +14,6 @@ export const RecoilObserver = <T>({
   async = false,
 }: RenderableProps<RecoilObserverProps<T>>) => {
   const value = useRecoilValueLoadable(node);
-  useEffect(() => onChange(async ? value : value.contents), [onChange, value]);
+  useEffect(() => onChange(async ? value : value.contents), [onChange, async, value]);
   return null;
 };
