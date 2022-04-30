@@ -3,7 +3,7 @@ import { atom, selector } from 'recoil';
 import { User } from '@src/interfaces/model/User';
 import { getUser } from '@src/services/user';
 
-export const userInfoQuery = selector<User | null>({
+const userInfoQuery = selector<User | null>({
   key: 'UserInfo/Default',
   get: async () => {
     const [user, error] = await getUser();
