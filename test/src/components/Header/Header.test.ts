@@ -19,6 +19,7 @@ import { render, screen, fireEvent, waitFor, cleanup, RecoilObserver } from '@te
 describe('Header', () => {
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
   });
 
   it('should render app title', () => {

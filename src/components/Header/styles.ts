@@ -16,7 +16,7 @@ export const Toolbar = styled(MuiToolbar)`
 `;
 
 export const AvatarWrapper = styled(MuiBox)`
-  margin: ${({ theme }: StylableProps<MuiBoxProps>) => theme.spacing(1)};
+  /* margin: ${({ theme }: StylableProps<MuiBoxProps>) => theme.spacing(1)}; */
   position: relative;
 `;
 
@@ -26,8 +26,8 @@ export const AvatarButton = styled(MuiIconButton)`
 
 export const AvatarCircularProgress = styled(MuiCircularProgress)`
   position: absolute;
-  top: -6;
-  left: -6;
+  top: -6px;
+  left: -6px;
   z-index: 1;
 `;
 

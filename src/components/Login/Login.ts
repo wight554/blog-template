@@ -20,11 +20,14 @@ export const Login: FunctionComponent = () => {
       async (payload: LoginPayload) => {
         const [user, error] = await loginUser(payload);
 
-        if (user) set(userInfoState, user);
+        if (user) {
+          set(userInfoState, user);
+          navigate('/');
+        }
 
-        if (error) set(snackbarState, { open: true, message: error.message });
-
-        navigate('/');
+        if (error) {
+          set(snackbarState, { open: true, message: error.message });
+        }
       },
     [],
   );

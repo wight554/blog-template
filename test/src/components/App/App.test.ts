@@ -4,6 +4,10 @@ vi.mock('@src/services/user', () => ({
   getUser: mockGetUser,
 }));
 
+vi.mock('@src/components/Header', () => ({
+  Header: () => html` <div></div> `,
+}));
+
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
@@ -14,6 +18,7 @@ import { render, screen, waitFor, fireEvent, cleanup } from '@test/src/testUtils
 describe('App', () => {
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
   });
 
   describe('user is authenticated', () => {

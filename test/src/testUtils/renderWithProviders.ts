@@ -1,12 +1,12 @@
 import { RenderOptions, RenderResult, render } from '@testing-library/preact';
-import { createBrowserHistory, MemoryHistory } from 'history';
+import { createBrowserHistory, BrowserHistory } from 'history';
 import { html } from 'htm/preact';
 import { ComponentChild, FunctionComponent } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 interface ProvidersProps {
-  history?: MemoryHistory;
+  history?: BrowserHistory;
 }
 
 type ProviderOptions = Omit<RenderOptions, 'queries'> & ProvidersProps;

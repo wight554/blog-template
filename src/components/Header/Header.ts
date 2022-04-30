@@ -82,7 +82,7 @@ export const Header: FunctionComponent<HeaderProps> = () => {
         <//>
         <${Box}>
           <${Tooltip} title="Open settings">
-            <${S.AvatarWrapper}}>
+            <${S.AvatarWrapper}>
               <${S.AvatarButton}
                 aria-label="open user menu"
                 onClick=${handleOpenUserMenu}

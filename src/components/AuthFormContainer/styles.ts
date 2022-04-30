@@ -10,8 +10,6 @@ import {
 
 import { StylableProps } from '@src/interfaces/util/StylableProps';
 
-import { Backdrop as AppBackdrop } from '../Backdrop';
-
 export const AuthFormContainer = styled(MuiGrid)`
   margin: ${({ theme }: StylableProps<MuiGridProps>) => theme.spacing(10, 0)};
 `;
@@ -23,10 +21,6 @@ export const Paper = styled(MuiPaper)`
 
 export const AvatarContainer = styled(MuiGrid)`
   margin-bottom: ${({ theme }: StylableProps<MuiGridProps>) => theme.spacing(2)};
-`;
-
-export const Backdrop = styled(AppBackdrop)`
-  position: absolute;
 `;
 
 export const AuthTitle = styled(MuiTypography)`

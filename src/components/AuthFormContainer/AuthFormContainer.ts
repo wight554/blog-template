@@ -18,32 +18,51 @@ export const AuthFormContainer: FunctionComponent<AuthFormContainerProps> = ({
   return html`
     <${Form}
       onSubmit=${onSubmit}
-      render=${({ handleSubmit, submitting, invalid }: FormRenderProps) => html`
-        <${S.AuthFormContainer} container direction="column" alignItems="center">
-          <${S.Paper}>
-            <${S.Backdrop} open=${submitting}>
-              <${CircularProgress} color="inherit" />
-            <//>
-            <${S.AvatarContainer} container justifyContent="center">
-              <${Avatar} />
-            <//>
-            <${S.AuthTitle} variant="h4">${title} <//>
-            <form onSubmit=${handleSubmit}>
-              <${Grid}
-                container
-                spacing=${3}
-                direction="column"
-                justify="center"
-                alignItems="center"
-              >
-                ${children}
-                <${Grid} item xs=${12}>
-                  <${Button} type="submit" fullWidth disabled=${submitting || invalid}> Submit <//>
-                <//>
+      render=${({ handleSubmit, submitting, invalid }: FormRenderProps) => {
+        return html`
+          <${S.AuthFormContainer} container direction="column" alignItems="center">
+            <${S.Paper}>
+              <${S.AvatarContainer} container justifyContent="center">
+                <${Avatar} />
               <//>
-            </form>
+              <${S.AuthTitle} variant="h4">${title} <//>
+              <form onSubmit=${handleSubmit}>
+                <${Grid}
+                  container
+                  spacing=${3}
+                  direction="column"
+                  justify="center"
+                  alignItems="center"
+                >
+                  ${children}
+                  <${Grid} item xs=${12} sx=${{ position: 'relative' }}>
+                    <${Button}
+                      type="submit"
+                      fullWidth
+                      disabled=${submitting || invalid}
+                      aria-busy=${submitting}
+                      aria-describedby="auth-form-loading-progress"
+                    >
+                      Submit
+                    <//>
+                    ${submitting &&
+                    html`
+                      <${CircularProgress}
+                        id="auth-form-loading-progress"
+                        size=${24}
+                        sx=${{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                        }}
+                      />
+                    `}
+                  <//>
+                <//>
+              </form>
+            <//>
           <//>
-        <//>
-      `}
+        `;
+      }}
     <//>`;
 };

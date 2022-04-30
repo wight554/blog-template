@@ -2,7 +2,7 @@ import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import { HttpError } from '@src/api/httpError';
@@ -70,8 +70,14 @@ export const App = () => {
               <//>
             `}
           />
-          <${Route} path="/login" element=${html`<${Login} />`} />
-          <${Route} path="/sign-up" element=${html`<${SignUp} />`} />
+          <${Route}
+            path="/login"
+            element=${user ? html`<${Navigate} to="/" replace />` : html`<${Login} />`}
+          />
+          <${Route}
+            path="/sign-up"
+            element=${user ? html`<${Navigate} to="/" replace />` : html`<${SignUp} />`}
+          />
         <//>
       <//>
     <//>

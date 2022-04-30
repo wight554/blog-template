@@ -17,11 +17,15 @@ export const SignUp: FunctionComponent = () => {
   const handleSubmit = useRecoilCallback(
     ({ set }) =>
       async (payload: SignUpPayload) => {
-        const [_, error] = await signUpUser(payload);
+        const [data, error] = await signUpUser(payload);
 
-        if (error) set(snackbarState, { open: true, message: error.message });
+        if (data) {
+          navigate('/login');
+        }
 
-        navigate('/login');
+        if (error) {
+          set(snackbarState, { open: true, message: error.message });
+        }
       },
     [],
   );
