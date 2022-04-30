@@ -23,7 +23,7 @@ describe('AuthFormContainer', () => {
   });
 
   it('should submit on submit button click', async () => {
-    const onSubmit = vi.fn();
+    const onSubmit = vi.fn((e) => e.preventDefault());
 
     render(html`<${AuthFormContainer} title="Test title" onSubmit=${onSubmit} />`);
 
