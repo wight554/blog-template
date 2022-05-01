@@ -17,6 +17,7 @@ module.exports = {
     node: true,
   },
   rules: {
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['decoratedFunctions'] }],
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
@@ -32,6 +33,14 @@ module.exports = {
       {
         'newlines-between': 'always',
         alphabetize: { order: 'asc' },
+        pathGroups: [
+          {
+            pattern: '@{server,src,test}/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
       },
     ],
     '@typescript-eslint/naming-convention': [
@@ -53,12 +62,13 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 0,
       },
     },
+    {
+      files: ['src/**/__tests__/**/*.[jt]s?(x)', '{test/,}src/**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['plugin:testing-library/react'],
+    },
   ],
   settings: {
     jest: { version: 'latest' },
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,

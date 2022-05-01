@@ -3,7 +3,6 @@
 import path from 'path';
 
 import preact from '@preact/preset-vite';
-import typescript from '@rollup/plugin-typescript';
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
@@ -28,7 +27,6 @@ export default defineConfig({
       }),
     isTest && swc.vite(),
   ],
-  ...(isTest && { esbuild: false }),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
@@ -39,6 +37,6 @@ export default defineConfig({
     coverage: {
       exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
     },
-    setupFiles: ['test/testSetup.ts'],
+    setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
   },
 });

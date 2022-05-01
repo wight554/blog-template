@@ -7,12 +7,14 @@ import {
   Param,
   ForbiddenException,
   UseInterceptors,
+  Get,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import {
   USER_CONTROLLER_ROUTE,
   USER_CREATE_ENDPOINT,
+  USER_GET_ENDPOINT,
   USER_UPDATE_ENDPOINT,
 } from '@server/constants/controllers';
 import { User } from '@server/decorators/UserDecorator';
@@ -27,8 +29,14 @@ import { User as UserType } from '@server/user/schemas/UserSchema';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @Get(USER_GET_ENDPOINT)
+  async get(@User() user: UserType) {
+    return this.userService.getById(user.id);
+  }
+
   @Post(USER_CREATE_ENDPOINT)
-  async signup(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
