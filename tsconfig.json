@@ -35,5 +35,5 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "server", "test"]
+  "include": ["src", "server", "test", "vite.config.ts"]
 }
