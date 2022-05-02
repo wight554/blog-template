@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { join } from 'path';
 
+import { fastifyCookie } from '@fastify/cookie';
+import { fastifyStatic } from '@fastify/static';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { fastifyCookie } from 'fastify-cookie';
-import fastifyStatic from 'fastify-static';
 
 import { AppModule } from '@server/app/AppModule';
 import { prettyPrintAddress } from '@server/utils/prettyPrintAddress';
