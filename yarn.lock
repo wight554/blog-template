@@ -303,6 +303,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.7.6":
+  version: 7.17.9
+  resolution: "@babel/runtime@npm:7.17.9"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: 4d56bdb82890f386d5a57c40ef985a0ed7f0a78f789377a2d0c3e8826819e0f7f16ba0fe906d9b2241c5f7ca56630ef0653f5bb99f03771f7b87ff8af4bf5fe3
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5":
   version: 7.17.2
   resolution: "@babel/runtime@npm:7.17.2"
@@ -318,15 +327,6 @@ __metadata:
   dependencies:
     regenerator-runtime: ^0.13.4
   checksum: 68d195c1630bb91ac20e86635d292a17ebab7f361cfe79406b3f5a6cc2e59fa283ae5006568899abf869312c2b35b744bd407aea8ffdb650f1a68d07785d47e9
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^7.7.6":
-  version: 7.17.9
-  resolution: "@babel/runtime@npm:7.17.9"
-  dependencies:
-    regenerator-runtime: ^0.13.4
-  checksum: 4d56bdb82890f386d5a57c40ef985a0ed7f0a78f789377a2d0c3e8826819e0f7f16ba0fe906d9b2241c5f7ca56630ef0653f5bb99f03771f7b87ff8af4bf5fe3
   languageName: node
   linkType: hard
 
@@ -2203,6 +2203,7 @@ __metadata:
     eslint-plugin-testing-library: ^5.3.1
     fastify-cookie: ^5.6.1
     fastify-static: ^4.6.1
+    final-form: ^4.20.6
     htm: ^3.1.1
     http-status-codes: ^2.2.0
     husky: ^7.0.4
@@ -2216,6 +2217,7 @@ __metadata:
     prettier: ^2.6.2
     react: "npm:@preact/compat@latest"
     react-dom: "npm:@preact/compat@latest"
+    react-final-form: ^6.5.9
     react-router-dom: ^6.3.0
     recoil: ^0.7.2
     reflect-metadata: ^0.1.13
@@ -3931,6 +3933,15 @@ __metadata:
   dependencies:
     to-regex-range: ^5.0.1
   checksum: cc283f4e65b504259e64fd969bcf4def4eb08d85565e906b7d36516e87819db52029a76b6363d0f02d0d532f0033c9603b9e2d943d56ee3b0d4f7ad3328ff917
+  languageName: node
+  linkType: hard
+
+"final-form@npm:^4.20.6":
+  version: 4.20.6
+  resolution: "final-form@npm:4.20.6"
+  dependencies:
+    "@babel/runtime": ^7.10.0
+  checksum: 6f8ac3643f0cd0cb34b204c41dec114382a3542d839b73e1376d6360da35eac3cd3e1c59b5ba8cfe915fe39d110af7178134131fe8ad667e23e657f682cbf359
   languageName: node
   linkType: hard
 
@@ -6202,6 +6213,18 @@ __metadata:
   peerDependencies:
     preact: "*"
   checksum: c99852c5708d1cb694300759667e3c8f3e11b9e374011491e5cb95984239adbd014e7280568e17ef18ec2fcd996222e3656cfcaab16f9dd1c0498c1a8588ad62
+  languageName: node
+  linkType: hard
+
+"react-final-form@npm:^6.5.9":
+  version: 6.5.9
+  resolution: "react-final-form@npm:6.5.9"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+  peerDependencies:
+    final-form: ^4.20.4
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 2ab79b1b0230545af1b93b324e2ce61992087beda344f762e1c1306867c177ca6258651e992515fa6681a790f94380a388c18e898ffb20468562e62c83c6b289
   languageName: node
   linkType: hard
 

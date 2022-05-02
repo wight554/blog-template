@@ -1,19 +1,42 @@
-import { Tooltip } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import { Tooltip, Link as MuiLink, Box, AppBar, Avatar, MenuItem } from '@mui/material';
 import { html } from 'htm/preact';
+import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
+import { Link } from 'react-router-dom';
+import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
+
+import { User } from '@src/interfaces/model/User';
+import { logoutUser } from '@src/services/user';
+import { snackbarState } from '@src/store/snackbarState';
+import { userInfoState } from '@src/store/userState';
 
 import * as S from './styles';
 
-const settings = ['Profile', 'Logout'];
+interface UserMenuItem {
+  title: string;
+  action: () => void;
+}
 
-export const Header = () => {
+interface AuthMenuItem extends UserMenuItem {
+  link: string;
+}
+
+interface MenuSettings {
+  user: Array<UserMenuItem>;
+  auth: Array<AuthMenuItem>;
+}
+
+interface HeaderProps {
+  user: User | null;
+}
+
+export const Header: FunctionComponent<HeaderProps> = () => {
+  const userLoadable = useRecoilValueLoadable(userInfoState);
+
+  const user = userLoadable.state === 'hasValue' ? userLoadable.contents : null;
+
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,18 +46,54 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
+  const handleLogoutClick = useRecoilCallback(
+    ({ set }) =>
+      async () => {
+        handleCloseUserMenu();
+
+        setLoading(true);
+
+        const [data, error] = await logoutUser();
+
+        setLoading(false);
+
+        if (data) set(userInfoState, null);
+        if (error) set(snackbarState, { open: true, message: error.message });
+      },
+    [],
+  );
+
+  const settings: MenuSettings = {
+    auth: [
+      { title: 'Login', action: handleCloseUserMenu, link: '/login' },
+      { title: 'Sign-up', action: handleCloseUserMenu, link: '/sign-up' },
+    ],
+    user: [
+      { title: 'Profile', action: handleCloseUserMenu },
+      { title: 'Logout', action: handleLogoutClick },
+    ],
+  };
+
   return html`
     <${AppBar} position="static">
       <${S.Toolbar}>
-        <${Typography} variant="h6" component="div"> Blog demo <//>
-        <div>
+        <${MuiLink} component=${Link} to="/" underline="none" color="inherit" variant="h6">
+          Blog demo
+        <//>
+        <${Box}>
           <${Tooltip} title="Open settings">
-            <${IconButton} aria-label="open user menu" onClick=${handleOpenUserMenu} sx=${{ p: 0 }}>
-              <${Avatar}>V<//>
+            <${S.AvatarWrapper}>
+              <${S.AvatarButton}
+                aria-label="open user menu"
+                onClick=${handleOpenUserMenu}
+                disabled=${loading}
+              >
+                <${Avatar}> ${user ? user.username.charAt(0).toUpperCase() : 'U'} <//>
+              <//>
+              ${loading && html` <${S.AvatarCircularProgress} size=${52} color="inherit" /> `}
             <//>
           <//>
-          <${Menu}
-            sx=${{ mt: '45px' }}
+          <${S.UserMenu}
             id="menu-appbar"
             anchorEl=${anchorEl}
             anchorOrigin=${{
@@ -49,15 +108,33 @@ export const Header = () => {
             open=${Boolean(anchorEl)}
             onClose=${handleCloseUserMenu}
           >
-            ${settings.map(
-              (setting) => html`
-              <${MenuItem} key=${setting} onClick=${handleCloseUserMenu}>
-                <${Typography} textAlign="center">${setting}</${Typography}>
-              </${MenuItem}>
-            `,
+            ${settings.user.map(
+              (item) =>
+                html`
+                  <${MenuItem}
+                    onClick=${item.action}
+                    key=${item.title}
+                    sx=${{ display: !user && 'none' }}
+                  >
+                    ${item.title}
+                  <//>
+                `,
+            )}
+            ${settings.auth.map(
+              (item) => html`
+                <${MenuItem}
+                  component=${Link}
+                  to=${item.link}
+                  onClick=${item.action}
+                  key=${item.title}
+                  sx=${{ display: user && 'none' }}
+                >
+                  ${item.title}
+                <//>
+              `,
             )}
           <//>
-        </div>
+        <//>
       <//>
     <//>
   `;
