@@ -6,14 +6,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import { HttpError } from '@src/api/httpError';
+import { Backdrop } from '@src/components/Backdrop';
 import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
 import { Logo } from '@src/components/Logo';
 import { SignUp } from '@src/components/SignUp';
 import { snackbarState } from '@src/store/snackbarState';
 import { userInfoState } from '@src/store/userState';
-
-import { Backdrop } from '../Backdrop';
 
 import * as S from './styles';
 
