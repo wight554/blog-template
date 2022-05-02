@@ -1,4 +1,5 @@
 import {
+  CircularProgress as MuiCircularProgress,
   Grid as MuiGrid,
   GridProps as MuiGridProps,
   Paper as MuiPaper,
@@ -25,4 +26,14 @@ export const AvatarContainer = styled(MuiGrid)`
 
 export const AuthTitle = styled(MuiTypography)`
   margin-bottom: ${({ theme }: StylableProps<MuiTypographyProps>) => theme.spacing(4)};
+`;
+
+export const ButtonContainer = styled(MuiGrid)`
+  position: relative;
+`;
+
+export const ButtonCircularProgress = styled(MuiCircularProgress)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
 `;

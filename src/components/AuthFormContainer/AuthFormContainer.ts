@@ -1,4 +1,4 @@
-import { CircularProgress, Avatar, Grid, Button } from '@mui/material';
+import { Avatar, Grid, Button } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { Form, FormRenderProps } from 'react-final-form';
@@ -35,7 +35,7 @@ export const AuthFormContainer: FunctionComponent<AuthFormContainerProps> = ({
                   alignItems="center"
                 >
                   ${children}
-                  <${Grid} item xs=${12} sx=${{ position: 'relative' }}>
+                  <${S.ButtonContainer} item xs=${12}>
                     <${Button}
                       type="submit"
                       fullWidth
@@ -47,15 +47,7 @@ export const AuthFormContainer: FunctionComponent<AuthFormContainerProps> = ({
                     <//>
                     ${submitting &&
                     html`
-                      <${CircularProgress}
-                        id="auth-form-loading-progress"
-                        size=${24}
-                        sx=${{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                        }}
-                      />
+                      <${S.ButtonCircularProgress} id="auth-form-loading-progress" size=${24} />
                     `}
                   <//>
                 <//>
