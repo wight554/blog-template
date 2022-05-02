@@ -10,7 +10,7 @@ export const alphanumeric: FieldValidator<string> = (value) =>
 
 export const mustMatch =
   (field: string): FieldValidator<string> =>
-  (value, allValues) => {
+  (value, allValues = {}) => {
     return allValues[field as keyof object] === value ? undefined : `Must match ${field}`;
   };
 
