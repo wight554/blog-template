@@ -12,8 +12,8 @@ render(
   html`
     <${RecoilRoot}>
       <${BrowserRouter}>
-        <${App} />
         <${CssBaseline} />
+        <${App} />
       <//>
     <//>
   `,
