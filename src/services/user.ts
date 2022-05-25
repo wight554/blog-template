@@ -1,9 +1,9 @@
-import { httpClient } from '@src/api/httpClient.js';
-import { promiser } from '@src/api/promiser.js';
-import { User } from '@src/interfaces/model/User.js';
-import { LoginPayload } from '@src/interfaces/payload/LoginPayload.js';
-import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload.js';
-import { handlePromiserResult } from '@src/utils/api.js';
+import { httpClient } from '#src/api/httpClient.js';
+import { promiser } from '#src/api/promiser.js';
+import { User } from '#src/interfaces/model/User.js';
+import { LoginPayload } from '#src/interfaces/payload/LoginPayload.js';
+import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
+import { handlePromiserResult } from '#src/utils/api.js';
 
 enum UserRoutes {
   LOGIN = '/api/v1/auth/login',

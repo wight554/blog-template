@@ -1,5 +1,5 @@
-import { PostDocument } from '@server/post/schemas/PostSchema.js';
-import { mockPost } from '@test/server/post/mocks/mockPost.js';
+import { PostDocument } from '#server/post/schemas/PostSchema.js';
+import { mockPost } from '#test/server/post/mocks/mockPost.js';
 
 export const mockUpdatedPost = <PostDocument>{
   ...mockPost,

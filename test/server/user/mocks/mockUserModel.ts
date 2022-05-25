@@ -1,5 +1,5 @@
-import { mockMongoUser } from '@test/server/user/mocks/mockMongoUser.js';
-import { mockUpdatedMongoUser } from '@test/server/user/mocks/mockUpdatedMongoUser.js';
+import { mockMongoUser } from '#test/server/user/mocks/mockMongoUser.js';
+import { mockUpdatedMongoUser } from '#test/server/user/mocks/mockUpdatedMongoUser.js';
 
 export const mockUserModel = {
   create: vi.fn().mockResolvedValue(mockMongoUser),

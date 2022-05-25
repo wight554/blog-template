@@ -1,4 +1,4 @@
-import { createHttpError, HttpError } from '@src/api/httpError.js';
+import { createHttpError, HttpError } from '#src/api/httpError.js';
 
 vi.mock('http-status-codes', () => ({
   getReasonPhrase: vi.fn().mockReturnValue('Test Exception'),

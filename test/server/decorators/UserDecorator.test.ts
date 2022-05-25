@@ -1,8 +1,8 @@
 import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces/index.js';
 
-import { User } from '@server/decorators/UserDecorator.js';
-import { getParamDecoratorFactory } from '@test/server/testUtils/index.js';
-import { mockUser } from '@test/server/user/mocks/index.js';
+import { User } from '#server/decorators/UserDecorator.js';
+import { getParamDecoratorFactory } from '#test/server/testUtils/index.js';
+import { mockUser } from '#test/server/user/mocks/index.js';
 
 const mockSwitchToHttp = (): HttpArgumentsHost => ({
   getRequest: vi.fn().mockReturnValue({

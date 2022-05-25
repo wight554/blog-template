@@ -1,7 +1,7 @@
-import { mockCommentDeleteManyResult } from '@test/server/comment/mocks/mockCommentDeleteManyResult.js';
-import { mockCommentDeleteResult } from '@test/server/comment/mocks/mockCommentDeleteResult.js';
-import { mockMongoComment } from '@test/server/comment/mocks/mockMongoComment.js';
-import { mockUpdatedMongoComment } from '@test/server/comment/mocks/mockUpdatedMongoComment.js';
+import { mockCommentDeleteManyResult } from '#test/server/comment/mocks/mockCommentDeleteManyResult.js';
+import { mockCommentDeleteResult } from '#test/server/comment/mocks/mockCommentDeleteResult.js';
+import { mockMongoComment } from '#test/server/comment/mocks/mockMongoComment.js';
+import { mockUpdatedMongoComment } from '#test/server/comment/mocks/mockUpdatedMongoComment.js';
 
 export const mockCommentModel = {
   findById: vi.fn().mockImplementation(() => ({

@@ -8,11 +8,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { MongoError } from 'mongodb';
 import mongoose from 'mongoose';
 
-import { CryptoService } from '@server/crypto/CryptoService.js';
-import { MongoErrorCode } from '@server/enums/MongoErrorCode.js';
-import { CreateUserDto } from '@server/user/dto/CreateUserDto.js';
-import { UpdateUserDto } from '@server/user/dto/UpdateUserDto.js';
-import { User, UserDocument } from '@server/user/schemas/UserSchema.js';
+import { CryptoService } from '#server/crypto/CryptoService.js';
+import { MongoErrorCode } from '#server/enums/MongoErrorCode.js';
+import { CreateUserDto } from '#server/user/dto/CreateUserDto.js';
+import { UpdateUserDto } from '#server/user/dto/UpdateUserDto.js';
+import { User, UserDocument } from '#server/user/schemas/UserSchema.js';
 
 @Injectable()
 export class UserService {

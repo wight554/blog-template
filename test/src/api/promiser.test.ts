@@ -1,4 +1,4 @@
-import { Promiser, promiser } from '@src/api/promiser.js';
+import { Promiser, promiser } from '#src/api/promiser.js';
 
 describe('promiser', () => {
   describe('Promiser', () => {

@@ -1,9 +1,9 @@
 import { ForbiddenException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { UserController } from '@server/user/UserController.js';
-import { UserService } from '@server/user/UserService.js';
-import { mockUpdatedUser, mockUpsertUser, mockUser } from '@test/server/user/mocks/index.js';
+import { UserController } from '#server/user/UserController.js';
+import { UserService } from '#server/user/UserService.js';
+import { mockUpdatedUser, mockUpsertUser, mockUser } from '#test/server/user/mocks/index.js';
 
 describe('UserController', () => {
   let userController: UserController;

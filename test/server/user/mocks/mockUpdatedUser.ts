@@ -1,5 +1,5 @@
-import { UserDocument } from '@server/user/schemas/UserSchema.js';
-import { mockUser } from '@test/server/user/mocks/mockUser.js';
+import { UserDocument } from '#server/user/schemas/UserSchema.js';
+import { mockUser } from '#test/server/user/mocks/mockUser.js';
 
 export const mockUpdatedUser = <UserDocument>{
   ...mockUser,

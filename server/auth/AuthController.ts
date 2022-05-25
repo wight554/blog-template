@@ -10,17 +10,17 @@ import {
 } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 
-import { AuthService } from '@server/auth/AuthService.js';
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard.js';
-import { LocalAuthGuard } from '@server/auth/guards/LocalAuthGuard.js';
+import { AuthService } from '#server/auth/AuthService.js';
+import { JwtAuthGuard } from '#server/auth/guards/JwtAuthGuard.js';
+import { LocalAuthGuard } from '#server/auth/guards/LocalAuthGuard.js';
 import {
   AUTH_CONTROLLER_ROUTE,
   AUTH_LOGIN_ENDPOINT,
   AUTH_LOGOUT_ENDPOINT,
-} from '@server/constants/controllers.js';
-import { User } from '@server/decorators/UserDecorator.js';
-import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor.js';
-import { User as UserType } from '@server/user/schemas/UserSchema.js';
+} from '#server/constants/controllers.js';
+import { User } from '#server/decorators/UserDecorator.js';
+import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(AUTH_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(UserType))

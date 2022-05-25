@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Exclude, Type } from 'class-transformer';
 import mongoose from 'mongoose';
 
-import { Comment } from '@server/comment/schemas/CommentSchema.js';
-import { User } from '@server/user/schemas/UserSchema.js';
+import { Comment } from '#server/comment/schemas/CommentSchema.js';
+import { User } from '#server/user/schemas/UserSchema.js';
 
 export type PostDocument = Post & mongoose.Document;
 

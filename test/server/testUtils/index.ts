@@ -1,1 +1,1 @@
-export * from '@test/server/testUtils/getParamDecoratorFactory.js';
+export * from '#test/server/testUtils/getParamDecoratorFactory.js';

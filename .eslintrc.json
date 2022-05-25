@@ -40,7 +40,8 @@
         "format": ["PascalCase"],
         "custom": { "regex": "^I[A-Z]", "match": false }
       }
-    ]
+    ],
+    "import/no-unresolved": 0
   },
   "overrides": [
     { "files": ["*.d.ts"], "rules": { "@typescript-eslint/no-unused-vars": 0 } },

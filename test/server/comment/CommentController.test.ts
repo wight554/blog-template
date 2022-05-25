@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CommentController } from '@server/comment/CommentController.js';
-import { CommentService } from '@server/comment/CommentService.js';
+import { CommentController } from '#server/comment/CommentController.js';
+import { CommentService } from '#server/comment/CommentService.js';
 import {
   mockComment,
   mockUpdatedComment,
   mockUpsertComment,
-} from '@test/server/comment/mocks/index.js';
-import { mockUser } from '@test/server/user/mocks/index.js';
+} from '#test/server/comment/mocks/index.js';
+import { mockUser } from '#test/server/user/mocks/index.js';
 
 const userId = '1';
 const commentId = '1';

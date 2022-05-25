@@ -7,8 +7,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
-import { AppModule } from '@server/app/AppModule.js';
-import { prettyPrintAddress } from '@server/utils/prettyPrintAddress.js';
+import { AppModule } from '#server/app/AppModule.js';
+import { prettyPrintAddress } from '#server/utils/prettyPrintAddress.js';
 
 const { PORT, HOST } = process.env;
 const port = PORT || 3000;
@@ -21,7 +21,7 @@ app.register(fastifyCookie);
 app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
 if (process.env.NODE_ENV !== 'production') {
-  import('@server/getViteServer.js').then(async ({ getViteServer }) => {
+  import('#server/getViteServer.js').then(async ({ getViteServer }) => {
     const vite = await getViteServer();
 
     app.use(/^(?!\/api\/.*)/, vite.middlewares);

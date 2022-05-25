@@ -8,7 +8,7 @@ import {
   Toolbar as MuiToolbar,
 } from '@mui/material';
 
-import { StylableProps } from '@src/interfaces/util/StylableProps.js';
+import { StylableProps } from '#src/interfaces/util/StylableProps.js';
 
 export const Toolbar = styled(MuiToolbar)`
   display: flex;

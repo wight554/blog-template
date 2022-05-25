@@ -4,8 +4,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { FastifyRequest } from 'fastify';
 import { Strategy } from 'passport-jwt';
 
-import { TokenPayload } from '@server/auth/interfaces/TokenPayload.js';
-import { UserService } from '@server/user/UserService.js';
+import { TokenPayload } from '#server/auth/interfaces/TokenPayload.js';
+import { UserService } from '#server/user/UserService.js';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

@@ -1,4 +1,4 @@
-import { CryptoService } from '@server/crypto/CryptoService.js';
+import { CryptoService } from '#server/crypto/CryptoService.js';
 
 const comparisonResult = true;
 const hashedString = 'hashedString';

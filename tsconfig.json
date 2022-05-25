@@ -15,11 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "types": ["vitest/globals"],
-    "paths": {
-      "@src/*": ["./src/*"],
-      "@server/*": ["./server/*"],
-      "@test/*": ["./test/*"]
-    },
+    // "paths": {
+    //   "#src/*": ["./src/*"],
+    //   "#server/*": ["./server/*"],
+    //   "#test/*": ["./test/*"]
+    // },
     // required for nestjs
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

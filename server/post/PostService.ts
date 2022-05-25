@@ -7,10 +7,10 @@ import {
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema.js';
-import { CreatePostDto } from '@server/post/dto/CreatePostDto.js';
-import { UpdatePostDto } from '@server/post/dto/UpdatePostDto.js';
-import { Post, PostDocument } from '@server/post/schemas/PostSchema.js';
+import { Comment, CommentDocument } from '#server/comment/schemas/CommentSchema.js';
+import { CreatePostDto } from '#server/post/dto/CreatePostDto.js';
+import { UpdatePostDto } from '#server/post/dto/UpdatePostDto.js';
+import { Post, PostDocument } from '#server/post/schemas/PostSchema.js';
 
 @Injectable()
 export class PostService {

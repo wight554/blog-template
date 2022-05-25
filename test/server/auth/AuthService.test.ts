@@ -2,10 +2,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthService } from '@server/auth/AuthService.js';
-import { CryptoService } from '@server/crypto/CryptoService.js';
-import { UserService } from '@server/user/UserService.js';
-import { mockMongoUser, mockUpdatedMongoUser } from '@test/server/user/mocks/index.js';
+import { AuthService } from '#server/auth/AuthService.js';
+import { CryptoService } from '#server/crypto/CryptoService.js';
+import { UserService } from '#server/user/UserService.js';
+import { mockMongoUser, mockUpdatedMongoUser } from '#test/server/user/mocks/index.js';
 
 const userId = '1';
 const username = 'username';

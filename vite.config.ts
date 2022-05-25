@@ -17,7 +17,7 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    !isTest && tsconfigPaths(),
+    // !isTest && tsconfigPaths(),
     !isTest &&
       checker({
         typescript: { tsconfigPath: 'src/tsconfig.json' },
@@ -40,6 +40,11 @@ export default defineConfig({
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
   },
   resolve: {
-    alias: !isTest && [{ find: /^(@.*\/.*)\.js$/, replacement: '$1.ts' }],
+    alias: [
+      {
+        find: /#((src|server|test).*)/,
+        replacement: path.resolve(__dirname, '$1'),
+      },
+    ],
   },
 });

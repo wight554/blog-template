@@ -9,7 +9,7 @@ import {
   TypographyProps as MuiTypographyProps,
 } from '@mui/material';
 
-import { StylableProps } from '@src/interfaces/util/StylableProps.js';
+import { StylableProps } from '#src/interfaces/util/StylableProps.js';
 
 export const AuthFormContainer = styled(MuiGrid)`
   margin: ${({ theme }: StylableProps<MuiGridProps>) => theme.spacing(10, 0)};
