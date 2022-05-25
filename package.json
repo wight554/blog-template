@@ -87,7 +87,7 @@
     "typescript-styled-plugin": "^0.18.2",
     "vite": "^2.9.9",
     "vite-plugin-checker": "^0.4.6",
-    "vite-plugin-typescript": "^1.0.3",
+    "vite-plugin-typescript": "^1.0.4",
     "vite-tsconfig-paths": "^3.4.1",
     "vitest": "^0.12.9"
   },
