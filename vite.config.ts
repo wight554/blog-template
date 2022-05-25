@@ -2,7 +2,7 @@
 
 import path from 'path';
 
-import preact from '@preact/preset-vite';
+import { default as preact } from '@preact/preset-vite';
 import { defineConfig } from 'vite';
 import { default as checker } from 'vite-plugin-checker';
 import typescript from 'vite-plugin-typescript';
@@ -20,7 +20,6 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    // !isTest && tsconfigPaths(),
     !isTest &&
       checker({
         typescript: { tsconfigPath: 'src/tsconfig.json' },
