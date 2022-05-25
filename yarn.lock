@@ -1084,14 +1084,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/preact@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@testing-library/preact@npm:3.1.1"
+"@testing-library/preact@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@testing-library/preact@npm:3.0.2"
   dependencies:
     "@testing-library/dom": ^8.11.1
   peerDependencies:
     preact: ">=10 || ^10.0.0-alpha.0 || ^10.0.0-beta.0"
-  checksum: 62b0aed94269d16985f655aef5882a4605a194433efeb07f416d75978c09eda7b729cd296c1afdd931cb9dfaad7a92d521611d641f396633739a69a60eb0361c
+  checksum: 1e9441c4d7120d1dfa1615a5ff94c75e41d6ee6c8eb53ee89d3a786ce228b2e4ba539748e348e2c7f42e99ce716c3d1e8740803205999568170d42db1db97047
   languageName: node
   linkType: hard
 
@@ -2031,7 +2031,7 @@ __metadata:
     "@preact/preset-vite": ^2.2.0
     "@rollup/plugin-typescript": ^8.3.2
     "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/preact": ^3.1.1
+    "@testing-library/preact": 3.0.2
     "@types/bcrypt": ^5.0.0
     "@types/cookie-parser": ^1.4.3
     "@types/node": ^17.0.35
