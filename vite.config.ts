@@ -4,12 +4,15 @@ import path from 'path';
 
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
-import checker from 'vite-plugin-checker';
-import typescript from 'vite-plugin-typescript';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { default as checker } from 'vite-plugin-checker';
+import { default as typescript } from 'vite-plugin-typescript';
 import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';
+
+const {
+  coverage: { exclude: coverageExclude = [] },
+} = configDefaults;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,7 +38,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     coverage: {
-      exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
+      exclude: [...coverageExclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
   },
