@@ -1102,14 +1102,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/preact@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@testing-library/preact@npm:3.0.2"
+"@testing-library/preact@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@testing-library/preact@npm:3.2.0"
   dependencies:
     "@testing-library/dom": ^8.11.1
   peerDependencies:
     preact: ">=10 || ^10.0.0-alpha.0 || ^10.0.0-beta.0"
-  checksum: 1e9441c4d7120d1dfa1615a5ff94c75e41d6ee6c8eb53ee89d3a786ce228b2e4ba539748e348e2c7f42e99ce716c3d1e8740803205999568170d42db1db97047
+  checksum: 42d472cd7507128fe70f17d802f55fe59dcee3a63342df0e75dac1345ded92fbe566835090f07c2d7483b368a47b26547274dad889f92a7ac6e6b85b868b78c8
   languageName: node
   linkType: hard
 
@@ -1301,10 +1301,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^17.0.35":
-  version: 17.0.35
-  resolution: "@types/node@npm:17.0.35"
-  checksum: 7a24946ae7fd20267ed92466384f594e448bfb151081158d565cc635d406ecb29ea8fb85fcd2a1f71efccf26fb5bd3c6f509bde56077eb8b832b847a6664bc62
+"@types/node@npm:^17.0.36":
+  version: 17.0.36
+  resolution: "@types/node@npm:17.0.36"
+  checksum: 11055fde0a1e1421113849b5e32c7022911efc0be670729947bf0162970e79962d804b1eb8a9afb291380cac97cf0e684511415d586ae5fe1560322c940fe188
   languageName: node
   linkType: hard
 
@@ -2097,10 +2097,10 @@ __metadata:
     "@preact/preset-vite": ^2.2.0
     "@rollup/plugin-typescript": ^8.3.2
     "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/preact": 3.0.2
+    "@testing-library/preact": 3.2.0
     "@types/bcrypt": ^5.0.0
     "@types/cookie-parser": ^1.4.3
-    "@types/node": ^17.0.35
+    "@types/node": ^17.0.36
     "@types/passport-jwt": ^3.0.6
     "@types/passport-local": ^1.0.34
     "@types/validator": ^13.7.2
@@ -2116,7 +2116,7 @@ __metadata:
     eslint-import-resolver-typescript: ^2.7.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest-dom: ^4.0.2
-    eslint-plugin-testing-library: ^5.5.0
+    eslint-plugin-testing-library: ^5.5.1
     final-form: ^4.20.7
     htm: ^3.1.1
     http-status-codes: ^2.2.0
@@ -3594,14 +3594,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "eslint-plugin-testing-library@npm:5.5.0"
+"eslint-plugin-testing-library@npm:^5.5.1":
+  version: 5.5.1
+  resolution: "eslint-plugin-testing-library@npm:5.5.1"
   dependencies:
     "@typescript-eslint/utils": ^5.13.0
   peerDependencies:
     eslint: ^7.5.0 || ^8.0.0
-  checksum: 7f42e2af84a0b5d1bba86fe9838abdbfa1c4f5dae66db215f592a216f82a2164a23181841228872d7116f38398bbc671e60a1e3b9840f0a8da1972c7aac8bdcd
+  checksum: 558994da12e6a9ff0c4f71c2e63a23746b6323d171062032843591e0fca6ce3811f979cf82e11db003c8b4f1d9842cb75301bfaa9e88d1a399b11ea6686aadcc
   languageName: node
   linkType: hard
 
