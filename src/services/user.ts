@@ -19,7 +19,7 @@ export const loginUser = async (payload: LoginPayload) => {
 };
 
 export const logoutUser = async () => {
-  const result = await promiser(httpClient.post('/api/v1/auth/logout'));
+  const result = await promiser(httpClient.post(UserRoutes.LOGOUT));
 
   return handlePromiserResult(result);
 };
@@ -31,7 +31,7 @@ export const signUpUser = async (payload: SignUpPayload) => {
 };
 
 export const getUser = async () => {
-  const result = await promiser(httpClient.get<User>('/api/v1/users'));
+  const result = await promiser(httpClient.get<User>(UserRoutes.GET));
 
   return handlePromiserResult(result);
 };
