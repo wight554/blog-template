@@ -1,7 +1,7 @@
 const mockGetUser = vi.fn().mockResolvedValue([{ id: '1', username: 'TestUser' }, null]);
 const mockLogoutUser = vi.fn().mockResolvedValue([{}, null]);
 
-vi.mock('@src/services/user', () => ({
+vi.mock('#src/services/user', () => ({
   getUser: mockGetUser,
   logoutUser: mockLogoutUser,
 }));
@@ -10,11 +10,18 @@ import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { Fragment } from 'preact';
 
-import { createHttpError } from '@src/api/httpError';
-import { Header } from '@src/components/Header';
-import { snackbarState } from '@src/store/snackbarState';
-import { userInfoState } from '@src/store/userState';
-import { render, screen, fireEvent, waitFor, cleanup, RecoilObserver } from '@test/src/testUtils';
+import { createHttpError } from '#src/api/httpError.js';
+import { Header } from '#src/components/Header/index.js';
+import { snackbarState } from '#src/store/snackbarState.js';
+import { userInfoState } from '#src/store/userState.js';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+  RecoilObserver,
+} from '#test/src/testUtils/index.js';
 
 describe('Header', () => {
   afterEach(() => {

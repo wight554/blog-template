@@ -3,7 +3,7 @@ import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { Form, FormRenderProps } from 'react-final-form';
 
-import * as S from './styles';
+import * as S from './styles.js';
 
 interface AuthFormContainerProps {
   title: string;

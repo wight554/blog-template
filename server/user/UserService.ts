@@ -6,19 +6,19 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoError } from 'mongodb';
-import { Model } from 'mongoose';
+import mongoose from 'mongoose';
 
-import { CryptoService } from '@server/crypto/CryptoService';
-import { MongoErrorCode } from '@server/enums/MongoErrorCode';
-import { CreateUserDto } from '@server/user/dto/CreateUserDto';
-import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { User, UserDocument } from '@server/user/schemas/UserSchema';
+import { CryptoService } from '#server/crypto/CryptoService.js';
+import { MongoErrorCode } from '#server/enums/MongoErrorCode.js';
+import { CreateUserDto } from '#server/user/dto/CreateUserDto.js';
+import { UpdateUserDto } from '#server/user/dto/UpdateUserDto.js';
+import { User, UserDocument } from '#server/user/schemas/UserSchema.js';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly cryptoService: CryptoService,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(User.name) private userModel: mongoose.Model<UserDocument>,
   ) {}
 
   async create(user: CreateUserDto): Promise<UserDocument> {

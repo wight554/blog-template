@@ -1,1 +1,1 @@
-export { AuthFormField } from './AuthFormField';
+export { AuthFormField } from './AuthFormField.js';

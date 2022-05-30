@@ -7,18 +7,18 @@ import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model, Connection as MongooseConnection } from 'mongoose';
 
-import { Comment, CommentDocument } from '@server/comment/schemas/CommentSchema';
-import { PostService } from '@server/post/PostService';
-import { Post, PostDocument } from '@server/post/schemas/PostSchema';
-import { mockCommentModel } from '@test/server/comment/mocks';
-import { mockMongoConnection } from '@test/server/mocks/mockMongoConnection';
+import { Comment, CommentDocument } from '#server/comment/schemas/CommentSchema.js';
+import { PostService } from '#server/post/PostService.js';
+import { Post, PostDocument } from '#server/post/schemas/PostSchema.js';
+import { mockCommentModel } from '#test/server/comment/mocks/index.js';
+import { mockMongoConnection } from '#test/server/mocks/index.js';
 import {
   mockPostModel,
   mockMongoPosts,
   mockMongoPost,
   mockUpsertPost,
   mockUpdatedMongoPost,
-} from '@test/server/post/mocks';
+} from '#test/server/post/mocks/index.js';
 
 const postId = '1';
 const userId = '1';

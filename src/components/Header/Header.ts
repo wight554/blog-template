@@ -5,12 +5,12 @@ import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
-import { User } from '@src/interfaces/model/User';
-import { logoutUser } from '@src/services/user';
-import { snackbarState } from '@src/store/snackbarState';
-import { userInfoState } from '@src/store/userState';
+import * as S from './styles.js';
 
-import * as S from './styles';
+import { User } from '#src/interfaces/model/User.js';
+import { logoutUser } from '#src/services/user.js';
+import { snackbarState } from '#src/store/snackbarState.js';
+import { userInfoState } from '#src/store/userState.js';
 
 interface UserMenuItem {
   title: string;

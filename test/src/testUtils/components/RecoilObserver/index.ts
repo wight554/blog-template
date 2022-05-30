@@ -1,1 +1,1 @@
-export { RecoilObserver } from './RecoilObserver';
+export { RecoilObserver } from './RecoilObserver.js';

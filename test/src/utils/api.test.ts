@@ -1,6 +1,6 @@
-import { HttpClientResponse } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
-import { handlePromiserResult } from '@src/utils/api';
+import { HttpClientResponse } from '#src/api/httpClient';
+import { HttpError } from '#src/api/httpError';
+import { handlePromiserResult } from '#src/utils/api';
 
 describe('api', () => {
   describe('handlePromiserResult', () => {

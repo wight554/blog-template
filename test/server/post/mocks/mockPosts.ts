@@ -1,5 +1,5 @@
-import { PostDocument } from '@server/post/schemas/PostSchema';
-import { mockPost } from '@test/server/post/mocks/mockPost';
+import { PostDocument } from '#server/post/schemas/PostSchema.js';
+import { mockPost } from '#test/server/post/mocks/mockPost.js';
 
 export const mockPosts: Array<PostDocument> = [
   <PostDocument>{

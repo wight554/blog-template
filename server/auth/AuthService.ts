@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { TokenPayload } from '@server/auth/interfaces/TokenPayload';
-import { CryptoService } from '@server/crypto/CryptoService';
-import { UserService } from '@server/user/UserService';
-import { UserDocument } from '@server/user/schemas/UserSchema';
+import { TokenPayload } from '#server/auth/interfaces/TokenPayload.js';
+import { CryptoService } from '#server/crypto/CryptoService.js';
+import { UserService } from '#server/user/UserService.js';
+import { UserDocument } from '#server/user/schemas/UserSchema.js';
 
 @Injectable()
 export class AuthService {

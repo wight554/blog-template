@@ -10,18 +10,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
-import { CommentService } from '@server/comment/CommentService';
-import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
-import { Comment } from '@server/comment/schemas/CommentSchema';
+import { JwtAuthGuard } from '#server/auth/guards/JwtAuthGuard.js';
+import { CommentService } from '#server/comment/CommentService.js';
+import { UpdateCommentDto } from '#server/comment/dto/UpdateCommentDto.js';
+import { Comment } from '#server/comment/schemas/CommentSchema.js';
 import {
   COMMENT_CONTROLLER_ROUTE,
   COMMENT_DELETE_ENDPOINT,
   COMMENT_UPDATE_ENDPOINT,
-} from '@server/constants/controllers';
-import { User } from '@server/decorators/UserDecorator';
-import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { User as UserType } from '@server/user/schemas/UserSchema';
+} from '#server/constants/controllers.js';
+import { User } from '#server/decorators/UserDecorator.js';
+import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(COMMENT_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptor(Comment))

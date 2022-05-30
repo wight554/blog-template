@@ -1,5 +1,5 @@
-import { HttpClientResponse } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
+import { HttpClientResponse } from '#src/api/httpClient.js';
+import { HttpError } from '#src/api/httpError.js';
 
 export const handlePromiserResult = <T>([data, error]: [
   data: HttpClientResponse<T> | null,

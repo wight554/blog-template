@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
 
-import { User } from '@src/interfaces/model/User';
-import { getUser } from '@src/services/user';
+import { User } from '#src/interfaces/model/User.js';
+import { getUser } from '#src/services/user.js';
 
 const userInfoQuery = selector<User | null>({
   key: 'UserInfo/Default',

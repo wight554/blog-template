@@ -2,14 +2,17 @@
 
 import path from 'path';
 
-import preact from '@preact/preset-vite';
+import { default as preact } from '@preact/preset-vite';
 import { defineConfig } from 'vite';
-import checker from 'vite-plugin-checker';
+import { default as checker } from 'vite-plugin-checker';
 import typescript from 'vite-plugin-typescript';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';
+
+const {
+  coverage: { exclude: coverageExclude = [] },
+} = configDefaults;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,10 +20,9 @@ export default defineConfig({
     preact({
       include: '{test/,}src/**/*.{ts,tsx}',
     }),
-    tsconfigPaths(),
     !isTest &&
       checker({
-        typescript: { tsconfigPath: 'tsconfig.client.json' },
+        typescript: { tsconfigPath: 'src/tsconfig.json' },
         eslint: {
           lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
@@ -35,8 +37,16 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     coverage: {
-      exclude: [...configDefaults.coverage.exclude, '**/schemas/**'],
+      exclude: [...coverageExclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
+  },
+  resolve: {
+    alias: [
+      {
+        find: /#((src|server|test).*)/,
+        replacement: path.resolve(__dirname, '$1'),
+      },
+    ],
   },
 });

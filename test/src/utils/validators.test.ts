@@ -1,5 +1,5 @@
-import { ValidationError } from '@src/enums/ValidationError';
-import { alphanumeric, composeValidators, mustMatch, required } from '@src/utils/validators';
+import { ValidationError } from '#src/enums/ValidationError';
+import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators';
 
 describe('validators', () => {
   describe('required', () => {

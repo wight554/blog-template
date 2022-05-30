@@ -7,11 +7,11 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-vi.mock('@src/services/user', () => ({
+vi.mock('#src/services/user', () => ({
   signUpUser: mockSignUpUser,
 }));
 
-vi.mock('@src/components/AuthFormContainer', () => ({
+vi.mock('#src/components/AuthFormContainer', () => ({
   AuthFormContainer: ({ title = '', children = null, onSubmit = () => {} }) =>
     html`
       <div>
@@ -21,17 +21,17 @@ vi.mock('@src/components/AuthFormContainer', () => ({
     `,
 }));
 
-vi.mock('@src/components/AuthFormField', () => ({
+vi.mock('#src/components/AuthFormField', () => ({
   AuthFormField: ({ name = '' }) => html` <div>${name}</div> `,
 }));
 
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '@src/api/httpError';
-import { SignUp } from '@src/components/SignUp';
-import { snackbarState } from '@src/store/snackbarState';
-import { render, screen, waitFor, fireEvent, cleanup, RecoilObserver } from '@test/src/testUtils';
+import { createHttpError } from '#src/api/httpError';
+import { SignUp } from '#src/components/SignUp';
+import { snackbarState } from '#src/store/snackbarState';
+import { render, screen, waitFor, fireEvent, cleanup, RecoilObserver } from '#test/src/testUtils';
 
 describe('SignUp', () => {
   afterEach(() => {

@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
-import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
+import { CreateCommentDto } from '#server/comment/dto/CreateCommentDto.js';
 
 describe('CreateCommentDto', () => {
   describe('text', () => {

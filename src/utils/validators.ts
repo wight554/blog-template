@@ -1,6 +1,6 @@
 import { FieldValidator } from 'final-form';
 
-import { ValidationError } from '@src/enums/ValidationError';
+import { ValidationError } from '#src/enums/ValidationError.js';
 
 export const required: FieldValidator<string> = (value) =>
   value ? undefined : ValidationError.REQUIRED;

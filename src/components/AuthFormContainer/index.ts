@@ -1,1 +1,1 @@
-export { AuthFormContainer } from './AuthFormContainer';
+export { AuthFormContainer } from './AuthFormContainer.js';

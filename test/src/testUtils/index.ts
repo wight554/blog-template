@@ -1,6 +1,7 @@
-/* eslint-disable import/export */
-export * from '@testing-library/preact';
+import tlp = require('@testing-library/preact');
 
-export { renderWithProviders as render } from '@test/src/testUtils/renderWithProviders';
+export const { screen, waitFor, fireEvent, cleanup } = tlp;
 
-export * from './components';
+export { renderWithProviders as render } from './renderWithProviders.js';
+
+export * from './components/index.js';

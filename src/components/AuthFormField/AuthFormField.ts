@@ -4,7 +4,7 @@ import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { Field, FieldRenderProps } from 'react-final-form';
 
-import * as S from './styles';
+import * as S from './styles.js';
 
 interface FormFieldProps {
   validate: FieldValidator<string>;

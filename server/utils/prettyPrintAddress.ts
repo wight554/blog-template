@@ -1,4 +1,4 @@
-import { printBanner } from '@server/utils/printBanner';
+import { printBanner } from '#server/utils/printBanner.js';
 
 export const prettyPrintAddress = (address: string) => {
   const prettyAddress = address.replace(/(0.0.0.0|127.0.0.1)/, 'localhost');

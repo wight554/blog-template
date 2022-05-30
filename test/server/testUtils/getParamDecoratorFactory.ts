@@ -1,4 +1,4 @@
-import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
+export const ROUTE_ARGS_METADATA = '__routeArguments__';
 
 export function getParamDecoratorFactory(decorator: () => ParameterDecorator) {
   class TestDecorator {

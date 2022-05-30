@@ -1,4 +1,4 @@
-import { createHttpError } from '@src/api/httpError';
+import { createHttpError } from '#src/api/httpError.js';
 
 const DEFAULT_HEADERS = Object.freeze({
   'Content-Type': 'application/json; charset=utf-8',

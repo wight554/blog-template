@@ -3,12 +3,12 @@ import { FunctionComponent } from 'preact';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
-import { AuthFormContainer } from '@src/components/AuthFormContainer';
-import { AuthFormField } from '@src/components/AuthFormField';
-import { SignUpPayload } from '@src/interfaces/payload/SignUpPayload';
-import { signUpUser } from '@src/services/user';
-import { snackbarState } from '@src/store/snackbarState';
-import { alphanumeric, composeValidators, mustMatch, required } from '@src/utils/validators';
+import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
+import { AuthFormField } from '#src/components/AuthFormField/index.js';
+import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
+import { signUpUser } from '#src/services/user.js';
+import { snackbarState } from '#src/store/snackbarState.js';
+import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
 
 export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
