@@ -1,6 +1,5 @@
 import {
   Box as MuiBox,
-  BoxProps as MuiBoxProps,
   CircularProgress as MuiCircularProgress,
   IconButton as MuiIconButton,
   Menu as MuiMenu,
@@ -8,15 +7,12 @@ import {
   Toolbar as MuiToolbar,
 } from '@mui/material';
 
-import { StylableProps } from '@src/interfaces/util/StylableProps';
-
 export const Toolbar = styled(MuiToolbar)`
   display: flex;
   justify-content: space-between;
 `;
 
 export const AvatarWrapper = styled(MuiBox)`
-  /* margin: ${({ theme }: StylableProps<MuiBoxProps>) => theme.spacing(1)}; */
   position: relative;
 `;
 

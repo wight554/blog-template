@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, Snackbar } from '@mui/material';
+import { Alert, CircularProgress, Grid, Snackbar } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
@@ -9,7 +9,7 @@ import { HttpError } from '@src/api/httpError';
 import { Backdrop } from '@src/components/Backdrop';
 import { Header } from '@src/components/Header';
 import { Login } from '@src/components/Login';
-import { Logo } from '@src/components/Logo';
+import { PostsList } from '@src/components/PostsList';
 import { SignUp } from '@src/components/SignUp';
 import { snackbarState } from '@src/store/snackbarState';
 import { userInfoState } from '@src/store/userState';
@@ -48,35 +48,19 @@ export const App = () => {
         <//>
       <//>
       <${Header} />
-      <${S.MainContent}>
-        <${Routes}>
-          <${Route}
-            path="/"
-            element=${html`
-              <${S.HelloContainer}>
-                <${Logo} />
-                <p>Hello ${user?.username || 'User'}!</p>
-                <p>
-                  <a
-                    class="link"
-                    href="https://preactjs.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn Preact!
-                  </a>
-                </p>
-              <//>
-            `}
-          />
-          <${Route}
-            path="/login"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${Login} />`}
-          />
-          <${Route}
-            path="/sign-up"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${SignUp} />`}
-          />
+      <${Grid} container justifyContent="center" component=${S.MainContent}>
+        <${S.PageWrapper}>
+          <${Routes}>
+            <${Route} path="/" element=${html`<${PostsList} />`} />
+            <${Route}
+              path="/login"
+              element=${user ? html`<${Navigate} to="/" replace />` : html`<${Login} />`}
+            />
+            <${Route}
+              path="/sign-up"
+              element=${user ? html`<${Navigate} to="/" replace />` : html`<${SignUp} />`}
+            />
+          <//>
         <//>
       <//>
     <//>
