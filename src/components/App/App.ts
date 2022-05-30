@@ -12,9 +12,11 @@ import { Backdrop } from '#src/components/Backdrop/index.js';
 import { Header } from '#src/components/Header/index.js';
 import { Login } from '#src/components/Login/index.js';
 import { Logo } from '#src/components/Logo/index.js';
+import { PostsList } from '#src/components/PostsList/index.js';
 import { SignUp } from '#src/components/SignUp/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { userInfoState } from '#src/store/userState.js';
+
 
 export const App = () => {
   const userLoadable = useRecoilValueLoadable(userInfoState);

@@ -75,9 +75,16 @@ export const Header: FunctionComponent<HeaderProps> = () => {
   };
 
   return html`
-    <${AppBar} position="static">
+    <${AppBar} position="fixed">
       <${S.Toolbar}>
-        <${MuiLink} component=${Link} to="/" underline="none" color="inherit" variant="h6">
+        <${MuiLink}
+          component=${Link}
+          to="/"
+          underline="none"
+          color="inherit"
+          variant="h6"
+          sx=${{ textTransform: 'uppercase' }}
+        >
           Blog demo
         <//>
         <${Box}>

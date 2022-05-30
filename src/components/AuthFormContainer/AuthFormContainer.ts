@@ -25,7 +25,7 @@ export const AuthFormContainer: FunctionComponent<AuthFormContainerProps> = ({
               <${S.AvatarContainer} container justifyContent="center">
                 <${Avatar} />
               <//>
-              <${S.AuthTitle} variant="h4">${title} <//>
+              <${S.AuthTitle} variant="h4" align="center">${title}<//>
               <form onSubmit=${handleSubmit}>
                 <${Grid}
                   container
