@@ -3,9 +3,9 @@ import { format } from 'date-fns';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 
-import { User } from '@src/interfaces/model/User';
+import { User } from '#src/interfaces/model/User.js';
 
-import * as S from './styles';
+import * as S from './styles.js';
 
 interface PostCardProps {
   title: string;

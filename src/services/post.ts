@@ -1,7 +1,7 @@
-import { httpClient } from '@src/api/httpClient';
-import { promiser } from '@src/api/promiser';
-import { Post } from '@src/interfaces/model/Post';
-import { handlePromiserResult } from '@src/utils/api';
+import { httpClient } from '#src/api/httpClient.js';
+import { promiser } from '#src/api/promiser.js';
+import { Post } from '#src/interfaces/model/Post.js';
+import { handlePromiserResult } from '#src/utils/api.js';
 
 enum PostRoutes {
   GET_ALL = '/api/v1/posts',

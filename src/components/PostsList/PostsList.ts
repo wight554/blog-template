@@ -2,10 +2,10 @@ import { Grid } from '@mui/material';
 import { html } from 'htm/preact';
 import { useRecoilValueLoadable } from 'recoil';
 
-import { PostCard } from '@src/components/PostCard';
-import { postsState } from '@src/store/postState';
+import { PostCard } from '#src/components/PostCard/index.js';
+import { postsState } from '#src/store/postState.js';
 
-import * as S from './styles';
+import * as S from './styles.js';
 
 export const PostsList = () => {
   const postsLoadable = useRecoilValueLoadable(postsState);
@@ -16,9 +16,9 @@ export const PostsList = () => {
       <${Grid} container spacing=${2} justifyContent="center">
         ${posts?.map(
           (post) =>
-            html`<${Grid} item>
-              <${PostCard} title=${post.title} author=${post.author} createdAt=${post.createdAt}
-            /><//>`,
+            html` <${Grid} item>
+              <${PostCard} title=${post.title} author=${post.author} createdAt=${post.createdAt} />
+            <//>`,
         )}
       <//>
     <//>

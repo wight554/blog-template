@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
 
-import { Post } from '@src/interfaces/model/Post';
-import { getPosts } from '@src/services/post';
+import { Post } from '#src/interfaces/model/Post.js';
+import { getPosts } from '#src/services/post.js';
 
 const postsQuery = selector<Array<Post> | null>({
   key: 'Post/All/Default',

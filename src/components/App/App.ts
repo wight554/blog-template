@@ -1,22 +1,20 @@
-import { Alert, CircularProgress, Snackbar } from '@mui/material';
+import { Alert, CircularProgress, Grid, Snackbar } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
-import * as S from './styles.js';
-
 import { HttpError } from '#src/api/httpError.js';
 import { Backdrop } from '#src/components/Backdrop/index.js';
 import { Header } from '#src/components/Header/index.js';
 import { Login } from '#src/components/Login/index.js';
-import { Logo } from '#src/components/Logo/index.js';
 import { PostsList } from '#src/components/PostsList/index.js';
 import { SignUp } from '#src/components/SignUp/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { userInfoState } from '#src/store/userState.js';
 
+import * as S from './styles.js';
 
 export const App = () => {
   const userLoadable = useRecoilValueLoadable(userInfoState);
@@ -50,35 +48,19 @@ export const App = () => {
         <//>
       <//>
       <${Header} />
-      <${S.MainContent}>
-        <${Routes}>
-          <${Route}
-            path="/"
-            element=${html`
-              <${S.HelloContainer}>
-                <${Logo} />
-                <p>Hello ${user?.username || 'User'}!</p>
-                <p>
-                  <a
-                    class="link"
-                    href="https://preactjs.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn Preact!
-                  </a>
-                </p>
-              <//>
-            `}
-          />
-          <${Route}
-            path="/login"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${Login} />`}
-          />
-          <${Route}
-            path="/sign-up"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${SignUp} />`}
-          />
+      <${Grid} container justifyContent="center" component=${S.MainContent}>
+        <${S.PageWrapper}>
+          <${Routes}>
+            <${Route} path="/" element=${html` <${PostsList} />`} />
+            <${Route}
+              path="/login"
+              element=${user ? html` <${Navigate} to="/" replace />` : html` <${Login} />`}
+            />
+            <${Route}
+              path="/sign-up"
+              element=${user ? html` <${Navigate} to="/" replace />` : html` <${SignUp} />`}
+            />
+          <//>
         <//>
       <//>
     <//>
