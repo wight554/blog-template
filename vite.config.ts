@@ -4,7 +4,7 @@ import path from 'path';
 
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
-import { default as checker } from 'vite-plugin-checker';
+import checker from 'vite-plugin-checker';
 import typescript from 'vite-plugin-typescript';
 import { configDefaults } from 'vitest/config';
 

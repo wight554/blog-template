@@ -1,5 +1,4 @@
-import { RenderOptions, RenderResult } from '@testing-library/preact';
-import tlp = require('@testing-library/preact');
+import { render, RenderOptions, RenderResult } from '@testing-library/preact';
 import { createBrowserHistory, BrowserHistory } from 'history';
 import { html } from 'htm/preact';
 import { ComponentChild, FunctionComponent } from 'preact';
@@ -28,7 +27,7 @@ export const renderWithProviders = (
   const Wrapper: FunctionComponent = ({ children }) =>
     html`<${Providers} history=${options.history}>${children}<//>`;
 
-  return tlp.render(ui, {
+  return render(ui, {
     wrapper: Wrapper,
     ...options,
   });
