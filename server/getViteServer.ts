@@ -4,7 +4,7 @@ export async function getViteServer() {
   const viteDevServer = await createServer({
     clearScreen: false,
     server: {
-      middlewareMode: 'html',
+      middlewareMode: true,
       watch: {
         // During tests we edit the files too fast and sometimes chokidar
         // misses change events, so enforce polling for consistency

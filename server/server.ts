@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { fileURLToPath } from 'url';
 
-import { default as fastifyCookie } from '@fastify/cookie';
+import fastifyCookie from '@fastify/cookie';
 import { default as fastifyStatic } from '@fastify/static';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';

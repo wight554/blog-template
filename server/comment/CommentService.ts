@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { CreateCommentDto } from '#server/comment/dto/CreateCommentDto.js';
 import { UpdateCommentDto } from '#server/comment/dto/UpdateCommentDto.js';
