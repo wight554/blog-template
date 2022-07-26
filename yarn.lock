@@ -2213,7 +2213,7 @@ __metadata:
     vite: ^3.0.3
     vite-plugin-checker: ^0.4.9
     vite-plugin-typescript: ^1.0.4
-    vitest: "file://C:/Users/wight/Documents/vitest/packages/vitest"
+    vitest: 0.19.1
   languageName: unknown
   linkType: soft
 
@@ -7743,9 +7743,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@file://C:/Users/wight/Documents/vitest/packages/vitest::locator=blog-template%40workspace%3A.":
-  version: 0.19.0
-  resolution: "vitest@file://C%3A/Users/wight/Documents/vitest/packages/vitest#//C%3A/Users/wight/Documents/vitest/packages/vitest::hash=1f4680&locator=blog-template%40workspace%3A."
+"vitest@npm:0.19.1":
+  version: 0.19.1
+  resolution: "vitest@npm:0.19.1"
   dependencies:
     "@types/chai": ^4.3.1
     "@types/chai-subset": ^1.3.3
@@ -7777,8 +7777,8 @@ __metadata:
     jsdom:
       optional: true
   bin:
-    vitest: ./vitest.mjs
-  checksum: e5448d537d8a532b1def391e35e76ca16708e0c60b78dd92af7f7752c76f81912a84e5cdd97b7f48600bba2db95d5851c56d4d8ce7a6b597814191839592d167
+    vitest: vitest.mjs
+  checksum: f5f6bd69f2c196c072d9729805323d31dce06240cd18218e1b4387502d8c0f9cc4d2fad1e1f99a0fcbfe187d5c5e04d4ea2dd352cb99d3f06227b343e5cb4c6d
   languageName: node
   linkType: hard
 
