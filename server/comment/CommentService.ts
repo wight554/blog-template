@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 import { CreateCommentDto } from '#server/comment/dto/CreateCommentDto.js';
 import { UpdateCommentDto } from '#server/comment/dto/UpdateCommentDto.js';
@@ -114,6 +114,7 @@ export class CommentService {
 
       const { modifiedCount } = await this.postModel.updateOne(
         { _id: postId },
+        //@ts-expect-error broken mongoose typings
         {
           $pull: { comments: commentId },
         },

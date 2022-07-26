@@ -5,8 +5,6 @@ import { useEffect } from 'preact/hooks';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
-import * as S from './styles.js';
-
 import { HttpError } from '#src/api/httpError.js';
 import { Backdrop } from '#src/components/Backdrop/index.js';
 import { Header } from '#src/components/Header/index.js';
@@ -15,6 +13,8 @@ import { Logo } from '#src/components/Logo/index.js';
 import { SignUp } from '#src/components/SignUp/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { userInfoState } from '#src/store/userState.js';
+
+import * as S from './styles.js';
 
 export const App = () => {
   const userLoadable = useRecoilValueLoadable(userInfoState);
