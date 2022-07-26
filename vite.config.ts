@@ -48,8 +48,6 @@ export default defineConfig({
         '@mui/styled-engine',
         '@mui/utils',
         '@mui/base',
-        '@emotion/react',
-        '@emotion/styled',
       ],
     },
     alias: [
@@ -65,6 +63,13 @@ export default defineConfig({
         find: 'react-router',
         replacement: path.resolve(__dirname, './node_modules/react-router/index.js'),
       },
+      // {
+      //   find: 'styled-components',
+      //   replacement: path.resolve(
+      //     __dirname,
+      //     './node_modules/styled-components/dist/styled-components.browser.esm.js',
+      //   ),
+      // },
       {
         find: /@mui\/material\/node/,
         replacement: '@mui/material',
@@ -78,12 +83,20 @@ export default defineConfig({
         replacement: '@mui/styled-engine',
       },
       {
+        find: '@mui/styled-engine',
+        replacement: path.resolve(__dirname, './node_modules/@mui/styled-engine/index.js'),
+      },
+      {
         find: /@mui\/base\/node/,
         replacement: '@mui/base',
       },
       {
         find: /@mui\/system\/index.js/,
         replacement: '@mui/system/esm/index.js',
+      },
+      {
+        find: '@mui/system/',
+        replacement: '@mui/system/esm/',
       },
       {
         find: /@mui\/utils\/index.js/,
