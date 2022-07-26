@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 
+import { createRequire } from 'module';
 import path from 'path';
 
 import preact from '@preact/preset-vite';
@@ -13,6 +14,15 @@ const isTest = process.env.NODE_ENV === 'test';
 const {
   coverage: { exclude: coverageExclude = [] },
 } = configDefaults;
+
+const generateCjsAlias = (packages: Array<string>) => {
+  const require = createRequire(import.meta.url);
+
+  return packages.map((p) => ({
+    find: p,
+    replacement: require.resolve(p),
+  }));
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,6 +50,7 @@ export default defineConfig({
       exclude: [...coverageExclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
+    alias: [...generateCjsAlias(['preact/hooks', '@testing-library/preact'])],
   },
   resolve: {
     alias: [

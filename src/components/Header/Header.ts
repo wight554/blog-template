@@ -1,7 +1,7 @@
 import { Tooltip, Link as MuiLink, Box, AppBar, Avatar, MenuItem } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
-import preactHooks = require('preact/hooks');
+import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
@@ -35,8 +35,8 @@ export const Header: FunctionComponent<HeaderProps> = () => {
 
   const user = userLoadable.state === 'hasValue' ? userLoadable.contents : null;
 
-  const [anchorEl, setAnchorEl] = preactHooks.useState<Element | null>(null);
-  const [loading, setLoading] = preactHooks.useState(false);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
