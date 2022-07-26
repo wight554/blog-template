@@ -1,4 +1,6 @@
-export { screen, waitFor, fireEvent, cleanup } from '@testing-library/preact';
+import tlp = require('@testing-library/preact');
+
+export const { screen, waitFor, fireEvent, cleanup } = tlp;
 
 export { renderWithProviders as render } from './renderWithProviders.js';
 

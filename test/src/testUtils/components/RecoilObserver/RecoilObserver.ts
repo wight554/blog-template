@@ -1,5 +1,5 @@
 import { RenderableProps } from 'preact';
-import { useEffect } from 'preact/hooks';
+import preactHooks = require('preact/hooks');
 import { RecoilValue, useRecoilValueLoadable } from 'recoil';
 
 interface RecoilObserverProps<T> {
@@ -14,6 +14,6 @@ export const RecoilObserver = <T>({
   async = false,
 }: RenderableProps<RecoilObserverProps<T>>) => {
   const value = useRecoilValueLoadable(node);
-  useEffect(() => onChange(async ? value : value.contents), [onChange, async, value]);
+  preactHooks.useEffect(() => onChange(async ? value : value.contents), [onChange, async, value]);
   return null;
 };
