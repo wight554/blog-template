@@ -22,7 +22,6 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@mui/styled-engine-sc": "^5.8.0",
     "@nestjs/common": "^9.0.5",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.5",
@@ -87,7 +86,7 @@
     "vite": "^3.0.2",
     "vite-plugin-checker": "^0.4.9",
     "vite-plugin-typescript": "^1.0.4",
-    "vitest": "^0.18.1"
+    "vitest": "file://C:/Users/wight/Documents/vitest/packages/vitest"
   },
   "packageManager": "yarn@3.1.1",
   "resolutions": {
