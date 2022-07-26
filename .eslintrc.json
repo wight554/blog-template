@@ -28,7 +28,7 @@
         "newlines-between": "always",
         "alphabetize": { "order": "asc" },
         "pathGroups": [
-          { "pattern": "@{server,src,test}/**", "group": "external", "position": "after" }
+          { "pattern": "#{server,src,test}/**", "group": "external", "position": "after" }
         ],
         "pathGroupsExcludedImportTypes": ["builtin"]
       }
@@ -41,7 +41,8 @@
         "custom": { "regex": "^I[A-Z]", "match": false }
       }
     ],
-    "import/no-unresolved": 0
+    "import/no-unresolved": 0,
+    "import/no-named-as-default": 0
   },
   "overrides": [
     { "files": ["*.d.ts"], "rules": { "@typescript-eslint/no-unused-vars": 0 } },
