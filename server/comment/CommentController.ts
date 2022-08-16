@@ -20,11 +20,11 @@ import {
   COMMENT_UPDATE_ENDPOINT,
 } from '#server/constants/controllers.js';
 import { User } from '#server/decorators/UserDecorator.js';
-import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
 import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(COMMENT_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+@UseInterceptors(MongooseClassSerializerInterceptorFactory(Comment))
 export class CommentController {
   constructor(private commentService: CommentService) {}
 

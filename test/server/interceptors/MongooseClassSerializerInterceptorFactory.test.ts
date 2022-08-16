@@ -1,7 +1,10 @@
 import { ClassSerializerInterceptor, Type } from '@nestjs/common';
 import { Exclude } from 'class-transformer';
 
-import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import {
+  MongooseClassSerializerInterceptor,
+  MongooseClassSerializerInterceptorFactory,
+} from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
 import { createMockDocument } from '#test/server/mockUtils/index.js';
 
 class MockClass {
@@ -12,11 +15,11 @@ class MockClass {
 }
 
 describe('MongooseClassSerializerInterceptor', () => {
-  let Interceptor: Type<ClassSerializerInterceptor>;
-  let instance: ClassSerializerInterceptor;
+  let Interceptor: Type<MongooseClassSerializerInterceptor>;
+  let instance: MongooseClassSerializerInterceptor;
 
   beforeAll(() => {
-    Interceptor = MongooseClassSerializerInterceptor(MockClass);
+    Interceptor = MongooseClassSerializerInterceptorFactory(MockClass);
     instance = new Interceptor();
   });
 
@@ -64,6 +67,14 @@ describe('MongooseClassSerializerInterceptor', () => {
 
       test('should return response', () => {
         expect(instance.serialize(response, {})).toEqual(response);
+      });
+    });
+
+    describe('response is undefined', () => {
+      const response = undefined;
+
+      test('should return empty object response', () => {
+        expect(instance.serialize(response, {})).toEqual({});
       });
     });
   });

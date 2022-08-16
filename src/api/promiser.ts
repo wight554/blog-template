@@ -31,9 +31,9 @@ export class Promiser {
 
   public async allSettled<T = unknown>(values: Array<Promise<Awaited<T>>>) {
     const promises: Promise<PromiserResult<Array<PromiseSettledResult<Awaited<T>>>>> =
-      Promise.allSettled<T>(values)
-        .then<PromiserFulfilled<Array<PromiseSettledResult<Awaited<T>>>>>((data) => [data, null])
-        .catch<PromiserRejected>((error) => [null, error]);
+      Promise.allSettled<T>(values).then<
+        PromiserFulfilled<Array<PromiseSettledResult<Awaited<T>>>>
+      >((data) => [data, null]);
 
     return promises;
   }

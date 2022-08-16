@@ -19,11 +19,11 @@ import {
   AUTH_LOGOUT_ENDPOINT,
 } from '#server/constants/controllers.js';
 import { User } from '#server/decorators/UserDecorator.js';
-import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
 import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(AUTH_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(UserType))
+@UseInterceptors(MongooseClassSerializerInterceptorFactory(UserType))
 export class AuthController {
   constructor(private authService: AuthService) {}
 
