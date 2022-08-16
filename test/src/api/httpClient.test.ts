@@ -64,6 +64,18 @@ describe('httpClient', () => {
       });
     });
 
+    describe('request init is not set', () => {
+      it('should make fetch api request with default params', async () => {
+        await httpClient(url);
+
+        expect(fetch).toHaveBeenCalledWith(url, {
+          body: undefined,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          method: 'GET',
+        });
+      });
+    });
+
     describe('request method is DELETE', () => {
       it('should make fetch api DELETE request with empty body', async () => {
         await httpClient(url, RequestMethod.DELETE, init);

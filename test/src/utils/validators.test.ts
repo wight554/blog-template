@@ -1,5 +1,5 @@
-import { ValidationError } from '#src/enums/ValidationError';
-import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators';
+import { ValidationError } from '#src/enums/ValidationError.js';
+import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
 
 describe('validators', () => {
   describe('required', () => {
@@ -44,6 +44,14 @@ describe('validators', () => {
         const field = 'field';
 
         expect(mustMatch(field)('value', {})).toBe(`Must match ${field}`);
+      });
+    });
+
+    describe('all values object is undefined', () => {
+      it('should return error', () => {
+        const field = 'field';
+
+        expect(mustMatch(field)('value')).toBe(`Must match ${field}`);
       });
     });
   });
