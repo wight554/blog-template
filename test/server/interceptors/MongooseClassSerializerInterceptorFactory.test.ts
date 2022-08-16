@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, PlainLiteralObject, Type } from '@nestjs/common';
+import { ClassSerializerInterceptor, Type } from '@nestjs/common';
 import { Exclude } from 'class-transformer';
 
 import {
