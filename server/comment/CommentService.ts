@@ -114,7 +114,6 @@ export class CommentService {
 
       const { modifiedCount } = await this.postModel.updateOne(
         { _id: postId },
-        //@ts-expect-error broken mongoose typings
         {
           $pull: { comments: commentId },
         },

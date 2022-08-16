@@ -26,14 +26,14 @@ import {
   POST_UPDATE_ENDPOINT,
 } from '#server/constants/controllers.js';
 import { User } from '#server/decorators/UserDecorator.js';
-import { MongooseClassSerializerInterceptor } from '#server/interceptors/MongooseClassSerializerInterceptor.js';
+import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
 import { PostService } from '#server/post/PostService.js';
 import { CreatePostDto } from '#server/post/dto/CreatePostDto.js';
 import { Post as PostType } from '#server/post/schemas/PostSchema.js';
 import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(POST_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(PostType))
+@UseInterceptors(MongooseClassSerializerInterceptorFactory(PostType))
 export class PostController {
   constructor(private postService: PostService, private commentService: CommentService) {}
 
@@ -70,7 +70,7 @@ export class PostController {
     return this.postService.delete(id, user.id);
   }
 
-  @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  @UseInterceptors(MongooseClassSerializerInterceptorFactory(Comment))
   @UseGuards(JwtAuthGuard)
   @Post(POST_CREATE_COMMENT_ENDPOINT)
   public createPostComment(

@@ -4,9 +4,9 @@ import { createRequire } from 'module';
 import path from 'path';
 
 import preact from '@preact/preset-vite';
+import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
-import typescript from 'vite-plugin-typescript';
 import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';
@@ -47,6 +47,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     coverage: {
+      provider: 'istanbul',
       exclude: [...coverageExclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],

@@ -69,7 +69,7 @@ export enum RequestMethod {
 export class HttpClient {
   public async call<T = unknown, B = unknown>(
     url: string,
-    method: RequestMethod = RequestMethod.GET,
+    method: RequestMethod,
     init: HttpClientRequestInit<B> = {},
   ): Promise<HttpClientResponse<T>> {
     const headers = { ...DEFAULT_HEADERS, ...init.headers };
@@ -161,7 +161,7 @@ export class HttpClient {
       async <T = unknown, B = unknown>(
         url: string,
         method: RequestMethod = RequestMethod.GET,
-        init: HttpClientRequestInit<B> = {},
+        init?: HttpClientRequestInit<B>,
       ) => instance.call<T, B>(url, method, init),
       {
         delete: async <T = unknown, B = unknown>(url: string, init?: HttpClientRequestInit<B>) =>

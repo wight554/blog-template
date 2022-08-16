@@ -1,17 +1,24 @@
 import { ClassSerializerInterceptor, PlainLiteralObject, Type } from '@nestjs/common';
-import { ClassTransformOptions, plainToClass } from 'class-transformer';
+import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 import mongoose from 'mongoose';
 
-export function MongooseClassSerializerInterceptor(
+export interface MongooseClassSerializerInterceptor {
+  serialize(
+    response: PlainLiteralObject | Array<PlainLiteralObject> | undefined,
+    options: ClassTransformOptions,
+  ): PlainLiteralObject | Array<PlainLiteralObject>;
+}
+
+export function MongooseClassSerializerInterceptorFactory(
   classToIntercept: Type,
-): Type<ClassSerializerInterceptor> {
-  return class MongooseClassSerializerInterceptor extends ClassSerializerInterceptor {
-    private changePlainObjectToClass(document: PlainLiteralObject) {
+): Type<MongooseClassSerializerInterceptor> {
+  return class extends ClassSerializerInterceptor implements MongooseClassSerializerInterceptor {
+    private changePlainObjectToInstance(document: PlainLiteralObject) {
       if (!(document instanceof mongoose.Document)) {
         return document;
       }
 
-      return plainToClass(classToIntercept, document.toJSON());
+      return plainToInstance(classToIntercept, document.toJSON());
     }
 
     private prepareResponse(
@@ -26,10 +33,10 @@ export function MongooseClassSerializerInterceptor(
       }
 
       if (Array.isArray(response)) {
-        return response.map(this.changePlainObjectToClass);
+        return response.map(this.changePlainObjectToInstance);
       }
 
-      return this.changePlainObjectToClass(response);
+      return this.changePlainObjectToInstance(response);
     }
 
     serialize(
