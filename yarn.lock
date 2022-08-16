@@ -458,13 +458,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/cookie@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "@fastify/cookie@npm:7.4.0"
+"@fastify/cookie@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@fastify/cookie@npm:8.0.0"
   dependencies:
     cookie: ^0.5.0
     fastify-plugin: ^4.0.0
-  checksum: cf710f8fcf07d1655bdd76b86076e32d343fdea9291534e0b87b909d978520333663c2aed63609f84c2eec46ac0e9068f462a4b63b5d124e3d31c873adaa66d7
+  checksum: 6108fa3cfffc34a9dbeb85db90f44209aee647691d9395893f6ba5859d78cf5f114a0bd33725877312cfef834a133d7e8ebb75e277a90b71a0b298db8699001b
   languageName: node
   linkType: hard
 
@@ -702,15 +702,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/base@npm:5.0.0-alpha.92":
-  version: 5.0.0-alpha.92
-  resolution: "@mui/base@npm:5.0.0-alpha.92"
+"@mui/base@npm:5.0.0-alpha.93":
+  version: 5.0.0-alpha.93
+  resolution: "@mui/base@npm:5.0.0-alpha.93"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@emotion/is-prop-valid": ^1.1.3
     "@mui/types": ^7.1.5
     "@mui/utils": ^5.9.3
-    "@popperjs/core": ^2.11.5
+    "@popperjs/core": ^2.11.6
     clsx: ^1.2.1
     prop-types: ^15.8.1
     react-is: ^18.2.0
@@ -721,7 +721,14 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: ecb4ed58164525125bc17fbfc8e7cbb8270746ab9cce001fada2116b80d8857c42d5ea8e43de6bc313bae2a78ff9e0180e844cde7c868706e023ac4df759d23b
+  checksum: 8e04ac3d7e453d8acea73884fea899db4561218ba48644b04a11dfb905dbf630a84847a28ca62bc03d678c8db749e76e150d9cf99d1fbb5ff892e6b734527c29
+  languageName: node
+  linkType: hard
+
+"@mui/core-downloads-tracker@npm:^5.10.1":
+  version: 5.10.1
+  resolution: "@mui/core-downloads-tracker@npm:5.10.1"
+  checksum: 275fbabd9beb6d4cbbe5d6cf2a7621fb827bb7ad8be2fdd218ac3b1cc7c2ee9f69cbb71022b8a6f9ecaadbc21225015b33232fc3827dabe8db5c12fbf642cfc9
   languageName: node
   linkType: hard
 
@@ -741,13 +748,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.10.0":
-  version: 5.10.0
-  resolution: "@mui/material@npm:5.10.0"
+"@mui/material@npm:^5.10.1":
+  version: 5.10.1
+  resolution: "@mui/material@npm:5.10.1"
   dependencies:
     "@babel/runtime": ^7.17.2
-    "@mui/base": 5.0.0-alpha.92
-    "@mui/system": ^5.10.0
+    "@mui/base": 5.0.0-alpha.93
+    "@mui/core-downloads-tracker": ^5.10.1
+    "@mui/system": ^5.10.1
     "@mui/types": ^7.1.5
     "@mui/utils": ^5.9.3
     "@types/react-transition-group": ^4.4.5
@@ -769,7 +777,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: c31cdefa094ab9f802d60519cf1884e8c5a8f162f6e567d32072d86d4bfa8807a8c1e4fe52614d0853ebdd4da5daccdfdce3d4cf79b8f29e8b67864f1d326a7b
+  checksum: 47c8157757df28863f4788f551ddb55e8268a246b2691fe5f0351d83040d874314a3b483d33359824f918abb861e3c6dca91562a5999ebda456c743890e6978a
   languageName: node
   linkType: hard
 
@@ -790,9 +798,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styled-engine@npm:@mui/styled-engine-sc@5.10.0":
-  version: 5.10.0
-  resolution: "@mui/styled-engine-sc@npm:5.10.0"
+"@mui/styled-engine@npm:@mui/styled-engine-sc@5.10.1":
+  version: 5.10.1
+  resolution: "@mui/styled-engine-sc@npm:5.10.1"
   dependencies:
     "@babel/runtime": ^7.17.2
     prop-types: ^15.8.1
@@ -802,17 +810,17 @@ __metadata:
   peerDependenciesMeta:
     "@types/styled-components":
       optional: true
-  checksum: baaf0326f20a72d0146c6b07715be1035105e0e173c0fbcde0e5d83dbe006e38a1278bc77a5a5d4b71420c2c5a25c9d3606b1da577bb485e7e2985678114d787
+  checksum: 933ab29ae1a4992c42853452ccae95997100a1c420a81915fce4b59ce338c8a807d536cd9948743c7d7a6a2721cba00eefbb7af50cbd0a426e935427424ec50c
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^5.10.0":
-  version: 5.10.0
-  resolution: "@mui/system@npm:5.10.0"
+"@mui/system@npm:^5.10.1":
+  version: 5.10.1
+  resolution: "@mui/system@npm:5.10.1"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@mui/private-theming": ^5.9.3
-    "@mui/styled-engine": ^5.10.0
+    "@mui/styled-engine": ^5.10.1
     "@mui/types": ^7.1.5
     "@mui/utils": ^5.9.3
     clsx: ^1.2.1
@@ -830,7 +838,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: be86853ca79ed8a889d37fa02780c0dfe477ff5ffda4cabba8bf5865186b578cbd50646ea902c3f5712baf83d4b11fbd21428f643b42d1839d671cbedddfc546
+  checksum: 0acb163dec856af3813ff043b4d8441d44431add7cb234cf16d386b2b70e30cba6261b51ac936f886d746f4b3ab3475b58e33e09f76cd92a6f6aadd61dca3927
   languageName: node
   linkType: hard
 
@@ -861,9 +869,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^9.0.9":
-  version: 9.0.9
-  resolution: "@nestjs/common@npm:9.0.9"
+"@nestjs/common@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/common@npm:9.0.11"
   dependencies:
     iterare: 1.2.1
     tslib: 2.4.0
@@ -881,7 +889,7 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 012450e6dac7e2196cd92276edc581cf0825780133a68f3cbf42e50763757ff381531d5de7d73bc24b88aed0e967e24fa0b21223b7b36d6f3cc3ca618e39b265
+  checksum: 57c6618f13e3c9d16665ba0f10318bd1fea9d46eb5b609c8d79ccf4f41ed2dd97668fa51142aeaed4da5a4cd9388aee9cad5730916f4831b6ea23ded6f0265ce
   languageName: node
   linkType: hard
 
@@ -901,9 +909,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^9.0.9":
-  version: 9.0.9
-  resolution: "@nestjs/core@npm:9.0.9"
+"@nestjs/core@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/core@npm:9.0.11"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -926,7 +934,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 1dedb63ebaac1561e648038b172e556289cff74740b63a1e39b6ea2b5163f803ffe51ee475c1ef72d4eecf64427c36c5af9a654b1ad208844207bceeb1885153
+  checksum: 645081107b3cacbbb6318ca64ccc388bea4b3e3e407183af568d57c05d2f15b4284736efd634b205088ddbedaf55e891096dc7af6b1e07858eb470559f3378d1
   languageName: node
   linkType: hard
 
@@ -965,9 +973,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/platform-fastify@npm:^9.0.9":
-  version: 9.0.9
-  resolution: "@nestjs/platform-fastify@npm:9.0.9"
+"@nestjs/platform-fastify@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/platform-fastify@npm:9.0.11"
   dependencies:
     "@fastify/cors": 8.1.0
     "@fastify/formbody": 7.0.1
@@ -986,13 +994,13 @@ __metadata:
       optional: true
     "@fastify/view":
       optional: true
-  checksum: 04883477b07c3eda915a71e878bd12454debea8b8492dd81193a1828ece9a153cec21f0df52263028de190b5ff4fd3a08ac7bf34a8c36920a81b9859e3eafd7d
+  checksum: db8202e397a211d15fdf3d709a3e441dc09e25c78aecdc7936f069f728133844f5b774a8b392c77c08f0bde5be2bcc541b704fa3d37aeabc09cc7aebd152657d
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:^9.0.9":
-  version: 9.0.9
-  resolution: "@nestjs/testing@npm:9.0.9"
+"@nestjs/testing@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "@nestjs/testing@npm:9.0.11"
   dependencies:
     tslib: 2.4.0
   peerDependencies:
@@ -1005,7 +1013,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: 9efbef8794adbb623f97db9b4b4c1447670ed01cc95d09c841964d625d6facebb42277a5322cd8b072ba740f3107d20700d998334878387a89cd91cd33e05a91
+  checksum: 8343529a878869d2b5cbc51a63c4517cce6f38e88a39fd4a527f566878638669faf3c10ca1e89b8b1a137c2f21437718d2004d22b02e1df57318995c733ed0bb
   languageName: node
   linkType: hard
 
@@ -1083,7 +1091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.11.5":
+"@popperjs/core@npm:^2.11.6":
   version: 2.11.6
   resolution: "@popperjs/core@npm:2.11.6"
   checksum: 47fb328cec1924559d759b48235c78574f2d71a8a6c4c03edb6de5d7074078371633b91e39bbf3f901b32aa8af9b9d8f82834856d2f5737a23475036b16817f0
@@ -1429,10 +1437,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.7.5":
+"@types/node@npm:*":
   version: 18.7.5
   resolution: "@types/node@npm:18.7.5"
   checksum: f74426f2c9e81ab00e35ddca8db84efb6eb6c77e6d120bbe84d462073c371fa46e4744bd87773d9f7cf9074cf575df573bb89c3335f38f4ecbef2f03b407f35f
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.7.6":
+  version: 18.7.6
+  resolution: "@types/node@npm:18.7.6"
+  checksum: 5122988c325eda8d1f5cbe4494916036aae1758f9d5bb2d8139a800b8bad1540fbb167cd3c759da9a5cb4600cd3507609ac7969747113c1549a3e4320a17b1a9
   languageName: node
   linkType: hard
 
@@ -2170,26 +2185,26 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "blog-template@workspace:."
   dependencies:
-    "@fastify/cookie": ^7.4.0
+    "@fastify/cookie": ^8.0.0
     "@fastify/static": ^6.5.0
     "@mui/icons-material": ^5.8.4
-    "@mui/material": ^5.10.0
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@5.10.0"
-    "@nestjs/common": ^9.0.9
+    "@mui/material": ^5.10.1
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@5.10.1"
+    "@nestjs/common": ^9.0.11
     "@nestjs/config": ^2.2.0
-    "@nestjs/core": ^9.0.9
+    "@nestjs/core": ^9.0.11
     "@nestjs/jwt": ^9.0.0
     "@nestjs/mongoose": ^9.2.0
     "@nestjs/passport": ^9.0.0
-    "@nestjs/platform-fastify": ^9.0.9
-    "@nestjs/testing": ^9.0.9
+    "@nestjs/platform-fastify": ^9.0.11
+    "@nestjs/testing": ^9.0.11
     "@preact/preset-vite": ^2.3.0
     "@rollup/plugin-typescript": ^8.3.4
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/preact": ^3.2.2
     "@types/bcrypt": ^5.0.0
     "@types/cookie-parser": ^1.4.3
-    "@types/node": ^18.7.5
+    "@types/node": ^18.7.6
     "@types/passport-jwt": ^3.0.6
     "@types/passport-local": ^1.0.34
     "@types/validator": ^13.7.5
@@ -2217,7 +2232,7 @@ __metadata:
     passport: ^0.6.0
     passport-jwt: ^4.0.0
     passport-local: ^1.0.0
-    preact: ^10.10.2
+    preact: ^10.10.3
     prettier: ^2.7.1
     react: "npm:@preact/compat@latest"
     react-dom: "npm:@preact/compat@latest"
@@ -2234,9 +2249,8 @@ __metadata:
     typescript: ^4.7.4
     typescript-lit-html-plugin: ^0.9.0
     typescript-styled-plugin: ^0.18.2
-    vite: ^3.0.7
+    vite: ^3.0.8
     vite-plugin-checker: ^0.4.9
-    vite-plugin-typescript: ^1.0.4
     vitest: 0.22.0
   languageName: unknown
   linkType: soft
@@ -6146,10 +6160,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.10.2":
-  version: 10.10.2
-  resolution: "preact@npm:10.10.2"
-  checksum: 3e994205eb75ce7c79f45bfd86b297645937f926c06fa2a541bf87a5ae168dd6c9f0945af29986065877623d58d1977aff073e4378683994fabee0edbb165c24
+"preact@npm:^10.10.3":
+  version: 10.10.3
+  resolution: "preact@npm:10.10.3"
+  checksum: f62762c45d577a0c269bfebf558d3b1940523630c64b0d3895090425a0fb4ed4c6f960fb57b789bda85a5bfc85c7d65d70b596b6579d09b7c2a436565b59e11e
   languageName: node
   linkType: hard
 
@@ -7644,17 +7658,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-typescript@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "vite-plugin-typescript@npm:1.0.4"
-  peerDependencies:
-    "@rollup/plugin-typescript": "*"
-    vite: "*"
-  checksum: 68a69d060fbce91d4551f449c6812ec2667fa4ebd983d51697f6d7d35d8d320b6814599d196961341edd436e4508b13c21e4f604cbb31b5e46e78759b703ca25
-  languageName: node
-  linkType: hard
-
-"vite@npm:^2.9.12 || ^3.0.0-0, vite@npm:^3.0.7":
+"vite@npm:^2.9.12 || ^3.0.0-0":
   version: 3.0.7
   resolution: "vite@npm:3.0.7"
   dependencies:
@@ -7683,6 +7687,38 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 3cdcb68e16433b9addee61c117c379692e4d12d44ee7011da99ed9516b8c37ce76f1bb1728eab0e3a28957c9d2dc839024e1607c2ad03f38089e3be55d7dd456
+  languageName: node
+  linkType: hard
+
+"vite@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "vite@npm:3.0.8"
+  dependencies:
+    esbuild: ^0.14.47
+    fsevents: ~2.3.2
+    postcss: ^8.4.16
+    resolve: ^1.22.1
+    rollup: ">=2.75.6 <2.77.0 || ~2.77.0"
+  peerDependencies:
+    less: "*"
+    sass: "*"
+    stylus: "*"
+    terser: ^5.4.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    less:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    terser:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: ec3f57d52f2bf28f2f89898053c2156f025a108a95e9308ce6580f43d8fdaae866f7988afa8207a8c8509069d3a0b50ee79b9a8050590a825f4b7771646c2755
   languageName: node
   linkType: hard
 
