@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1660996489797" clover="3.2.0">
+  <project timestamp="1660996489798" name="All files">
+    <metrics statements="445" coveredstatements="382" conditionals="490" coveredconditionals="278" methods="137" coveredmethods="107" elements="1072" coveredelements="767" complexity="0" loc="445" ncloc="445" packages="25" files="41" classes="41"/>
+    <package name="server.auth">
+      <metrics statements="35" coveredstatements="23" conditionals="54" coveredconditionals="15" methods="12" coveredmethods="6"/>
+      <file name="AuthController.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/auth/AuthController.ts">
+        <metrics statements="15" coveredstatements="8" conditionals="28" coveredconditionals="8" methods="7" coveredmethods="3"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+      </file>
+      <file name="AuthService.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/auth/AuthService.ts">
+        <metrics statements="20" coveredstatements="15" conditionals="26" coveredconditionals="7" methods="5" coveredmethods="3"/>
+        <line num="1" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.auth.guards">
+      <metrics statements="8" coveredstatements="0" conditionals="32" coveredconditionals="4" methods="0" coveredmethods="0"/>
+      <file name="JwtAuthGuard.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/auth/guards/JwtAuthGuard.ts">
+        <metrics statements="4" coveredstatements="0" conditionals="16" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+      </file>
+      <file name="LocalAuthGuard.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/auth/guards/LocalAuthGuard.ts">
+        <metrics statements="4" coveredstatements="0" conditionals="16" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+      </file>
+    </package>
+    <package name="server.comment">
+      <metrics statements="69" coveredstatements="55" conditionals="71" coveredconditionals="31" methods="16" coveredmethods="8"/>
+      <file name="CommentController.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/comment/CommentController.ts">
+        <metrics statements="15" coveredstatements="8" conditionals="28" coveredconditionals="8" methods="7" coveredmethods="3"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="32" count="6" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+      </file>
+      <file name="CommentService.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/comment/CommentService.ts">
+        <metrics statements="54" coveredstatements="47" conditionals="43" coveredconditionals="23" methods="9" coveredmethods="5"/>
+        <line num="1" count="3" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="3" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="3" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="22" count="17" type="stmt"/>
+        <line num="23" count="17" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="16" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="38" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="41" count="8" type="stmt"/>
+        <line num="50" count="8" type="cond" truecount="1" falsecount="0"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="53" count="6" type="stmt"/>
+        <line num="55" count="4" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="58" count="10" type="stmt"/>
+        <line num="60" count="6" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
+        <line num="64" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="67" count="4" type="stmt"/>
+        <line num="70" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="73" count="3" type="stmt"/>
+        <line num="76" count="13" type="stmt"/>
+        <line num="77" count="13" type="stmt"/>
+        <line num="78" count="13" type="stmt"/>
+        <line num="79" count="13" type="stmt"/>
+        <line num="80" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="83" count="11" type="stmt"/>
+        <line num="86" count="11" type="stmt"/>
+        <line num="95" count="11" type="cond" truecount="3" falsecount="0"/>
+        <line num="96" count="4" type="stmt"/>
+        <line num="98" count="7" type="stmt"/>
+        <line num="100" count="6" type="stmt"/>
+        <line num="101" count="6" type="stmt"/>
+        <line num="103" count="13" type="stmt"/>
+        <line num="107" count="31" type="stmt"/>
+        <line num="108" count="31" type="stmt"/>
+        <line num="109" count="31" type="stmt"/>
+        <line num="112" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.comment.dto">
+      <metrics statements="10" coveredstatements="10" conditionals="34" coveredconditionals="28" methods="2" coveredmethods="2"/>
+      <file name="CreateCommentDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/comment/dto/CreateCommentDto.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="17" coveredconditionals="14" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="6" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="1" type="cond" truecount="2" falsecount="1"/>
+      </file>
+      <file name="UpdateCommentDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/comment/dto/UpdateCommentDto.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="17" coveredconditionals="14" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="6" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="1" type="cond" truecount="2" falsecount="1"/>
+      </file>
+    </package>
+    <package name="server.constants">
+      <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="controllers.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/constants/controllers.ts">
+        <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.crypto">
+      <metrics statements="6" coveredstatements="5" conditionals="15" coveredconditionals="8" methods="2" coveredmethods="2"/>
+      <file name="CryptoService.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/crypto/CryptoService.ts">
+        <metrics statements="6" coveredstatements="5" conditionals="15" coveredconditionals="8" methods="2" coveredmethods="2"/>
+        <line num="1" count="5" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="1" type="cond" truecount="1" falsecount="2"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.decorators">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="UserDecorator.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/decorators/UserDecorator.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="2" count="5" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.enums">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="MongoErrorCode.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/enums/MongoErrorCode.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.interceptors">
+      <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
+      <file name="MongooseClassSerializerInterceptorFactory.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/interceptors/MongooseClassSerializerInterceptorFactory.ts">
+        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="7" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="13" count="6" type="cond" truecount="3" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="20" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.post">
+      <metrics statements="65" coveredstatements="51" conditionals="65" coveredconditionals="27" methods="22" coveredmethods="14"/>
+      <file name="PostController.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/post/PostController.ts">
+        <metrics statements="22" coveredstatements="15" conditionals="28" coveredconditionals="8" methods="11" coveredmethods="7"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="47" count="18" type="stmt"/>
+        <line num="48" count="18" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+      </file>
+      <file name="PostService.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/post/PostService.ts">
+        <metrics statements="43" coveredstatements="36" conditionals="37" coveredconditionals="19" methods="11" coveredmethods="7"/>
+        <line num="1" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="25" count="17" type="stmt"/>
+        <line num="26" count="17" type="cond" truecount="1" falsecount="0"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="16" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="51" count="5" type="stmt"/>
+        <line num="52" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="55" count="4" type="stmt"/>
+        <line num="58" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
+        <line num="70" count="13" type="stmt"/>
+        <line num="71" count="13" type="stmt"/>
+        <line num="72" count="13" type="stmt"/>
+        <line num="73" count="13" type="stmt"/>
+        <line num="74" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="77" count="11" type="stmt"/>
+        <line num="80" count="33" type="stmt"/>
+        <line num="81" count="11" type="stmt"/>
+        <line num="86" count="11" type="cond" truecount="3" falsecount="0"/>
+        <line num="87" count="4" type="stmt"/>
+        <line num="89" count="7" type="stmt"/>
+        <line num="91" count="6" type="stmt"/>
+        <line num="92" count="6" type="stmt"/>
+        <line num="94" count="13" type="stmt"/>
+        <line num="98" count="25" type="stmt"/>
+        <line num="99" count="25" type="stmt"/>
+        <line num="100" count="25" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.post.dto">
+      <metrics statements="14" coveredstatements="14" conditionals="42" coveredconditionals="34" methods="4" coveredmethods="4"/>
+      <file name="CreatePostDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/post/dto/CreatePostDto.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="21" coveredconditionals="17" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="12" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="7" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="1"/>
+      </file>
+      <file name="UpdatePostDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/post/dto/UpdatePostDto.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="21" coveredconditionals="17" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="12" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="7" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="1"/>
+      </file>
+    </package>
+    <package name="server.user">
+      <metrics statements="58" coveredstatements="44" conditionals="65" coveredconditionals="27" methods="17" coveredmethods="9"/>
+      <file name="UserController.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/user/UserController.ts">
+        <metrics statements="18" coveredstatements="11" conditionals="29" coveredconditionals="9" methods="8" coveredmethods="4"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="32" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+      </file>
+      <file name="UserService.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/user/UserService.ts">
+        <metrics statements="40" coveredstatements="33" conditionals="36" coveredconditionals="18" methods="9" coveredmethods="5"/>
+        <line num="1" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="4" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="7" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="10" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="25" count="6" type="stmt"/>
+        <line num="26" count="6" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="33" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="34" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="44" count="7" type="stmt"/>
+        <line num="45" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="6" type="stmt"/>
+        <line num="50" count="6" type="stmt"/>
+        <line num="54" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="59" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="62" count="3" type="stmt"/>
+        <line num="65" count="3" type="stmt"/>
+        <line num="68" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="74" count="3" type="stmt"/>
+        <line num="75" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="81" count="19" type="stmt"/>
+        <line num="82" count="19" type="stmt"/>
+      </file>
+    </package>
+    <package name="server.user.dto">
+      <metrics statements="16" coveredstatements="16" conditionals="42" coveredconditionals="34" methods="4" coveredmethods="4"/>
+      <file name="CreateUserDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/user/dto/CreateUserDto.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="21" coveredconditionals="17" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="4" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="26" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="7" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="8" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="13" count="2" type="stmt"/>
+      </file>
+      <file name="UpdateUserDto.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/server/user/dto/UpdateUserDto.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="21" coveredconditionals="17" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="2" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="3" count="4" type="cond" truecount="3" falsecount="1"/>
+        <line num="4" count="26" type="cond" truecount="3" falsecount="0"/>
+        <line num="5" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="7" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="8" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="13" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.api">
+      <metrics statements="49" coveredstatements="49" conditionals="11" coveredconditionals="11" methods="23" coveredmethods="23"/>
+      <file name="httpClient.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/api/httpClient.ts">
+        <metrics statements="30" coveredstatements="30" conditionals="8" coveredconditionals="8" methods="13" coveredmethods="13"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="26" count="18" type="stmt"/>
+        <line num="47" count="18" type="cond" truecount="1" falsecount="0"/>
+        <line num="60" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="62" count="18" type="stmt"/>
+        <line num="69" count="18" type="stmt"/>
+        <line num="70" count="18" type="stmt"/>
+        <line num="75" count="18" type="stmt"/>
+        <line num="77" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="78" count="17" type="stmt"/>
+        <line num="82" count="17" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="124" count="2" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="133" count="1" type="stmt"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+      </file>
+      <file name="httpError.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/api/httpError.ts">
+        <metrics statements="10" coveredstatements="10" conditionals="3" coveredconditionals="3" methods="2" coveredmethods="2"/>
+        <line num="6" count="18" type="stmt"/>
+        <line num="7" count="18" type="stmt"/>
+        <line num="9" count="18" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="16" count="17" type="stmt"/>
+        <line num="17" count="17" type="stmt"/>
+        <line num="18" count="16" type="stmt"/>
+        <line num="20" count="13" type="stmt"/>
+        <line num="22" count="16" type="stmt"/>
+        <line num="25" count="17" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="promiser.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/api/promiser.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.App">
+      <metrics statements="12" coveredstatements="12" conditionals="18" coveredconditionals="18" methods="2" coveredmethods="2"/>
+      <file name="App.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/App/App.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="18" coveredconditionals="18" methods="2" coveredmethods="2"/>
+        <line num="20" count="11" type="stmt"/>
+        <line num="21" count="11" type="stmt"/>
+        <line num="23" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="11" type="stmt"/>
+        <line num="27" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="37" count="11" type="stmt"/>
+      </file>
+      <file name="styles.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/App/styles.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.AuthFormContainer">
+      <metrics statements="11" coveredstatements="11" conditionals="4" coveredconditionals="4" methods="6" coveredmethods="6"/>
+      <file name="AuthFormContainer.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/AuthFormContainer/AuthFormContainer.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="8" count="10" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+      </file>
+      <file name="styles.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/AuthFormContainer/styles.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="14" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="19" count="10" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.AuthFormField">
+      <metrics statements="4" coveredstatements="4" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+      <file name="AuthFormField.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/AuthFormField/AuthFormField.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="7" count="11" type="stmt"/>
+        <line num="10" count="11" type="stmt"/>
+      </file>
+      <file name="styles.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/AuthFormField/styles.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Backdrop">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Backdrop.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/Backdrop/Backdrop.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Header">
+      <metrics statements="21" coveredstatements="21" conditionals="12" coveredconditionals="12" methods="6" coveredmethods="6"/>
+      <file name="Header.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/Header/Header.ts">
+        <metrics statements="15" coveredstatements="15" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="52" type="stmt"/>
+        <line num="15" count="52" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="52" type="stmt"/>
+        <line num="17" count="52" type="stmt"/>
+        <line num="20" count="52" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="33" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="34" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="41" count="52" type="stmt"/>
+        <line num="68" count="52" type="stmt"/>
+        <line num="96" count="104" type="stmt"/>
+        <line num="107" count="104" type="stmt"/>
+      </file>
+      <file name="styles.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/Header/styles.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="18" count="71" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Login">
+      <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3"/>
+      <file name="Login.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/Login/Login.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Logo">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Logo.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/Logo/Logo.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="12" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.SignUp">
+      <metrics statements="7" coveredstatements="7" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3"/>
+      <file name="SignUp.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/components/SignUp/SignUp.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="16" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.enums">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="ValidationError.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/enums/ValidationError.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.store">
+      <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <file name="snackbarState.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/store/snackbarState.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="2" count="4" type="stmt"/>
+      </file>
+      <file name="userState.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/store/userState.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="8" count="25" type="stmt"/>
+        <line num="9" count="24" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="15" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.utils">
+      <metrics statements="8" coveredstatements="8" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5"/>
+      <file name="api.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/utils/api.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="3" coveredconditionals="3" methods="0" coveredmethods="0"/>
+        <line num="8" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="13" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+      </file>
+      <file name="validators.ts" path="/Users/Volodymyr_Zhdanov/playground/blog-template/src/utils/validators.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="9" coveredconditionals="9" methods="5" coveredmethods="5"/>
+        <line num="3" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="36" type="cond" truecount="4" falsecount="0"/>
+      </file>
+    </package>
+  </project>
+</coverage>
