@@ -39,6 +39,7 @@ export default defineConfig({
       }),
     isTest && RollupPluginSwc(),
   ],
+  ...(isTest && { esbuild: false }),
   build: {
     outDir: path.join(__dirname, 'dist/public'),
     emptyOutDir: true,
