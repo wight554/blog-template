@@ -4,11 +4,11 @@ import { createRequire } from 'module';
 import path from 'path';
 
 import preact from '@preact/preset-vite';
-import swc from 'unplugin-swc';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import { configDefaults } from 'vitest/config';
 
+import { RollupPluginSwc } from './rollup-plugin-swc.js';
 const isTest = process.env.NODE_ENV === 'test';
 
 const {
@@ -37,7 +37,7 @@ export default defineConfig({
           lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
       }),
-    isTest && swc.vite(),
+    isTest && RollupPluginSwc(),
   ],
   build: {
     outDir: path.join(__dirname, 'dist/public'),
