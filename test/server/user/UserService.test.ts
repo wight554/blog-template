@@ -7,17 +7,17 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
 
-import { CryptoService } from '@server/crypto/CryptoService';
-import { MongoErrorCode } from '@server/enums/MongoErrorCode';
-import { UserService } from '@server/user/UserService';
-import { User, UserDocument } from '@server/user/schemas/UserSchema';
-import { createMockMongoError } from '@test/server/mockUtils';
+import { CryptoService } from '#server/crypto/CryptoService.js';
+import { MongoErrorCode } from '#server/enums/MongoErrorCode.js';
+import { UserService } from '#server/user/UserService.js';
+import { User, UserDocument } from '#server/user/schemas/UserSchema.js';
+import { createMockMongoError } from '#test/server/mockUtils/index.js';
 import {
   mockUserModel,
   mockUpsertUser,
   mockMongoUser,
   mockUpdatedMongoUser,
-} from '@test/server/user/mocks';
+} from '#test/server/user/mocks/index.js';
 
 const userId = '1';
 const username = 'username';

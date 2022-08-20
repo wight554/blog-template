@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["."],
+  "compilerOptions": {
+    "plugins": [{ "name": "typescript-lit-html-plugin" }, { "name": "typescript-styled-plugin" }]
+  }
+}

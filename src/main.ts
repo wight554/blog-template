@@ -5,15 +5,15 @@ import { render } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { App } from '@src/components/App/App';
-import '@src/index.css';
+import { App } from '#src/components/App/index.js';
+import './index.css';
 
 render(
   html`
     <${RecoilRoot}>
       <${BrowserRouter}>
-        <${App} />
         <${CssBaseline} />
+        <${App} />
       <//>
     <//>
   `,

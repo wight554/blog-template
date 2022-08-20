@@ -6,6 +6,7 @@ dist-ssr
 
 *.log
 
+.idea
 .vscode
 
 .pnp.*

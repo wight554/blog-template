@@ -1,5 +1,5 @@
-import { HttpClient, httpClient, RequestMethod } from '@src/api/httpClient';
-import { HttpError } from '@src/api/httpError';
+import { HttpClient, httpClient, RequestMethod } from '#src/api/httpClient.js';
+import { HttpError } from '#src/api/httpError.js';
 
 const url = 'url';
 const body = { data: 'data' };
@@ -61,6 +61,18 @@ describe('httpClient', () => {
         mockFetch.mockReturnValueOnce({ ...mockResponse, ok: false });
 
         await expect(httpClient(url)).rejects.toThrowError(HttpError);
+      });
+    });
+
+    describe('request init is not set', () => {
+      it('should make fetch api request with default params', async () => {
+        await httpClient(url);
+
+        expect(fetch).toHaveBeenCalledWith(url, {
+          body: undefined,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          method: 'GET',
+        });
       });
     });
 

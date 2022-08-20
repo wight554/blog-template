@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
-import { CreateUserDto } from '@server/user/dto/CreateUserDto';
+import { CreateUserDto } from '#server/user/dto/CreateUserDto.js';
 
 describe('CreateUserDto', () => {
   describe('username', () => {

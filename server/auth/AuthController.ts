@@ -8,22 +8,22 @@ import {
   HttpCode,
   Header,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import type { FastifyReply } from 'fastify';
 
-import { AuthService } from '@server/auth/AuthService';
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
-import { LocalAuthGuard } from '@server/auth/guards/LocalAuthGuard';
+import { AuthService } from '#server/auth/AuthService.js';
+import { JwtAuthGuard } from '#server/auth/guards/JwtAuthGuard.js';
+import { LocalAuthGuard } from '#server/auth/guards/LocalAuthGuard.js';
 import {
   AUTH_CONTROLLER_ROUTE,
   AUTH_LOGIN_ENDPOINT,
   AUTH_LOGOUT_ENDPOINT,
-} from '@server/constants/controllers';
-import { User } from '@server/decorators/UserDecorator';
-import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { User as UserType } from '@server/user/schemas/UserSchema';
+} from '#server/constants/controllers.js';
+import { User } from '#server/decorators/UserDecorator.js';
+import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
+import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(AUTH_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(UserType))
+@UseInterceptors(MongooseClassSerializerInterceptorFactory(UserType))
 export class AuthController {
   constructor(private authService: AuthService) {}
 

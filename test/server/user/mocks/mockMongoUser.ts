@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
-import { UserDocument } from '@server/user/schemas/UserSchema';
-import { mockUser } from '@test/server/user/mocks/mockUser';
+import { UserDocument } from '#server/user/schemas/UserSchema.js';
+import { mockUser } from '#test/server/user/mocks/mockUser.js';
 
 export const mockMongoUser = <UserDocument>{
   ...mockUser,

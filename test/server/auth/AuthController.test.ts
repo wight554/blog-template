@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AuthController } from '@server/auth/AuthController';
-import { AuthService } from '@server/auth/AuthService';
-import { createMockReply } from '@test/server/mockUtils';
-import { mockUser, mockUpdatedUser } from '@test/server/user/mocks';
+import { AuthController } from '#server/auth/AuthController.js';
+import { AuthService } from '#server/auth/AuthService.js';
+import { createMockReply } from '#test/server/mockUtils/index.js';
+import { mockUser, mockUpdatedUser } from '#test/server/user/mocks/index.js';
 
 const cookie = 'cookie';
 const userId = '1';

@@ -10,22 +10,22 @@ import {
   Get,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
+import { JwtAuthGuard } from '#server/auth/guards/JwtAuthGuard.js';
 import {
   USER_CONTROLLER_ROUTE,
   USER_CREATE_ENDPOINT,
   USER_GET_ENDPOINT,
   USER_UPDATE_ENDPOINT,
-} from '@server/constants/controllers';
-import { User } from '@server/decorators/UserDecorator';
-import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
-import { UserService } from '@server/user/UserService';
-import { CreateUserDto } from '@server/user/dto/CreateUserDto';
-import { UpdateUserDto } from '@server/user/dto/UpdateUserDto';
-import { User as UserType } from '@server/user/schemas/UserSchema';
+} from '#server/constants/controllers.js';
+import { User } from '#server/decorators/UserDecorator.js';
+import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
+import { UserService } from '#server/user/UserService.js';
+import { CreateUserDto } from '#server/user/dto/CreateUserDto.js';
+import { UpdateUserDto } from '#server/user/dto/UpdateUserDto.js';
+import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
 @Controller(USER_CONTROLLER_ROUTE)
-@UseInterceptors(MongooseClassSerializerInterceptor(UserType))
+@UseInterceptors(MongooseClassSerializerInterceptorFactory(UserType))
 export class UserController {
   constructor(private userService: UserService) {}
 

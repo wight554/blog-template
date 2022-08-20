@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
-import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
+import { UpdateCommentDto } from '#server/comment/dto/UpdateCommentDto.js';
 
 describe('UpdateCommentDto', () => {
   describe('text', () => {

@@ -1,4 +1,5 @@
-/* eslint-disable import/export */
-export * from '@testing-library/preact';
+export { screen, waitFor, fireEvent, cleanup } from '@testing-library/preact';
 
-export { renderWithProviders as render } from '@test/src/testUtils/renderWithProviders';
+export { renderWithProviders as render } from './renderWithProviders.js';
+
+export * from './components/index.js';

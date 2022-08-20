@@ -1,8 +1,8 @@
 import { Types } from 'mongoose';
 
-import { PostDocument } from '@server/post/schemas/PostSchema';
-import { User } from '@server/user/schemas/UserSchema';
-import { mockMongoPost } from '@test/server/post/mocks/mockMongoPost';
+import { PostDocument } from '#server/post/schemas/PostSchema.js';
+import { User } from '#server/user/schemas/UserSchema.js';
+import { mockMongoPost } from '#test/server/post/mocks/mockMongoPost.js';
 
 export const mockMongoPosts: Array<PostDocument> = [
   <PostDocument>{
