@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
 import { Comment, CommentDocument } from '#server/comment/schemas/CommentSchema.js';

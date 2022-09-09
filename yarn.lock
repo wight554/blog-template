@@ -2220,6 +2220,7 @@ __metadata:
     eslint-import-resolver-typescript: ^3.4.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest-dom: ^4.0.2
+    eslint-plugin-simple-import-sort: ^8.0.0
     eslint-plugin-testing-library: ^5.6.0
     final-form: ^4.20.7
     htm: ^3.1.1
@@ -3532,6 +3533,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 553fb9ece6beb7c14cf6f84670c786c8ac978c2918421994dcc4edd2385302022e5d5ac4a39fafdb35954e29cecddefed61758040c3c530cafcf651f674a9d51
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:8.0.0"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: d2a92a7d148803ee9ad4f081892a8d03820198c36a0f4f16a97d9f686a714edc9c9a9e51cc79cb0ba1afff76a1fde6a5eae50e9e3754928068227c92a2db5d6b
   languageName: node
   linkType: hard
 

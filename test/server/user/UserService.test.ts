@@ -9,14 +9,14 @@ import { Model } from 'mongoose';
 
 import { CryptoService } from '#server/crypto/CryptoService.js';
 import { MongoErrorCode } from '#server/enums/MongoErrorCode.js';
-import { UserService } from '#server/user/UserService.js';
 import { User, UserDocument } from '#server/user/schemas/UserSchema.js';
+import { UserService } from '#server/user/UserService.js';
 import { createMockMongoError } from '#test/server/mockUtils/index.js';
 import {
-  mockUserModel,
-  mockUpsertUser,
   mockMongoUser,
   mockUpdatedMongoUser,
+  mockUpsertUser,
+  mockUserModel,
 } from '#test/server/user/mocks/index.js';
 
 const userId = '1';

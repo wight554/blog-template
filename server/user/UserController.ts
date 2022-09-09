@@ -1,13 +1,13 @@
 import {
-  Controller,
-  Post,
-  UseGuards,
   Body,
-  Put,
-  Param,
+  Controller,
   ForbiddenException,
-  UseInterceptors,
   Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '#server/auth/guards/JwtAuthGuard.js';
@@ -19,10 +19,10 @@ import {
 } from '#server/constants/controllers.js';
 import { User } from '#server/decorators/UserDecorator.js';
 import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
-import { UserService } from '#server/user/UserService.js';
 import { CreateUserDto } from '#server/user/dto/CreateUserDto.js';
 import { UpdateUserDto } from '#server/user/dto/UpdateUserDto.js';
 import { User as UserType } from '#server/user/schemas/UserSchema.js';
+import { UserService } from '#server/user/UserService.js';
 
 @Controller(USER_CONTROLLER_ROUTE)
 @UseInterceptors(MongooseClassSerializerInterceptorFactory(UserType))

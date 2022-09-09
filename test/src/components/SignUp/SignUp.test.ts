@@ -31,7 +31,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { createHttpError } from '#src/api/httpError';
 import { SignUp } from '#src/components/SignUp';
 import { snackbarState } from '#src/store/snackbarState';
-import { render, screen, waitFor, fireEvent, cleanup, RecoilObserver } from '#test/src/testUtils';
+import { cleanup, fireEvent, RecoilObserver, render, screen, waitFor } from '#test/src/testUtils';
 
 describe('SignUp', () => {
   afterEach(() => {

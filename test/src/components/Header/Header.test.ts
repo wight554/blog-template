@@ -15,12 +15,12 @@ import { Header } from '#src/components/Header/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { userInfoState } from '#src/store/userState.js';
 import {
+  cleanup,
+  fireEvent,
+  RecoilObserver,
   render,
   screen,
-  fireEvent,
   waitFor,
-  cleanup,
-  RecoilObserver,
 } from '#test/src/testUtils/index.js';
 
 describe('Header', () => {

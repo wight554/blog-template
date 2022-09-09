@@ -1,10 +1,9 @@
 /// <reference types="vitest" />
 
-import { createRequire } from 'module';
-import path from 'path';
-
 import preact from '@preact/preset-vite';
 import typescript from '@rollup/plugin-typescript';
+import { createRequire } from 'module';
+import path from 'path';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import { configDefaults } from 'vitest/config';

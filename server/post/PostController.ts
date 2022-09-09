@@ -18,17 +18,17 @@ import { CreateCommentDto } from '#server/comment/dto/CreateCommentDto.js';
 import { Comment } from '#server/comment/schemas/CommentSchema.js';
 import {
   POST_CONTROLLER_ROUTE,
+  POST_CREATE_COMMENT_ENDPOINT,
+  POST_CREATE_ENDPOINT,
   POST_DELETE_ENDPOINT,
   POST_GET_ALL_ENDPOINT,
   POST_GET_ENDPOINT,
-  POST_CREATE_COMMENT_ENDPOINT,
-  POST_CREATE_ENDPOINT,
   POST_UPDATE_ENDPOINT,
 } from '#server/constants/controllers.js';
 import { User } from '#server/decorators/UserDecorator.js';
 import { MongooseClassSerializerInterceptorFactory } from '#server/interceptors/MongooseClassSerializerInterceptorFactory.js';
-import { PostService } from '#server/post/PostService.js';
 import { CreatePostDto } from '#server/post/dto/CreatePostDto.js';
+import { PostService } from '#server/post/PostService.js';
 import { Post as PostType } from '#server/post/schemas/PostSchema.js';
 import { User as UserType } from '#server/user/schemas/UserSchema.js';
 
