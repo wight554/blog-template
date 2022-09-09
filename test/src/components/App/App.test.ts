@@ -1,11 +1,15 @@
 const mockGetUser = vi.fn().mockResolvedValue([{ id: '1', username: 'Username 1' }, null]);
 
-vi.mock('#src/services/user', () => ({
+vi.mock('#src/services/user.js', () => ({
   getUser: mockGetUser,
 }));
 
-vi.mock('#src/components/Header', () => ({
+vi.mock('#src/components/Header/index.js', () => ({
   Header: () => html` <div></div> `,
+}));
+
+vi.mock('#src/components/PostsList/index.js', () => ({
+  PostsList: () => html` <div></div> `,
 }));
 
 import { html } from 'htm/preact';
@@ -21,39 +25,7 @@ describe('App', () => {
     vi.clearAllMocks();
   });
 
-  describe('user is authenticated', () => {
-    it('should render title based on username', async () => {
-      render(html`<${App} />`);
-
-      await waitFor(() => {
-        expect(screen.getByText('Hello Username 1!')).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe('user is not authenticated', () => {
-    it('should render title with generic username', async () => {
-      mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
-      render(html`<${App} />`);
-
-      await waitFor(() => {
-        expect(screen.getByText('Hello User!')).toBeInTheDocument();
-      });
-    });
-  });
-
   describe('user authentication error', () => {
-    it('should render title with generic username', async () => {
-      mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.INTERNAL_SERVER_ERROR)]);
-
-      render(html`<${App} />`);
-
-      await waitFor(() => {
-        expect(screen.getByText('Hello User!')).toBeInTheDocument();
-      });
-    });
-
     it('should render snackbar with error', async () => {
       mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.INTERNAL_SERVER_ERROR)]);
 

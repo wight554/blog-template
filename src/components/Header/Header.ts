@@ -116,7 +116,7 @@ export const Header = () => {
                   <${MenuItem}
                     onClick=${item.action}
                     key=${item.title}
-                    sx=${{ display: !user && 'none' }}
+                    sx=${{ display: !isGetUserSuccess && 'none' }}
                   >
                     ${item.title}
                   <//>
@@ -129,7 +129,7 @@ export const Header = () => {
                   to=${item.link}
                   onClick=${item.action}
                   key=${item.title}
-                  sx=${{ display: user && 'none' }}
+                  sx=${{ display: isGetUserSuccess && 'none' }}
                 >
                   ${item.title}
                 <//>
