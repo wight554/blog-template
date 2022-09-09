@@ -12,7 +12,10 @@ export interface MongooseClassSerializerInterceptor {
 export function MongooseClassSerializerInterceptorFactory(
   classToIntercept: Type,
 ): Type<MongooseClassSerializerInterceptor> {
-  return class extends ClassSerializerInterceptor implements MongooseClassSerializerInterceptor {
+  return class MongooseClassSerializerInterceptor
+    extends ClassSerializerInterceptor
+    implements MongooseClassSerializerInterceptor
+  {
     private changePlainObjectToInstance(document: PlainLiteralObject) {
       if (!(document instanceof mongoose.Document)) {
         return document;
