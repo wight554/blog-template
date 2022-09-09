@@ -8,7 +8,7 @@ vi.mock('react-final-form', () => ({
 import { html } from 'htm/preact';
 
 import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
-import { render, screen, cleanup, fireEvent } from '#test/src/testUtils/index.js';
+import { cleanup, fireEvent, render, screen } from '#test/src/testUtils/index.js';
 
 describe('AuthFormContainer', () => {
   afterEach(() => {

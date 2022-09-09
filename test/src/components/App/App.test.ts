@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/order
-import { mockUser } from '#test/src/mocks/mockUser.js';
+import { mockUser } from '#test/src/mocks/index.js';
 
 const mockGetUser = vi.fn().mockResolvedValue([mockUser, null]);
 

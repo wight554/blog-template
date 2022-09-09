@@ -1,4 +1,5 @@
-const mockUser = { id: '1', username: 'Username 1' };
+import { mockUser } from '#test/src/mocks/index.js';
+
 const mockSignUpUser = vi.fn().mockResolvedValue([mockUser, null]);
 const mockNavigate = vi.fn();
 
@@ -32,12 +33,12 @@ import { createHttpError } from '#src/api/httpError.js';
 import { SignUp } from '#src/components/SignUp/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import {
+  cleanup,
+  fireEvent,
+  RecoilObserver,
   render,
   screen,
   waitFor,
-  fireEvent,
-  cleanup,
-  RecoilObserver,
 } from '#test/src/testUtils/index.js';
 
 describe('SignUp', () => {
