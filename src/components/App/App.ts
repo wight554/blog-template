@@ -17,17 +17,22 @@ import { userInfoState } from '#src/store/userState.js';
 import * as S from './styles.js';
 
 export const App = () => {
-  const userLoadable = useRecoilValueLoadable(userInfoState);
+  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
   const [snackbar, setSnackbar] = useRecoilState(snackbarState);
 
-  const user = userLoadable.state === 'hasValue' ? userLoadable.contents : null;
-  const error = userLoadable.state === 'hasError' ? userLoadable.contents : null;
+  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
+  const isGetUserLoading = getUserState === 'loading';
+  const getUserError = getUserState === 'hasError' ? user : null;
 
   useEffect(() => {
-    if (error && error instanceof HttpError && error.code !== StatusCodes.UNAUTHORIZED) {
-      setSnackbar({ open: true, message: error.message, severity: 'error' });
+    if (
+      getUserError &&
+      getUserError instanceof HttpError &&
+      getUserError.code !== StatusCodes.UNAUTHORIZED
+    ) {
+      setSnackbar({ open: true, message: getUserError.message, severity: 'error' });
     }
-  }, [setSnackbar, error]);
+  }, [setSnackbar, getUserError]);
 
   const handleSnackbarClose = () => {
     setSnackbar({ open: false });
@@ -35,7 +40,7 @@ export const App = () => {
 
   return html`
     <${S.App}>
-      <${Backdrop} open=${userLoadable.state === 'loading'}>
+      <${Backdrop} open=${isGetUserLoading}>
         <${CircularProgress} color="inherit" />
       <//>
       <${Snackbar} open=${snackbar.open} autoHideDuration=${3000} onClose=${handleSnackbarClose}>
@@ -54,11 +59,15 @@ export const App = () => {
             <${Route} path="/" element=${html` <${PostsList} />`} />
             <${Route}
               path="/login"
-              element=${user ? html` <${Navigate} to="/" replace />` : html` <${Login} />`}
+              element=${isGetUserSuccess
+                ? html` <${Navigate} to="/" replace />`
+                : html` <${Login} />`}
             />
             <${Route}
               path="/sign-up"
-              element=${user ? html` <${Navigate} to="/" replace />` : html` <${SignUp} />`}
+              element=${isGetUserSuccess
+                ? html` <${Navigate} to="/" replace />`
+                : html` <${SignUp} />`}
             />
           <//>
         <//>
