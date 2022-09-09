@@ -28,11 +28,18 @@ vi.mock('#src/components/AuthFormField', () => ({
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError';
-import { Login } from '#src/components/Login';
-import { snackbarState } from '#src/store/snackbarState';
-import { userInfoState } from '#src/store/userState';
-import { render, screen, waitFor, fireEvent, cleanup, RecoilObserver } from '#test/src/testUtils';
+import { createHttpError } from '#src/api/httpError.js';
+import { Login } from '#src/components/Login/index.js';
+import { snackbarState } from '#src/store/snackbarState.js';
+import { userInfoState } from '#src/store/userState.js';
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  cleanup,
+  RecoilObserver,
+} from '#test/src/testUtils/index.js';
 
 describe('Login', () => {
   afterEach(() => {

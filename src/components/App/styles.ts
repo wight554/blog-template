@@ -1,5 +1,7 @@
 import { styled } from '@mui/material';
 
+import { StylableProps } from '#src/interfaces/util/StylableProps.js';
+
 export const App = styled('div')`
   height: 100%;
   font-size: 1.5em;
@@ -8,7 +10,7 @@ export const App = styled('div')`
 export const MainContent = styled('main')`
   overflow: auto;
   flex-grow: 1;
-  margin-top: 64px;
+  margin-top: ${({ theme }: StylableProps<Element>) => theme.spacing(8)};
 `;
 
 export const PageWrapper = styled('div')`

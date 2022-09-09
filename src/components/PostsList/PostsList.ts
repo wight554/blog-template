@@ -9,7 +9,7 @@ import { postsState } from '#src/store/postState.js';
 import * as S from './styles.js';
 
 export const PostsList = () => {
-  const { state: getPostsState, contents: posts = [] } = useRecoilValueLoadable(postsState);
+  const { state: getPostsState, contents: posts } = useRecoilValueLoadable(postsState);
 
   const isGetPostsSuccess = getPostsState === 'hasValue' && posts;
 
