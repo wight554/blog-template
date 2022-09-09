@@ -1,4 +1,4 @@
-import { Tooltip, Link as MuiLink, Box, AppBar, Avatar, MenuItem } from '@mui/material';
+import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';

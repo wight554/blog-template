@@ -5,8 +5,8 @@ import { PostController } from '#server/post/PostController.js';
 import { PostService } from '#server/post/PostService.js';
 import { mockComment, mockUpsertComment } from '#test/server/comment/mocks/index.js';
 import {
-  mockPosts,
   mockPost,
+  mockPosts,
   mockUpdatedPost,
   mockUpsertPost,
 } from '#test/server/post/mocks/index.js';

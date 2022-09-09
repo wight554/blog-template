@@ -32,7 +32,7 @@ import { createHttpError } from '#src/api/httpError';
 import { Login } from '#src/components/Login';
 import { snackbarState } from '#src/store/snackbarState';
 import { userInfoState } from '#src/store/userState';
-import { render, screen, waitFor, fireEvent, cleanup, RecoilObserver } from '#test/src/testUtils';
+import { cleanup, fireEvent, RecoilObserver, render, screen, waitFor } from '#test/src/testUtils';
 
 describe('Login', () => {
   afterEach(() => {

@@ -1,5 +1,5 @@
-import { RenderOptions, RenderResult, render } from '@testing-library/preact';
-import { createBrowserHistory, BrowserHistory } from 'history';
+import { render, RenderOptions, RenderResult } from '@testing-library/preact';
+import { BrowserHistory, createBrowserHistory } from 'history';
 import { html } from 'htm/preact';
 import { ComponentChild, FunctionComponent } from 'preact';
 import { BrowserRouter } from 'react-router-dom';

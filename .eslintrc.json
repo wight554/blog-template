@@ -1,6 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": "tsconfig.eslint.json", "sourceType": "module" },
+  "plugins": ["simple-import-sort"],
   "extends": [
     "preact",
     "plugin:jest-dom/recommended",
@@ -12,6 +13,28 @@
   "root": true,
   "env": { "node": true },
   "rules": {
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        // https://github.com/lydell/eslint-plugin-simple-import-sort/blob/v8.0.0/src/imports.js#L5-L19
+        "groups": [
+          // Side effect imports.
+          ["^\\u0000"],
+          // Packages.
+          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          ["^@?\\w"],
+          // Absolute imports and other imports such as Vue-style `@/foo`.
+          // Anything that does not start with a dot.
+          ["^[^.]"],
+          // Relative imports.
+          // Anything that starts with a dot.
+          ["^\\."],
+          // .scss/.css are not side effect imports
+          ["^.+\\.s?css$"]
+        ]
+      }
+    ],
     "@typescript-eslint/no-empty-function": [
       "error",
       { "allow": ["decoratedFunctions", "arrowFunctions"] }
@@ -22,17 +45,6 @@
     ],
     "no-useless-constructor": "off",
     "@typescript-eslint/no-useless-constructor": ["error"],
-    "import/order": [
-      "error",
-      {
-        "newlines-between": "always",
-        "alphabetize": { "order": "asc" },
-        "pathGroups": [
-          { "pattern": "#{server,src,test}/**", "group": "external", "position": "after" }
-        ],
-        "pathGroupsExcludedImportTypes": ["builtin"]
-      }
-    ],
     "@typescript-eslint/naming-convention": [
       "error",
       {

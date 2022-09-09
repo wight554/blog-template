@@ -1,12 +1,12 @@
 import {
   Controller,
+  Header,
+  HttpCode,
+  HttpStatus,
   Post,
+  Res,
   UseGuards,
   UseInterceptors,
-  Res,
-  HttpStatus,
-  HttpCode,
-  Header,
 } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 
