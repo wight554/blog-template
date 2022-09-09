@@ -1,12 +1,11 @@
 /// <reference types="vitest" />
 
+import { preact } from '@preact/preset-vite';
+import typescript from '@rollup/plugin-typescript';
 import { createRequire } from 'module';
 import path from 'path';
-
-import preact from '@preact/preset-vite';
-import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
-import checker from 'vite-plugin-checker';
+import { checker } from 'vite-plugin-checker';
 import { configDefaults } from 'vitest/config';
 
 const isTest = process.env.NODE_ENV === 'test';

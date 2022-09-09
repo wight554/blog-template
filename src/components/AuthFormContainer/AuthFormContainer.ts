@@ -1,4 +1,4 @@
-import { Avatar, Grid, Button } from '@mui/material';
+import { Avatar, Button, Grid } from '@mui/material';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
 import { Form, FormRenderProps } from 'react-final-form';

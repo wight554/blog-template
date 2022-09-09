@@ -4,8 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 
 import { TokenPayload } from '#server/auth/interfaces/TokenPayload.js';
 import { CryptoService } from '#server/crypto/CryptoService.js';
-import { UserService } from '#server/user/UserService.js';
 import { UserDocument } from '#server/user/schemas/UserSchema.js';
+import { UserService } from '#server/user/UserService.js';
 
 @Injectable()
 export class AuthService {

@@ -1,4 +1,5 @@
 import 'preact/debug';
+
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { html } from 'htm/preact';
 import { render } from 'preact';
@@ -6,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import { App } from '#src/components/App/index.js';
+
 import './index.css';
 
 const theme = createTheme({

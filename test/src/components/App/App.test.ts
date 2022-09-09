@@ -34,7 +34,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import { createHttpError } from '#src/api/httpError.js';
 import { App } from '#src/components/App/index.js';
-import { render, screen, waitFor, fireEvent, cleanup } from '#test/src/testUtils/index.js';
+import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
 
 describe('App', () => {
   afterEach(() => {
