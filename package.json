@@ -5,16 +5,17 @@
     "cleanup": "rimraf dist",
     "dev": "nodemon",
     "prod": "node ./dist/server/server.js",
-    "build:server": "tsc -p server/tsconfig.json && tsc-alias --dir dist",
+    "build:server": "tsc -p server/tsconfig.json",
     "build:client": "tsc -p src/tsconfig.json && vite build",
     "build": "yarn cleanup && yarn build:client && yarn build:server",
+    "postbuild": "node ./scripts/postbuild.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "yarn test --coverage",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write .",
-    "postinstall": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "dependencies": {
     "@fastify/cookie": "^8.1.0",
