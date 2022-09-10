@@ -4,6 +4,12 @@ vi.mock('date-fns', () => ({
   format: mockDate,
 }));
 
+vi.mock('@mui/material', async () => {
+  const mui: Record<string, unknown> = await vi.importActual('@mui/material');
+
+  return { ...mui, Skeleton: () => html` <div>Skeleton</div> ` };
+});
+
 import { html } from 'htm/preact';
 
 import { PostCard } from '#src/components/PostCard/index.js';
@@ -16,33 +22,79 @@ describe('PostCard', () => {
     vi.clearAllMocks();
   });
 
-  it('should render author avatar based on username', () => {
-    render(html`<${PostCard} ...${mockPost} />`);
+  describe('post is in loading state', () => {
+    it('should render skeletons for all fields', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
 
-    expect(screen.getByText('U')).toBeInTheDocument();
+      expect(screen.getAllByText('Skeleton')).toHaveLength(6);
+    });
+
+    it('should not render author avatar based on username', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
+
+      expect(screen.queryByText('U')).not.toBeInTheDocument();
+    });
+
+    it('should not render post title', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
+
+      expect(screen.queryByText('post title')).not.toBeInTheDocument();
+    });
+
+    it('should not render post description', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
+
+      expect(screen.queryByText('post description')).not.toBeInTheDocument();
+    });
+
+    it('should not render formatted creation date', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
+
+      expect(screen.queryByText('formatted date')).not.toBeInTheDocument();
+    });
+
+    it('should not render placeholder image', () => {
+      render(html`<${PostCard} ...${mockPost} loading />`);
+
+      expect(screen.queryByText('placeholder')).not.toBeInTheDocument();
+    });
   });
 
-  it('should render post title', () => {
-    render(html`<${PostCard} ...${mockPost} />`);
+  describe('post is not in loading state', () => {
+    it('should not render skeletons for all fields', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
 
-    expect(screen.getByText('post title')).toBeInTheDocument();
-  });
+      expect(screen.queryAllByText('Skeleton')).not.toHaveLength(6);
+    });
 
-  it('should render post description', () => {
-    render(html`<${PostCard} ...${mockPost} />`);
+    it('should render author avatar based on username', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
 
-    expect(screen.getByText('post description')).toBeInTheDocument();
-  });
+      expect(screen.getByText('U')).toBeInTheDocument();
+    });
 
-  it('should render formatted creation date', () => {
-    render(html`<${PostCard} ...${mockPost} />`);
+    it('should render post title', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
 
-    expect(screen.getByText('formatted date')).toBeInTheDocument();
-  });
+      expect(screen.getByText('post title')).toBeInTheDocument();
+    });
 
-  it('should render placeholder image', () => {
-    render(html`<${PostCard} ...${mockPost} />`);
+    it('should render post description', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
 
-    expect(screen.getByAltText('placeholder')).toBeInTheDocument();
+      expect(screen.getByText('post description')).toBeInTheDocument();
+    });
+
+    it('should render formatted creation date', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
+
+      expect(screen.getByText('formatted date')).toBeInTheDocument();
+    });
+
+    it('should render placeholder image', () => {
+      render(html`<${PostCard} ...${mockPost} />`);
+
+      expect(screen.getByAltText('placeholder')).toBeInTheDocument();
+    });
   });
 });

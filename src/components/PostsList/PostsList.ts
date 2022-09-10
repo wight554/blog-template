@@ -11,16 +11,15 @@ import * as S from './styles.js';
 export const PostsList = () => {
   const { state: getPostsState, contents: posts } = useRecoilValueLoadable(postsState);
 
-  const isGetPostsSuccess = getPostsState === 'hasValue' && posts;
+  const isGetPostsLoading = getPostsState === 'loading';
 
   return html`
     <${S.PostsList} square elevation=${24}>
       <${Grid} container spacing=${2} justifyContent="center">
-        ${isGetPostsSuccess &&
-        posts.map(
+        ${(isGetPostsLoading ? Array.from(new Array(10)) : posts).map(
           (post: Post) =>
             html` <${Grid} item xs=${12}>
-              <${PostCard} ...${post} />
+              <${PostCard} ...${post} loading=${isGetPostsLoading} />
             <//>`,
         )}
       <//>

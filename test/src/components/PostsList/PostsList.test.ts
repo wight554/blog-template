@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/order
 import { mockPost } from '#test/src/mocks/index.js';
 
 const mockGetPosts = vi.fn().mockResolvedValue([[mockPost, { ...mockPost, id: '2' }], null]);
@@ -35,7 +34,7 @@ describe('PostsList', () => {
   });
 
   describe('posts are not loaded', () => {
-    it('should not render list of post cards', () => {
+    it('should render list of 10 skeleton post cards', () => {
       mockGetPosts.mockResolvedValueOnce([
         null,
         createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
@@ -43,7 +42,7 @@ describe('PostsList', () => {
 
       render(html`<${PostsList} />`);
 
-      expect(screen.queryByText('PostCard')).not.toBeInTheDocument();
+      expect(screen.getAllByText('PostCard')).toHaveLength(10);
     });
   });
 });

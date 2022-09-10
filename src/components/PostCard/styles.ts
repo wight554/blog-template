@@ -10,14 +10,14 @@ export const PostCard = styled('div')`
 `;
 
 export const PostAuthor = styled('div')`
-  display: inline-grid;
+  display: grid;
   grid-template-columns: min-content min-content;
   grid-gap: ${({ theme }: StylableProps<Element>) => theme.spacing(1)};
+  margin-bottom: ${({ theme }: StylableProps<Element>) => theme.spacing(1)};
 `;
 
 export const AuthorAvatar = styled(Avatar)`
   width: 20px;
   height: 20px;
-  font-size: 10px;
-  display: inline-flex;
+  font-size: ${({ theme }: StylableProps<Element>) => theme.typography.caption.fontSize};
 `;
