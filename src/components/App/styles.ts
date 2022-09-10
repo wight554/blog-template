@@ -1,18 +1,20 @@
 import { styled } from '@mui/material';
 
+import { StylableProps } from '#src/interfaces/util/StylableProps.js';
+
 export const App = styled('div')`
   height: 100%;
-  text-align: center;
-  background-color: #673ab8;
-  color: #fff;
   font-size: 1.5em;
 `;
 
 export const MainContent = styled('main')`
-  display: flex;
   overflow: auto;
   flex-grow: 1;
-  align-items: flex-start;
+  margin-top: ${({ theme }: StylableProps<Element>) => theme.spacing(8)};
+`;
+
+export const PageWrapper = styled('div')`
+  max-width: 1280px;
 `;
 
 export const HelloContainer = styled('div')`

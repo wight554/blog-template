@@ -1,6 +1,9 @@
 {
   "parser": "@typescript-eslint/parser",
-  "parserOptions": { "project": "tsconfig.eslint.json", "sourceType": "module" },
+  "parserOptions": {
+    "project": "tsconfig.eslint.json",
+    "sourceType": "module"
+  },
   "plugins": ["simple-import-sort"],
   "extends": [
     "preact",
@@ -11,7 +14,9 @@
     "prettier"
   ],
   "root": true,
-  "env": { "node": true },
+  "env": {
+    "node": true
+  },
   "rules": {
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": [
@@ -37,11 +42,17 @@
     ],
     "@typescript-eslint/no-empty-function": [
       "error",
-      { "allow": ["decoratedFunctions", "arrowFunctions"] }
+      {
+        "allow": ["decoratedFunctions", "arrowFunctions"]
+      }
     ],
     "@typescript-eslint/no-unused-vars": [
       "warn",
-      { "ignoreRestSiblings": true, "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+      {
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
     ],
     "no-useless-constructor": "off",
     "@typescript-eslint/no-useless-constructor": ["error"],
@@ -50,23 +61,35 @@
       {
         "selector": "interface",
         "format": ["PascalCase"],
-        "custom": { "regex": "^I[A-Z]", "match": false }
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": false
+        }
       }
     ],
     "import/no-unresolved": 0,
     "import/no-named-as-default": 0
   },
   "overrides": [
-    { "files": ["*.d.ts"], "rules": { "@typescript-eslint/no-unused-vars": 0 } },
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": 0
+      }
+    },
     {
       "files": ["src/**/__tests__/**/*.[jt]s?(x)", "{test/,}src/**/?(*.)+(spec|test).[jt]s?(x)"],
       "extends": ["plugin:testing-library/react"]
     }
   ],
   "settings": {
-    "jest": { "version": "latest" },
+    "jest": {
+      "version": "latest"
+    },
     "import/resolver": {
-      "typescript": { "alwaysTryTypes": true }
+      "typescript": {
+        "alwaysTryTypes": true
+      }
     }
   }
 }

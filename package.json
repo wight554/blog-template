@@ -32,6 +32,7 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "date-fns": "^2.29.2",
     "final-form": "^4.20.7",
     "htm": "^3.1.1",
     "http-status-codes": "^2.2.0",

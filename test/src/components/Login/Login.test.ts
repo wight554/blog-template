@@ -1,4 +1,5 @@
-const mockUser = { id: '1', username: 'Username 1' };
+import { mockUser } from '#test/src/mocks/index.js';
+
 const mockLoginUser = vi.fn().mockResolvedValue([mockUser, null]);
 const mockNavigate = vi.fn();
 
@@ -28,11 +29,18 @@ vi.mock('#src/components/AuthFormField', () => ({
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError';
-import { Login } from '#src/components/Login';
-import { snackbarState } from '#src/store/snackbarState';
-import { userInfoState } from '#src/store/userState';
-import { cleanup, fireEvent, RecoilObserver, render, screen, waitFor } from '#test/src/testUtils';
+import { createHttpError } from '#src/api/httpError.js';
+import { Login } from '#src/components/Login/index.js';
+import { snackbarState } from '#src/store/snackbarState.js';
+import { userInfoState } from '#src/store/userState.js';
+import {
+  cleanup,
+  fireEvent,
+  RecoilObserver,
+  render,
+  screen,
+  waitFor,
+} from '#test/src/testUtils/index.js';
 
 describe('Login', () => {
   afterEach(() => {

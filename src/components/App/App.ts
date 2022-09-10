@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, Snackbar } from '@mui/material';
+import { Alert, CircularProgress, Grid, Snackbar } from '@mui/material';
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
@@ -9,7 +9,7 @@ import { HttpError } from '#src/api/httpError.js';
 import { Backdrop } from '#src/components/Backdrop/index.js';
 import { Header } from '#src/components/Header/index.js';
 import { Login } from '#src/components/Login/index.js';
-import { Logo } from '#src/components/Logo/index.js';
+import { PostsList } from '#src/components/PostsList/index.js';
 import { SignUp } from '#src/components/SignUp/index.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { userInfoState } from '#src/store/userState.js';
@@ -17,17 +17,22 @@ import { userInfoState } from '#src/store/userState.js';
 import * as S from './styles.js';
 
 export const App = () => {
-  const userLoadable = useRecoilValueLoadable(userInfoState);
+  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
   const [snackbar, setSnackbar] = useRecoilState(snackbarState);
 
-  const user = userLoadable.state === 'hasValue' ? userLoadable.contents : null;
-  const error = userLoadable.state === 'hasError' ? userLoadable.contents : null;
+  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
+  const isGetUserLoading = getUserState === 'loading';
+  const getUserError = getUserState === 'hasError' ? user : null;
 
   useEffect(() => {
-    if (error && error instanceof HttpError && error.code !== StatusCodes.UNAUTHORIZED) {
-      setSnackbar({ open: true, message: error.message, severity: 'error' });
+    if (
+      getUserError &&
+      getUserError instanceof HttpError &&
+      getUserError.code !== StatusCodes.UNAUTHORIZED
+    ) {
+      setSnackbar({ open: true, message: getUserError.message, severity: 'error' });
     }
-  }, [setSnackbar, error]);
+  }, [setSnackbar, getUserError]);
 
   const handleSnackbarClose = () => {
     setSnackbar({ open: false });
@@ -35,7 +40,7 @@ export const App = () => {
 
   return html`
     <${S.App}>
-      <${Backdrop} open=${userLoadable.state === 'loading'}>
+      <${Backdrop} open=${isGetUserLoading}>
         <${CircularProgress} color="inherit" />
       <//>
       <${Snackbar} open=${snackbar.open} autoHideDuration=${3000} onClose=${handleSnackbarClose}>
@@ -48,35 +53,23 @@ export const App = () => {
         <//>
       <//>
       <${Header} />
-      <${S.MainContent}>
-        <${Routes}>
-          <${Route}
-            path="/"
-            element=${html`
-              <${S.HelloContainer}>
-                <${Logo} />
-                <p>Hello ${user?.username || 'User'}!</p>
-                <p>
-                  <a
-                    class="link"
-                    href="https://preactjs.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn Preact!
-                  </a>
-                </p>
-              <//>
-            `}
-          />
-          <${Route}
-            path="/login"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${Login} />`}
-          />
-          <${Route}
-            path="/sign-up"
-            element=${user ? html`<${Navigate} to="/" replace />` : html`<${SignUp} />`}
-          />
+      <${Grid} container justifyContent="center" component=${S.MainContent}>
+        <${S.PageWrapper}>
+          <${Routes}>
+            <${Route} path="/" element=${html` <${PostsList} />`} />
+            <${Route}
+              path="/login"
+              element=${isGetUserSuccess
+                ? html` <${Navigate} to="/" replace />`
+                : html` <${Login} />`}
+            />
+            <${Route}
+              path="/sign-up"
+              element=${isGetUserSuccess
+                ? html` <${Navigate} to="/" replace />`
+                : html` <${SignUp} />`}
+            />
+          <//>
         <//>
       <//>
     <//>
