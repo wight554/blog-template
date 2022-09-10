@@ -11,7 +11,8 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    // required to fix issues with node subpath imports on windows
+    "forceConsistentCasingInFileNames": false,
     "isolatedModules": true,
     "noEmit": true,
     "types": ["vitest/globals"],
@@ -19,11 +20,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
-    // "paths": {
-    //   "#src/*": ["./src/*"],
-    //   "#server/*": ["./server/*"],
-    //   "#test/*": ["./test/*"]
-    // }
   },
   "include": ["src", "server", "test", "vite.config.ts"]
 }
