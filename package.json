@@ -7,7 +7,7 @@
     "prod": "node ./dist/server/server.js",
     "build:server": "tsc -p server/tsconfig.json",
     "build:client": "tsc -p src/tsconfig.json && vite build",
-    "build": "yarn cleanup && yarn build:client && yarn build:server",
+    "build": "yarn cleanup && yarn build:client && yarn build:server && yarn postbuild",
     "postbuild": "node ./scripts/postbuild.js",
     "test": "vitest run",
     "test:watch": "vitest",
