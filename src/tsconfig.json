@@ -2,6 +2,7 @@
   "extends": "../tsconfig.json",
   "include": ["."],
   "compilerOptions": {
+    "skipLibCheck": true,
     "plugins": [{ "name": "typescript-lit-html-plugin" }, { "name": "typescript-styled-plugin" }]
   }
 }
