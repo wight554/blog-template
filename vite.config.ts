@@ -1,12 +1,17 @@
 /// <reference types="vitest" />
 
 import { preact } from '@preact/preset-vite';
-import typescript from '@rollup/plugin-typescript';
+import { default as typescript } from '@rollup/plugin-typescript';
+import { readFile } from 'fs/promises';
 import { createRequire } from 'module';
-import path from 'path';
-import { defineConfig } from 'vite';
+import { fileURLToPath } from 'url';
+import { AliasOptions, defineConfig } from 'vite';
 import { checker } from 'vite-plugin-checker';
 import { configDefaults } from 'vitest/config';
+
+const { imports }: { imports: Record<string, string> } = JSON.parse(
+  (await readFile(new URL('./package.json', import.meta.url))).toString(),
+);
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -22,6 +27,11 @@ const generateCjsAlias = (packages: Array<string>) => {
     replacement: require.resolve(p),
   }));
 };
+
+const vitePathAlias: AliasOptions = Object.entries(imports).map(([key, value]) => ({
+  find: new RegExp(key),
+  replacement: fileURLToPath(new URL(value.replace('*', ''), import.meta.url)),
+}));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -39,7 +49,7 @@ export default defineConfig({
     isTest && typescript(),
   ],
   build: {
-    outDir: path.join(__dirname, 'dist/public'),
+    outDir: fileURLToPath(new URL('./dist/public', import.meta.url)),
     emptyOutDir: true,
   },
   test: {
@@ -53,11 +63,6 @@ export default defineConfig({
     alias: [...generateCjsAlias(['preact/hooks', '@testing-library/preact'])],
   },
   resolve: {
-    alias: [
-      {
-        find: /#((src|server|test).*)/,
-        replacement: path.resolve(__dirname, '$1'),
-      },
-    ],
+    alias: vitePathAlias,
   },
 });
