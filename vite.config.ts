@@ -28,10 +28,6 @@ const generateCjsAlias = (packages: Array<string>) => {
   }));
 };
 
-const typescriptPathAlias = Object.fromEntries(
-  Object.entries(imports).map(([key, value]) => [key, [value]]),
-);
-
 const vitePathAlias: AliasOptions = Object.entries(imports).map(([key, value]) => ({
   find: new RegExp(key),
   replacement: fileURLToPath(new URL(value.replace('*', ''), import.meta.url)),
@@ -50,14 +46,8 @@ export default defineConfig({
           lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
         },
       }),
-    isTest &&
-      typescript({
-        compilerOptions: {
-          paths: typescriptPathAlias,
-        },
-      }),
+    isTest && typescript(),
   ],
-  ...(isTest && { esbuild: false }),
   build: {
     outDir: fileURLToPath(new URL('./dist/public', import.meta.url)),
     emptyOutDir: true,
