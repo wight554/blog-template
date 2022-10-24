@@ -1,6 +1,7 @@
 import 'preact/debug';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { html } from 'htm/preact';
 import { render } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
@@ -24,13 +25,17 @@ const theme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 render(
   html`
     <${RecoilRoot}>
       <${BrowserRouter}>
         <${ThemeProvider} theme=${theme}>
-          <${CssBaseline} />
-          <${App} />
+          <${QueryClientProvider} client=${queryClient}>
+            <${CssBaseline} />
+            <${App} />
+          <//>
         <//>
       <//>
     <//>

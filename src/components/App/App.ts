@@ -3,7 +3,7 @@ import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect } from 'preact/hooks';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { HttpError } from '#src/api/httpError.js';
 import { Backdrop } from '#src/components/Backdrop/index.js';
@@ -11,18 +11,15 @@ import { Header } from '#src/components/Header/index.js';
 import { Login } from '#src/components/Login/index.js';
 import { PostsList } from '#src/components/PostsList/index.js';
 import { SignUp } from '#src/components/SignUp/index.js';
+import { useUser } from '#src/services/user.js';
 import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
 
 import * as S from './styles.js';
 
 export const App = () => {
-  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
-  const [snackbar, setSnackbar] = useRecoilState(snackbarState);
+  const { data: user, error: getUserError, isFetching: isGetUserLoading } = useUser();
 
-  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
-  const isGetUserLoading = getUserState === 'loading';
-  const getUserError = getUserState === 'hasError' ? user : null;
+  const [snackbar, setSnackbar] = useRecoilState(snackbarState);
 
   useEffect(() => {
     if (
@@ -59,15 +56,11 @@ export const App = () => {
             <${Route} path="/" element=${html` <${PostsList} />`} />
             <${Route}
               path="/login"
-              element=${isGetUserSuccess
-                ? html` <${Navigate} to="/" replace />`
-                : html` <${Login} />`}
+              element=${user ? html` <${Navigate} to="/" replace />` : html` <${Login} />`}
             />
             <${Route}
               path="/sign-up"
-              element=${isGetUserSuccess
-                ? html` <${Navigate} to="/" replace />`
-                : html` <${SignUp} />`}
+              element=${user ? html` <${Navigate} to="/" replace />` : html` <${SignUp} />`}
             />
           <//>
         <//>

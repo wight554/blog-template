@@ -1,12 +1,14 @@
 import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { html } from 'htm/preact';
-import { useState } from 'preact/hooks';
+import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
-import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
+import { useRecoilCallback } from 'recoil';
 
-import { logoutUser } from '#src/services/user.js';
+import { httpClient } from '#src/api/httpClient.js';
+import { HttpError } from '#src/api/httpError.js';
+import { UserRoutes, useUser } from '#src/services/user.js';
 import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
 
 import * as S from './styles.js';
 
@@ -25,12 +27,10 @@ interface MenuSettings {
 }
 
 export const Header = () => {
-  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
+  const queryClient = useQueryClient();
+  const { data: user } = useUser({ enabled: false });
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,23 +40,36 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleLogoutClick = useRecoilCallback(
+  const handleSetSnackBar = useRecoilCallback(
     ({ set }) =>
-      async () => {
-        handleCloseUserMenu();
-
-        setLoading(true);
-
-        const [, error] = await logoutUser();
-
-        setLoading(false);
-
-        if (error) return set(snackbarState, { open: true, message: error.message });
-
-        set(userInfoState, null);
+      (error: HttpError) => {
+        return set(snackbarState, { open: true, message: error.message });
       },
     [],
   );
+
+  const logoutMutation = useMutation(
+    () => {
+      return httpClient.post(UserRoutes.LOGOUT);
+    },
+    {
+      onSuccess: async () => {
+        queryClient.resetQueries(['user']);
+      },
+      onError: (error) => {
+        if (error instanceof HttpError) {
+          handleSetSnackBar(error);
+        }
+      },
+      onSettled: () => {
+        handleCloseUserMenu();
+      },
+    },
+  );
+
+  const handleLogoutClick = useCallback(async () => {
+    logoutMutation.mutate();
+  }, [logoutMutation]);
 
   const settings: MenuSettings = {
     auth: [
@@ -88,11 +101,12 @@ export const Header = () => {
               <${S.AvatarButton}
                 aria-label="open user menu"
                 onClick=${handleOpenUserMenu}
-                disabled=${loading}
+                disabled=${logoutMutation.isLoading}
               >
-                <${Avatar}> ${isGetUserSuccess ? user.username.charAt(0).toUpperCase() : 'U'} <//>
+                <${Avatar}> ${user ? user.username.charAt(0).toUpperCase() : 'U'} <//>
               <//>
-              ${loading && html`<${S.AvatarCircularProgress} size=${52} color="inherit" />`}
+              ${logoutMutation.isLoading &&
+              html`<${S.AvatarCircularProgress} size=${52} color="inherit" />`}
             <//>
           <//>
           <${S.UserMenu}
@@ -116,7 +130,7 @@ export const Header = () => {
                   <${MenuItem}
                     onClick=${item.action}
                     key=${item.title}
-                    sx=${{ display: !isGetUserSuccess && 'none' }}
+                    sx=${{ display: !user && 'none' }}
                   >
                     ${item.title}
                   <//>
@@ -129,7 +143,7 @@ export const Header = () => {
                   to=${item.link}
                   onClick=${item.action}
                   key=${item.title}
-                  sx=${{ display: isGetUserSuccess && 'none' }}
+                  sx=${{ display: user && 'none' }}
                 >
                   ${item.title}
                 <//>

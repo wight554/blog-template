@@ -1,32 +1,59 @@
+import { useMutation } from '@tanstack/react-query';
 import { html } from 'htm/preact';
 import { FunctionComponent } from 'preact';
+import { useCallback } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
+import { httpClient } from '#src/api/httpClient.js';
+import { HttpError } from '#src/api/httpError.js';
 import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
 import { AuthFormField } from '#src/components/AuthFormField/index.js';
+import { User } from '#src/interfaces/model/User.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
-import { signUpUser } from '#src/services/user.js';
+import { UserRoutes } from '#src/services/user.js';
 import { snackbarState } from '#src/store/snackbarState.js';
 import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
+
+interface SignUpFormData extends SignUpPayload {
+  'confirm-password': string;
+}
 
 export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = useRecoilCallback(
+  const handleSetSnackBar = useRecoilCallback(
     ({ set }) =>
-      async (payload: SignUpPayload) => {
-        const [data, error] = await signUpUser(payload);
-
-        if (data) {
-          navigate('/login');
-        }
-
-        if (error) {
-          set(snackbarState, { open: true, message: error.message });
-        }
+      (error: HttpError) => {
+        return set(snackbarState, { open: true, message: error.message });
       },
     [],
+  );
+
+  const signUpMutation = useMutation(
+    (payload: SignUpFormData) => {
+      const { 'confirm-password': _, ...user } = payload;
+      return httpClient.post<User>(UserRoutes.SIGN_UP, user);
+    },
+    {
+      onSuccess: async (response) => {
+        if (response.data) {
+          navigate('/login');
+        }
+      },
+      onError: (error) => {
+        if (error instanceof HttpError) {
+          handleSetSnackBar(error);
+        }
+      },
+    },
+  );
+
+  const handleSubmit = useCallback(
+    async (payload: SignUpFormData) => {
+      signUpMutation.mutate(payload);
+    },
+    [signUpMutation],
   );
 
   return html`
