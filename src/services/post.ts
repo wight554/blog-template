@@ -17,7 +17,7 @@ const getPosts = async () => {
   }
 
   if (error) {
-    return handleApiError(error);
+    return handleApiError(error) ?? [];
   }
 };
 
