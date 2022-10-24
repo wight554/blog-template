@@ -1,12 +1,14 @@
 import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
 import { html } from 'htm/preact';
-import { useState } from 'preact/hooks';
+import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
-import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
+import { useRecoilCallback } from 'recoil';
+import { useSWRConfig } from 'swr';
 
-import { logoutUser } from '#src/services/user.js';
+import { HttpError } from '#src/api/httpError.js';
+import { promiser } from '#src/api/promiser.js';
+import { logoutUser, UserRoutes, useUser } from '#src/services/user.js';
 import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
 
 import * as S from './styles.js';
 
@@ -25,12 +27,13 @@ interface MenuSettings {
 }
 
 export const Header = () => {
-  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
+  const { user } = useUser();
+  const { mutate } = useSWRConfig();
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
+  const isGetUserSuccess = !!user;
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,23 +43,40 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleLogoutClick = useRecoilCallback(
+  const handleSetSnackBar = useRecoilCallback(
     ({ set }) =>
-      async () => {
+      (error: HttpError) => {
         handleCloseUserMenu();
 
-        setLoading(true);
-
-        const [, error] = await logoutUser();
-
-        setLoading(false);
-
-        if (error) return set(snackbarState, { open: true, message: error.message });
-
-        set(userInfoState, null);
+        return set(snackbarState, { open: true, message: error.message });
       },
     [],
   );
+
+  const handleLogoutClick = useCallback(async () => {
+    setLoading(true);
+
+    const [, error] = await promiser(
+      mutate(
+        UserRoutes.GET,
+        async () => {
+          const [, error] = await logoutUser();
+
+          if (error) throw error;
+
+          return null;
+        },
+        { revalidate: false },
+      ),
+    );
+
+    setLoading(false);
+
+    if (error instanceof HttpError) {
+      handleSetSnackBar(error);
+    }
+    handleCloseUserMenu();
+  }, [mutate, handleSetSnackBar]);
 
   const settings: MenuSettings = {
     auth: [

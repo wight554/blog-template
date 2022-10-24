@@ -1,11 +1,12 @@
 import { httpClient } from '#src/api/httpClient.js';
 import { promiser } from '#src/api/promiser.js';
+import { useSWRImmutable } from '#src/api/swr.js';
 import { User } from '#src/interfaces/model/User.js';
 import { LoginPayload } from '#src/interfaces/payload/LoginPayload.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
 import { handlePromiserResult } from '#src/utils/api.js';
 
-enum UserRoutes {
+export enum UserRoutes {
   LOGIN = '/api/v1/auth/login',
   LOGOUT = '/api/v1/auth/logout',
   GET = '/api/v1/users',
@@ -30,8 +31,16 @@ export const signUpUser = async (payload: SignUpPayload) => {
   return handlePromiserResult(result);
 };
 
-export const getUser = async () => {
-  const result = await promiser(httpClient.get<User>(UserRoutes.GET));
+export const useUser = () => {
+  const { data, error } = useSWRImmutable(UserRoutes.GET, (url) =>
+    httpClient.get<User>(url).then((res) => res.data),
+  );
 
-  return handlePromiserResult(result);
+  const isLoading = error === undefined && data === undefined;
+
+  return {
+    user: data,
+    isLoading,
+    error,
+  };
 };
