@@ -14,7 +14,7 @@ import { useUser } from '#src/services/user.js';
 import * as S from './styles.js';
 
 export const App = () => {
-  const { error: getUserError, isLoading: isGetUserLoading } = useUser();
+  const { error: getUserError, isInitialLoading: isGetUserLoading } = useUser();
 
   const [snackbar, setSnackbar] = useAtom(snackbarAtom);
 

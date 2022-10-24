@@ -1,19 +1,15 @@
-import { HttpClientResponse } from '#src/api/httpClient.js';
+import { StatusCodes } from 'http-status-codes';
+
 import { HttpError } from '#src/api/httpError.js';
+import { queryClient } from '#src/api/queryClient.js';
+import { userQuery } from '#src/services/user.js';
 
-export const handlePromiserResult = <T>([data, error]: [
-  data: HttpClientResponse<T> | null,
-  error: unknown,
-]): [T, null] | [null, HttpError] => {
-  if (data === null) {
-    if (error instanceof HttpError) {
-      return [null, error];
-    } else if (error instanceof Error) {
-      throw error;
-    }
+export const handleApiError = (error: unknown) => {
+  if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+    queryClient.setQueryData(userQuery.queryKey, null);
 
-    throw new Error();
+    return null;
   }
 
-  return [data.data, null];
+  throw error;
 };

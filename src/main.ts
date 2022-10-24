@@ -1,21 +1,17 @@
 import 'preact/debug';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { html } from 'htm/react';
 import { render } from 'preact';
-import { createBrowserRouter, LoaderFunction, redirect, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { App } from '#src/components/App/index.js';
-
-import { Login } from './components/Login/Login.js';
-import { PostsList } from './components/PostsList/PostsList.js';
-import { SignUp } from './components/SignUp/SignUp.js';
-import { postsQuery } from './services/post.js';
-import { userQuery } from './services/user.js';
-
-import './index.css';
+import { queryClient } from '#src/api/queryClient.js';
+import { Index, loader as indexLoader } from '#src/routes/index.js';
+import { loader as loginLoader, Login } from '#src/routes/login.js';
+import { loader as rootLoader, Root } from '#src/routes/root.js';
+import { loader as signUpLoader, SignUp } from '#src/routes/sign-up.js';
 
 const theme = createTheme({
   palette: {
@@ -29,50 +25,23 @@ const theme = createTheme({
       default: '#242424',
     },
   },
-});
-
-export const userLoader =
-  (queryClient: QueryClient): LoaderFunction =>
-  async () => {
-    if (!queryClient.getQueryData(userQuery.queryKey)) {
-      await queryClient.fetchQuery(userQuery);
-    }
-  };
-
-export const postsLoader =
-  (queryClient: QueryClient): LoaderFunction =>
-  async () => {
-    if (!queryClient.getQueryData(postsQuery.queryKey)) {
-      await queryClient.fetchQuery(postsQuery);
-    }
-  };
-
-const waitUntilUserLoaded = (queryClient: QueryClient) =>
-  new Promise((resolve) => {
-    const interval = setInterval(() => {
-      console.log(queryClient.isFetching(userQuery.queryKey));
-      if (!queryClient.isFetching(userQuery.queryKey)) {
-        clearInterval(interval);
-
-        resolve(queryClient.getQueryData(userQuery.queryKey));
-      }
-    }, 50);
-  });
-
-export const redirectLoader =
-  (queryClient: QueryClient): LoaderFunction =>
-  async () => {
-    const user = await waitUntilUserLoaded(queryClient);
-
-    if (user) {
-      return redirect('/');
-    }
-  };
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 3600, // 1h
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        #app,
+        body,
+        html {
+          height: 100%;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+        }
+        
+        #app {
+          display: flex;
+          flex-direction: column;
+        }
+    `,
     },
   },
 });
@@ -80,23 +49,23 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: '/',
-    element: html`<${App} />`,
-    loader: userLoader(queryClient),
+    element: html`<${Root} />`,
+    loader: rootLoader,
     children: [
       {
         index: true,
-        element: html`<${PostsList} />`,
-        loader: postsLoader(queryClient),
+        element: html`<${Index} />`,
+        loader: indexLoader,
       },
       {
         path: 'login',
         element: html`<${Login} />`,
-        loader: redirectLoader(queryClient),
+        loader: loginLoader,
       },
       {
         path: 'sign-up',
         element: html`<${SignUp} />`,
-        loader: redirectLoader(queryClient),
+        loader: signUpLoader,
       },
     ],
   },

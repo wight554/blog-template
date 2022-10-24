@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
 import { snackbarAtom } from '#src/atoms/snackbar.js';
-import { UserRoutes, useUser } from '#src/services/user.js';
+import { userQuery, UserRoutes, useUser } from '#src/services/user.js';
 
 import * as S from './styles.js';
 
@@ -48,7 +48,7 @@ export const Header = () => {
     },
     {
       onSuccess: async () => {
-        queryClient.resetQueries(['user']);
+        queryClient.setQueryData(userQuery.queryKey, null);
       },
       onError: (error) => {
         if (error instanceof HttpError) {
