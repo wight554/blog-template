@@ -1,14 +1,14 @@
 import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { html } from 'htm/preact';
+import { useAtom } from 'jotai';
 import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
-import { useRecoilCallback } from 'recoil';
 
 import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
+import { snackbarAtom } from '#src/atoms/snackbar.js';
 import { UserRoutes, useUser } from '#src/services/user.js';
-import { snackbarState } from '#src/store/snackbarState.js';
 
 import * as S from './styles.js';
 
@@ -28,7 +28,9 @@ interface MenuSettings {
 
 export const Header = () => {
   const queryClient = useQueryClient();
-  const { data: user } = useUser({ enabled: false });
+
+  const { data: user } = useUser();
+  const [, setSnackbar] = useAtom(snackbarAtom);
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
@@ -40,14 +42,6 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleSetSnackBar = useRecoilCallback(
-    ({ set }) =>
-      (error: HttpError) => {
-        return set(snackbarState, { open: true, message: error.message });
-      },
-    [],
-  );
-
   const logoutMutation = useMutation(
     () => {
       return httpClient.post(UserRoutes.LOGOUT);
@@ -58,7 +52,7 @@ export const Header = () => {
       },
       onError: (error) => {
         if (error instanceof HttpError) {
-          handleSetSnackBar(error);
+          setSnackbar({ open: true, message: error.message, severity: 'error' });
         }
       },
       onSettled: () => {

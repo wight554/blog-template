@@ -10,12 +10,9 @@ export enum UserRoutes {
   SIGN_UP = '/api/v1/users',
 }
 
-export const useUser = (options?: { enabled: boolean }) => {
+export const useUser = () => {
   return useQuery(['user'], () => httpClient.get<User>(UserRoutes.GET).then((res) => res.data), {
     retry: 0,
     initialData: null,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    ...options,
   });
 };

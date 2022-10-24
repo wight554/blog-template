@@ -59,7 +59,7 @@ export default defineConfig({
       provider: 'istanbul',
       exclude: [...coverageExclude, '**/schemas/**'],
     },
-    setupFiles: ['test/testSetup.ts', 'test/recoilTestSetup.ts'],
+    setupFiles: ['test/testSetup.ts'],
     alias: [...generateCjsAlias(['preact/hooks', '@testing-library/preact'])],
   },
   resolve: {

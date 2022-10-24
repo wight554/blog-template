@@ -1,5 +1,5 @@
 import { AlertColor } from '@mui/material';
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 
 interface SnackbarState {
   open: boolean;
@@ -7,7 +7,4 @@ interface SnackbarState {
   severity?: AlertColor;
 }
 
-export const snackbarState = atom<SnackbarState>({
-  key: 'Snackbar',
-  default: { open: false },
-});
+export const snackbarAtom = atom<SnackbarState>({ open: false });

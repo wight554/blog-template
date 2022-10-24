@@ -2,10 +2,10 @@ import 'preact/debug';
 
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { html } from 'htm/preact';
 import { render } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 
 import { App } from '#src/components/App/index.js';
 
@@ -25,17 +25,22 @@ const theme = createTheme({
   },
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 render(
   html`
-    <${RecoilRoot}>
+    <${QueryClientProvider} client=${queryClient}>
+      <${ReactQueryDevtools} position="bottom-right" />
       <${BrowserRouter}>
         <${ThemeProvider} theme=${theme}>
-          <${QueryClientProvider} client=${queryClient}>
-            <${CssBaseline} />
-            <${App} />
-          <//>
+          <${CssBaseline} />
+          <${App} />
         <//>
       <//>
     <//>

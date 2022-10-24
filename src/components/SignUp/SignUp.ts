@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import { html } from 'htm/preact';
+import { useAtom } from 'jotai';
 import { FunctionComponent } from 'preact';
 import { useCallback } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilCallback } from 'recoil';
 
 import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
+import { snackbarAtom } from '#src/atoms/snackbar.js';
 import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
 import { AuthFormField } from '#src/components/AuthFormField/index.js';
 import { User } from '#src/interfaces/model/User.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
 import { UserRoutes } from '#src/services/user.js';
-import { snackbarState } from '#src/store/snackbarState.js';
 import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
 
 interface SignUpFormData extends SignUpPayload {
@@ -21,14 +21,7 @@ interface SignUpFormData extends SignUpPayload {
 
 export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
-
-  const handleSetSnackBar = useRecoilCallback(
-    ({ set }) =>
-      (error: HttpError) => {
-        return set(snackbarState, { open: true, message: error.message });
-      },
-    [],
-  );
+  const [, setSnackbar] = useAtom(snackbarAtom);
 
   const signUpMutation = useMutation(
     (payload: SignUpFormData) => {
@@ -43,7 +36,7 @@ export const SignUp: FunctionComponent = () => {
       },
       onError: (error) => {
         if (error instanceof HttpError) {
-          handleSetSnackBar(error);
+          setSnackbar({ open: true, message: error.message, severity: 'error' });
         }
       },
     },
@@ -51,7 +44,7 @@ export const SignUp: FunctionComponent = () => {
 
   const handleSubmit = useCallback(
     async (payload: SignUpFormData) => {
-      signUpMutation.mutate(payload);
+      await signUpMutation.mutateAsync(payload);
     },
     [signUpMutation],
   );
