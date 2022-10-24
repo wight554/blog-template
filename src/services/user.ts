@@ -10,9 +10,14 @@ export enum UserRoutes {
   SIGN_UP = '/api/v1/users',
 }
 
+const getUser = () => httpClient.get<User>(UserRoutes.GET).then((res) => res.data);
+
+export const userQuery = {
+  queryKey: ['user'],
+  queryFn: () => getUser(),
+  retry: 0,
+};
+
 export const useUser = () => {
-  return useQuery(['user'], () => httpClient.get<User>(UserRoutes.GET).then((res) => res.data), {
-    retry: 0,
-    initialData: null,
-  });
+  return useQuery(userQuery);
 };
