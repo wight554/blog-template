@@ -1,6 +1,3 @@
-import { mockUser } from '#test/src/mocks/index.js';
-
-const mockLoginUser = vi.fn().mockResolvedValue({ data: mockUser });
 const mockNavigate = vi.fn();
 const mockSetSnackBar = vi.fn();
 const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
@@ -15,16 +12,12 @@ vi.mock('jotai', () => ({
   useAtom: mockUseAtom,
 }));
 
-vi.mock('#src/services/user.js', () => ({
-  loginUser: mockLoginUser,
-}));
-
 vi.mock('#src/components/AuthFormContainer/index.js', () => ({
   AuthFormContainer: ({ title = '', children = null, onSubmit = () => {} }) =>
     html`
       <div>
         ${title} ${children}
-        <button role="button" onClick=${onSubmit} />
+        <button role="button" onClick=${() => onSubmit()} />
       </div>
     `,
 }));
@@ -36,9 +29,16 @@ vi.mock('#src/components/AuthFormField/index.js', () => ({
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { Login } from '#src/components/Login/index.js';
-import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  rest,
+  screen,
+  server,
+  waitFor,
+} from '#test/src/testUtils/index.js';
 
 describe('Login', () => {
   afterEach(() => {
@@ -81,7 +81,14 @@ describe('Login', () => {
 
     describe('login error', () => {
       it('should render snackbar with error', async () => {
-        mockLoginUser.mockRejectedValueOnce(createHttpError(StatusCodes.UNAUTHORIZED));
+        server.use(
+          rest.post('*/api/v1/auth/login', (_req, res, ctx) => {
+            return res(
+              ctx.status(StatusCodes.UNAUTHORIZED),
+              ctx.json({ message: ReasonPhrases.UNAUTHORIZED }),
+            );
+          }),
+        );
 
         render(html`<${Login} />`);
 

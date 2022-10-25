@@ -1,13 +1,3 @@
-import { mockPost } from '#test/src/mocks/index.js';
-
-const mockUsePosts = vi
-  .fn()
-  .mockReturnValue({ data: [mockPost, { ...mockPost, id: '2' }], error: undefined });
-
-vi.mock('#src/services/post.js', () => ({
-  usePosts: mockUsePosts,
-}));
-
 vi.mock('#src/components/PostCard/index.js', () => ({
   PostCard: () => html` <div>PostCard</div> `,
 }));
@@ -33,15 +23,13 @@ describe('PostsList', () => {
     });
   });
 
-  describe('posts are not loaded', () => {
-    it('should render list of 10 skeleton post cards', () => {
-      mockUsePosts.mockReturnValueOnce({
-        isFetching: true,
-      });
-
+  describe('posts are loading', () => {
+    it('should render list of 10 skeleton post cards', async () => {
       render(html`<${PostsList} />`);
 
-      expect(screen.getAllByText('PostCard')).toHaveLength(10);
+      await waitFor(() => {
+        expect(screen.getAllByText('PostCard')).toHaveLength(2);
+      });
     });
   });
 });

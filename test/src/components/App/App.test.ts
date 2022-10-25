@@ -1,13 +1,3 @@
-import { mockUser } from '#test/src/mocks/index.js';
-
-const mockUseUser = vi
-  .fn()
-  .mockReturnValue({ data: mockUser, error: undefined, isInitialLoading: false });
-
-vi.mock('#src/services/user.js', () => ({
-  useUser: mockUseUser,
-}));
-
 vi.mock('#src/components/Header/index.js', () => ({
   Header: () => html` <div>Header</div> `,
 }));
@@ -19,9 +9,16 @@ vi.mock('react-router-dom', () => ({
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { App } from '#src/components/App/index.js';
-import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  rest,
+  screen,
+  server,
+  waitFor,
+} from '#test/src/testUtils/index.js';
 
 describe('App', () => {
   afterEach(() => {
@@ -36,13 +33,18 @@ describe('App', () => {
   });
 
   describe('user authentication error', () => {
-    it('should render snackbar with error', async () => {
-      mockUseUser.mockReturnValueOnce({
-        data: null,
-        error: createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-        isInitialLoading: false,
-      });
+    beforeEach(() => {
+      server.use(
+        rest.get('*/api/v1/users', (_req, res, ctx) => {
+          return res(
+            ctx.status(StatusCodes.INTERNAL_SERVER_ERROR),
+            ctx.json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR }),
+          );
+        }),
+      );
+    });
 
+    it('should render snackbar with error', async () => {
       render(html`<${App} />`);
 
       await waitFor(() => {
@@ -51,11 +53,6 @@ describe('App', () => {
     });
 
     it('should hide alert when close button clicked', async () => {
-      mockUseUser.mockReturnValueOnce({
-        error: createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-        isInitialLoading: false,
-      });
-
       render(html`<${App} />`);
 
       await waitFor(() => {

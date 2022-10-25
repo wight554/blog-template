@@ -200,17 +200,12 @@ describe('Header', () => {
     beforeEach(() => {
       server.use(
         rest.get('*', (_req, res, ctx) => {
-          return res(ctx.status(500));
+          return res(ctx.status(StatusCodes.UNAUTHORIZED));
         }),
       );
     });
 
     it('should render avatar based on generic username', async () => {
-      server.use(
-        rest.get('*', (_req, res, ctx) => {
-          return res(ctx.status(StatusCodes.UNAUTHORIZED));
-        }),
-      );
       render(html`<${Header} />`);
 
       await waitFor(() => {

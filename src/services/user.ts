@@ -40,6 +40,8 @@ const getUser = async () => {
   if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
     return null;
   }
+
+  throw error;
 };
 
 export const userQuery = {
