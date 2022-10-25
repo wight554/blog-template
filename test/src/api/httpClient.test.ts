@@ -1,3 +1,9 @@
+/// <reference types="vite/client" />
+
+const mockFetch = vi.fn().mockImplementation(() => mockResponse);
+
+vi.mock('cross-fetch', () => ({ default: mockFetch }));
+
 import { HttpClient, httpClient, RequestMethod } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
 
@@ -12,16 +18,16 @@ const mockResponse = {
   ok: true,
 };
 
-const mockFetch = vi.fn().mockImplementation(() => mockResponse);
-
-global.fetch = mockFetch;
-
 describe('httpClient', () => {
   beforeAll(() => {
+    import.meta.env.MODE = 'development';
+
     vi.useFakeTimers();
   });
 
   afterAll(() => {
+    import.meta.env.MODE = 'test';
+
     vi.useRealTimers();
   });
 
@@ -68,7 +74,7 @@ describe('httpClient', () => {
       it('should make fetch api request with default params', async () => {
         await httpClient(url);
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           body: undefined,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           method: 'GET',
@@ -80,7 +86,7 @@ describe('httpClient', () => {
       it('should make fetch api DELETE request with empty body', async () => {
         await httpClient(url, RequestMethod.DELETE, init);
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: '{}',
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -93,7 +99,7 @@ describe('httpClient', () => {
       it('should make fetch api GET request with undefined body', async () => {
         await httpClient(url, RequestMethod.GET, init);
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: undefined,
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -106,7 +112,7 @@ describe('httpClient', () => {
       it('should make fetch api HEAD request with undefined body', async () => {
         await httpClient(url, RequestMethod.HEAD, init);
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: undefined,
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -119,7 +125,7 @@ describe('httpClient', () => {
       it('should make fetch api OPTIONS request with empty body', async () => {
         await httpClient(url, RequestMethod.OPTIONS, init);
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: '{}',
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -132,7 +138,7 @@ describe('httpClient', () => {
       it('should make fetch api PATCH request with given body', async () => {
         await httpClient(url, RequestMethod.PATCH, { ...init, body });
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: JSON.stringify(body),
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -145,7 +151,7 @@ describe('httpClient', () => {
       it('should make fetch api POST request with given body', async () => {
         await httpClient(url, RequestMethod.POST, { ...init, body });
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: JSON.stringify(body),
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },
@@ -158,7 +164,7 @@ describe('httpClient', () => {
       it('should make fetch api PUT request with given body', async () => {
         await httpClient(url, RequestMethod.PUT, { ...init, body });
 
-        expect(fetch).toHaveBeenCalledWith(url, {
+        expect(mockFetch).toHaveBeenCalledWith(url, {
           ...init,
           body: JSON.stringify(body),
           headers: { ...init.headers, 'Content-Type': 'application/json; charset=utf-8' },

@@ -1,45 +1,16 @@
-import { mockUser } from '#test/src/mocks/index.js';
-
-const mockLogoutUser = vi.fn().mockResolvedValue(undefined);
-const mockUseUser = vi.fn().mockReturnValue({});
-const mockUserQuery = {
-  queryKey: ['user'],
-};
-const mockSetSnackBar = vi.fn();
-const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
-const mockQueryClient = {
-  setQueryData: vi.fn(),
-};
-const mockUseQueryClient = vi.fn().mockReturnValue(mockQueryClient);
-
-vi.mock('jotai', () => ({
-  atom: vi.fn(),
-  useAtom: mockUseAtom,
-}));
-
-vi.mock('@tanstack/react-query', async () => {
-  const reactQuery: typeof import('@tanstack/react-query') = await vi.importActual(
-    '@tanstack/react-query',
-  );
-  return {
-    ...reactQuery,
-    useQueryClient: mockUseQueryClient,
-  };
-});
-
-vi.mock('#src/services/user.js', () => ({
-  userQuery: mockUserQuery,
-  useUser: mockUseUser,
-  logoutUser: mockLogoutUser,
-}));
-
 import { html } from 'htm/preact';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { Fragment } from 'preact';
+import { StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { Header } from '#src/components/Header/index.js';
-import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  rest,
+  screen,
+  server,
+  waitFor,
+} from '#test/src/testUtils/index.js';
 
 describe('Header', () => {
   afterEach(() => {
@@ -78,15 +49,6 @@ describe('Header', () => {
   });
 
   describe('user is authenticated', () => {
-    beforeEach(() => {
-      mockUseUser.mockReturnValue({
-        data: { ...mockUser, username: 'test_user' },
-      });
-    });
-    afterEach(() => {
-      mockUseUser.mockClear();
-    });
-
     it('should render avatar based on username', async () => {
       render(html`<${Header} />`);
 
@@ -178,73 +140,32 @@ describe('Header', () => {
 
           fireEvent.click(logout);
 
+          // await waitFor(() => {
+          //   expect(mockMutate).toHaveBeenCalled();
+          // });
+        });
+
+        it('should render loading spinner', async () => {
+          render(html`<${Header} />`);
+
           await waitFor(() => {
-            expect(mockLogoutUser).toHaveBeenCalled();
+            expect(screen.getByText('T')).toBeInTheDocument();
           });
-        });
 
-        describe('user service success', () => {
-          it('should set user state to null', async () => {
-            render(html`<${Fragment}>
-              <${Header} />
-            <//>`);
+          const avatar = screen.getByLabelText('open user menu');
 
-            await waitFor(() => {
-              expect(screen.getByText('T')).toBeInTheDocument();
-            });
+          fireEvent.click(avatar);
 
-            const avatar = screen.getByLabelText('open user menu');
-
-            fireEvent.click(avatar);
-
-            await waitFor(() => {
-              expect(screen.getByRole('presentation')).toBeInTheDocument();
-            });
-
-            const logout = screen.getByText('Logout');
-
-            fireEvent.click(logout);
-
-            await waitFor(() => {
-              expect(mockQueryClient.setQueryData).toHaveBeenCalledWith(
-                mockUserQuery.queryKey,
-                null,
-              );
-            });
+          await waitFor(() => {
+            expect(screen.getByRole('presentation')).toBeInTheDocument();
           });
-        });
 
-        describe('user service error', () => {
-          it('should set snackbar state to error', async () => {
-            mockLogoutUser.mockRejectedValue(createHttpError(StatusCodes.INTERNAL_SERVER_ERROR));
+          const logout = screen.getByText('Logout');
 
-            render(html`<${Fragment}>
-              <${Header} />
-            <//>`);
+          fireEvent.click(logout);
 
-            await waitFor(() => {
-              expect(screen.getByText('T')).toBeInTheDocument();
-            });
-
-            const avatar = screen.getByLabelText('open user menu');
-
-            fireEvent.click(avatar);
-
-            await waitFor(() => {
-              expect(screen.getByRole('presentation')).toBeInTheDocument();
-            });
-
-            const logout = screen.getByText('Logout');
-
-            fireEvent.click(logout);
-
-            await waitFor(() => {
-              expect(mockSetSnackBar).toHaveBeenCalledWith({
-                message: ReasonPhrases.INTERNAL_SERVER_ERROR,
-                open: true,
-                severity: 'error',
-              });
-            });
+          await waitFor(() => {
+            expect(avatar).toHaveAttribute('aria-busy', 'true');
           });
         });
 
@@ -277,18 +198,24 @@ describe('Header', () => {
 
   describe('user is not authenticated', () => {
     beforeEach(() => {
-      mockUseUser.mockReturnValue({
-        data: null,
-      });
-    });
-    afterEach(() => {
-      mockUseUser.mockClear();
+      server.use(
+        rest.get('*', (_req, res, ctx) => {
+          return res(ctx.status(500));
+        }),
+      );
     });
 
     it('should render avatar based on generic username', async () => {
+      server.use(
+        rest.get('*', (_req, res, ctx) => {
+          return res(ctx.status(StatusCodes.UNAUTHORIZED));
+        }),
+      );
       render(html`<${Header} />`);
 
-      expect(screen.getByText('U')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText('U')).toBeInTheDocument();
+      });
     });
 
     describe('user menu is opened', () => {

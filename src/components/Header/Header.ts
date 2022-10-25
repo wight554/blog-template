@@ -1,13 +1,9 @@
 import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { html } from 'htm/preact';
-import { useAtom } from 'jotai';
 import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 
-import { HttpError } from '#src/api/httpError.js';
-import { snackbarAtom } from '#src/atoms/snackbar.js';
-import { logoutUser, userQuery, useUser } from '#src/services/user.js';
+import { useUser, useUserLogoutMutation } from '#src/services/user.js';
 
 import * as S from './styles.js';
 
@@ -26,10 +22,7 @@ interface MenuSettings {
 }
 
 export const Header = () => {
-  const queryClient = useQueryClient();
-
   const { data: user } = useUser();
-  const [, setSnackbar] = useAtom(snackbarAtom);
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
@@ -41,23 +34,13 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const logoutMutation = useMutation(logoutUser, {
-    onSuccess: async () => {
-      queryClient.setQueryData(userQuery.queryKey, null);
-    },
-    onError: (error) => {
-      if (error instanceof HttpError) {
-        setSnackbar({ open: true, message: error.message, severity: 'error' });
-      }
-    },
-    onSettled: () => {
-      handleCloseUserMenu();
-    },
-  });
+  const logoutMutation = useUserLogoutMutation(handleCloseUserMenu);
 
   const handleLogoutClick = useCallback(() => {
     logoutMutation.mutate();
   }, [logoutMutation]);
+
+  console.log(logoutMutation.isLoading, logoutMutation.status);
 
   const settings: MenuSettings = {
     auth: [
@@ -88,6 +71,7 @@ export const Header = () => {
             <${S.AvatarWrapper}>
               <${S.AvatarButton}
                 aria-label="open user menu"
+                aria-busy="${logoutMutation.isLoading}"
                 onClick=${handleOpenUserMenu}
                 disabled=${logoutMutation.isLoading}
               >
