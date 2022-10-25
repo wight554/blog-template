@@ -1,9 +1,9 @@
+import { QueryClient } from '@tanstack/react-query';
 import { LoaderFunction, redirect } from 'react-router-dom';
 
-import { queryClient } from '#src/api/queryClient.js';
 import { userQuery } from '#src/services/user.js';
 
-const waitUntilUserLoaded = () =>
+const waitUntilUserLoaded = (queryClient: QueryClient) =>
   new Promise((resolve) => {
     const interval = setInterval(() => {
       if (!queryClient.isFetching(userQuery.queryKey)) {
@@ -14,12 +14,14 @@ const waitUntilUserLoaded = () =>
     }, 50);
   });
 
-export const loader: LoaderFunction = async () => {
-  const user = await waitUntilUserLoaded();
+export const loader =
+  (queryClient: QueryClient): LoaderFunction =>
+  async () => {
+    const user = await waitUntilUserLoaded(queryClient);
 
-  if (user) {
-    return redirect('/');
-  }
-};
+    if (user) {
+      return redirect('/');
+    }
+  };
 
 export { Login } from '#src/components/Login/index.js';

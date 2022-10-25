@@ -50,22 +50,22 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: html`<${Root} />`,
-    loader: rootLoader,
+    loader: rootLoader(queryClient),
     children: [
       {
         index: true,
         element: html`<${Index} />`,
-        loader: indexLoader,
+        loader: indexLoader(queryClient),
       },
       {
         path: 'login',
         element: html`<${Login} />`,
-        loader: loginLoader,
+        loader: loginLoader(queryClient),
       },
       {
         path: 'sign-up',
         element: html`<${SignUp} />`,
-        loader: signUpLoader,
+        loader: signUpLoader(queryClient),
       },
     ],
   },

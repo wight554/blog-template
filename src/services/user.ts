@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import { StatusCodes } from 'http-status-codes';
 
 import { httpClient } from '#src/api/httpClient.js';
+import { HttpError } from '#src/api/httpError.js';
+import { promiser } from '#src/api/promiser.js';
 import { User } from '#src/interfaces/model/User.js';
-
-import { promiser } from '../api/promiser.js';
-import { handleApiError } from '../utils/api.js';
 
 export enum UserRoutes {
   LOGIN = '/api/v1/auth/login',
@@ -20,15 +20,14 @@ const getUser = async () => {
     return response.data;
   }
 
-  if (error) {
-    return handleApiError(error);
+  if (error instanceof HttpError && error.code === StatusCodes.UNAUTHORIZED) {
+    return null;
   }
 };
 
 export const userQuery = {
   queryKey: ['user'],
   queryFn: () => getUser(),
-  retry: 0,
 };
 
 export const useUser = () => {
