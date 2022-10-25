@@ -1,5 +1,3 @@
-import fetch from 'cross-fetch';
-
 import { createHttpError } from '#src/api/httpError.js';
 
 const DEFAULT_HEADERS = Object.freeze({
@@ -81,9 +79,7 @@ export class HttpClient {
       body = JSON.stringify(init.body || {});
     }
 
-    const requestUrl = `${import.meta.env.MODE === 'test' ? import.meta.env.BASE_URL : ''}${url}`;
-
-    const fetchResponse = await fetch(requestUrl, { ...init, method, body, headers });
+    const fetchResponse = await fetch(url, { ...init, method, body, headers });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let data: any = await fetchResponse.text();
