@@ -7,4 +7,6 @@ interface SnackbarState {
   severity?: AlertColor;
 }
 
-export const snackbarAtom = atom<SnackbarState>({ open: false });
+export const snackbarInitialValue = { open: false };
+
+export const snackbarAtom = atom<SnackbarState>(snackbarInitialValue);

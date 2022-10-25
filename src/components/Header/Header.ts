@@ -5,10 +5,9 @@ import { useAtom } from 'jotai';
 import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 
-import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
 import { snackbarAtom } from '#src/atoms/snackbar.js';
-import { userQuery, UserRoutes, useUser } from '#src/services/user.js';
+import { logoutUser, userQuery, useUser } from '#src/services/user.js';
 
 import * as S from './styles.js';
 
@@ -42,26 +41,21 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const logoutMutation = useMutation(
-    () => {
-      return httpClient.post(UserRoutes.LOGOUT);
+  const logoutMutation = useMutation(logoutUser, {
+    onSuccess: async () => {
+      queryClient.setQueryData(userQuery.queryKey, null);
     },
-    {
-      onSuccess: async () => {
-        queryClient.setQueryData(userQuery.queryKey, null);
-      },
-      onError: (error) => {
-        if (error instanceof HttpError) {
-          setSnackbar({ open: true, message: error.message, severity: 'error' });
-        }
-      },
-      onSettled: () => {
-        handleCloseUserMenu();
-      },
+    onError: (error) => {
+      if (error instanceof HttpError) {
+        setSnackbar({ open: true, message: error.message, severity: 'error' });
+      }
     },
-  );
+    onSettled: () => {
+      handleCloseUserMenu();
+    },
+  });
 
-  const handleLogoutClick = useCallback(async () => {
+  const handleLogoutClick = useCallback(() => {
     logoutMutation.mutate();
   }, [logoutMutation]);
 

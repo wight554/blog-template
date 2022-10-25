@@ -1,9 +1,11 @@
 import { mockPost } from '#test/src/mocks/index.js';
 
-const mockGetPosts = vi.fn().mockResolvedValue([[mockPost, { ...mockPost, id: '2' }], null]);
+const mockUsePosts = vi
+  .fn()
+  .mockReturnValue({ data: [mockPost, { ...mockPost, id: '2' }], error: undefined });
 
 vi.mock('#src/services/post.js', () => ({
-  getPosts: mockGetPosts,
+  usePosts: mockUsePosts,
 }));
 
 vi.mock('#src/components/PostCard/index.js', () => ({
@@ -11,9 +13,7 @@ vi.mock('#src/components/PostCard/index.js', () => ({
 }));
 
 import { html } from 'htm/preact';
-import { StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { PostsList } from '#src/components/PostsList/index.js';
 import { cleanup, render, screen, waitFor } from '#test/src/testUtils/index.js';
 
@@ -35,10 +35,9 @@ describe('PostsList', () => {
 
   describe('posts are not loaded', () => {
     it('should render list of 10 skeleton post cards', () => {
-      mockGetPosts.mockResolvedValueOnce([
-        null,
-        createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-      ]);
+      mockUsePosts.mockReturnValueOnce({
+        isFetching: true,
+      });
 
       render(html`<${PostsList} />`);
 

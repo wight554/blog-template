@@ -1,28 +1,36 @@
 import { mockUser } from '#test/src/mocks/index.js';
 
-const mockSignUpUser = vi.fn().mockResolvedValue([mockUser, null]);
+const mockSignUpUser = vi.fn().mockResolvedValue({ data: mockUser });
 const mockNavigate = vi.fn();
+const mockSetSnackBar = vi.fn();
+const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
 
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-vi.mock('#src/services/user', () => ({
+vi.mock('jotai', () => ({
+  atom: vi.fn(),
+  useAtom: mockUseAtom,
+}));
+
+vi.mock('#src/services/user.js', () => ({
+  ...vi.importActual('#src/services/user.js'),
   signUpUser: mockSignUpUser,
 }));
 
-vi.mock('#src/components/AuthFormContainer', () => ({
+vi.mock('#src/components/AuthFormContainer/index.js', () => ({
   AuthFormContainer: ({ title = '', children = null, onSubmit = () => {} }) =>
     html`
       <div>
         ${title} ${children}
-        <button role="button" onclick=${onSubmit} />
+        <button role="button" onClick=${onSubmit} />
       </div>
     `,
 }));
 
-vi.mock('#src/components/AuthFormField', () => ({
+vi.mock('#src/components/AuthFormField/index.js', () => ({
   AuthFormField: ({ name = '' }) => html` <div>${name}</div> `,
 }));
 
@@ -31,15 +39,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import { createHttpError } from '#src/api/httpError.js';
 import { SignUp } from '#src/components/SignUp/index.js';
-import { snackbarState } from '#src/store/snackbarState.js';
-import {
-  cleanup,
-  fireEvent,
-  RecoilObserver,
-  render,
-  screen,
-  waitFor,
-} from '#test/src/testUtils/index.js';
+import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
 
 describe('SignUp', () => {
   afterEach(() => {
@@ -94,23 +94,19 @@ describe('SignUp', () => {
 
     describe('sign-up error', () => {
       it('should render snackbar with error', async () => {
-        mockSignUpUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.BAD_REQUEST)]);
+        mockSignUpUser.mockRejectedValueOnce(createHttpError(StatusCodes.UNAUTHORIZED));
 
-        const onChange = vi.fn();
-
-        render(html`
-          <${RecoilObserver} node=${snackbarState} onChange=${onChange} />
-          <${SignUp} />
-        `);
+        render(html`<${SignUp} />`);
 
         const submit = screen.getByRole('button');
 
         fireEvent.click(submit);
 
         await waitFor(() => {
-          expect(onChange).toBeCalledWith({
-            message: ReasonPhrases.BAD_REQUEST,
+          expect(mockSetSnackBar).toBeCalledWith({
+            message: ReasonPhrases.UNAUTHORIZED,
             open: true,
+            severity: 'error',
           });
         });
       });

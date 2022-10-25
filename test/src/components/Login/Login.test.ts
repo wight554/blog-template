@@ -1,29 +1,36 @@
 import { mockUser } from '#test/src/mocks/index.js';
 
-const mockLoginUser = vi.fn().mockResolvedValue([mockUser, null]);
+const mockLoginUser = vi.fn().mockResolvedValue({ data: mockUser });
 const mockNavigate = vi.fn();
+const mockSetSnackBar = vi.fn();
+const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
 
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-vi.mock('#src/services/user', () => ({
+vi.mock('jotai', () => ({
+  atom: vi.fn(),
+  useAtom: mockUseAtom,
+}));
+
+vi.mock('#src/services/user.js', () => ({
   loginUser: mockLoginUser,
 }));
 
-vi.mock('#src/components/AuthFormContainer', () => ({
+vi.mock('#src/components/AuthFormContainer/index.js', () => ({
   AuthFormContainer: ({ title = '', children = null, onSubmit = () => {} }) =>
     html`
       <div>
         ${title} ${children}
-        <button role="button" onclick=${onSubmit} />
+        <button role="button" onClick=${onSubmit} />
       </div>
     `,
 }));
 
-vi.mock('#src/components/AuthFormField', () => ({
-  AuthFormField: ({ name = '' }) => html` <div>${name}</div> `,
+vi.mock('#src/components/AuthFormField/index.js', () => ({
+  AuthFormField: ({ name = '' }) => html`<div>${name}</div>`,
 }));
 
 import { html } from 'htm/preact';
@@ -31,16 +38,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import { createHttpError } from '#src/api/httpError.js';
 import { Login } from '#src/components/Login/index.js';
-import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
-import {
-  cleanup,
-  fireEvent,
-  RecoilObserver,
-  render,
-  screen,
-  waitFor,
-} from '#test/src/testUtils/index.js';
+import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
 
 describe('Login', () => {
   afterEach(() => {
@@ -68,25 +66,8 @@ describe('Login', () => {
 
   describe('submit button clicked', () => {
     describe('login successful', () => {
-      it('should render snackbar with error', async () => {
-        const onChange = vi.fn();
-
-        render(html`
-          <${RecoilObserver} node=${userInfoState} onChange=${onChange} />
-          <${Login} />
-        `);
-
-        const submit = screen.getByRole('button');
-
-        fireEvent.click(submit);
-
-        await waitFor(() => {
-          expect(onChange).toBeCalledWith(mockUser);
-        });
-      });
-
       it('should navigate to home page', async () => {
-        render(html` <${Login} /> `);
+        render(html`<${Login} />`);
 
         const submit = screen.getByRole('button');
 
@@ -100,23 +81,19 @@ describe('Login', () => {
 
     describe('login error', () => {
       it('should render snackbar with error', async () => {
-        mockLoginUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
+        mockLoginUser.mockRejectedValueOnce(createHttpError(StatusCodes.UNAUTHORIZED));
 
-        const onChange = vi.fn();
-
-        render(html`
-          <${RecoilObserver} node=${snackbarState} onChange=${onChange} />
-          <${Login} />
-        `);
+        render(html`<${Login} />`);
 
         const submit = screen.getByRole('button');
 
         fireEvent.click(submit);
 
         await waitFor(() => {
-          expect(onChange).toBeCalledWith({
+          expect(mockSetSnackBar).toBeCalledWith({
             message: ReasonPhrases.UNAUTHORIZED,
             open: true,
+            severity: 'error',
           });
         });
       });

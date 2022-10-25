@@ -60,7 +60,14 @@ export default defineConfig({
       exclude: [...coverageExclude, '**/schemas/**'],
     },
     setupFiles: ['test/testSetup.ts'],
-    alias: [...generateCjsAlias(['preact/hooks', '@testing-library/preact'])],
+    alias: [
+      ...generateCjsAlias([
+        'preact/hooks',
+        '@testing-library/preact',
+        '@tanstack/react-query',
+        'jotai',
+      ]),
+    ],
   },
   resolve: {
     alias: vitePathAlias,

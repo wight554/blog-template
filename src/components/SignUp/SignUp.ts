@@ -5,14 +5,12 @@ import { FunctionComponent } from 'preact';
 import { useCallback } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
 
-import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
 import { snackbarAtom } from '#src/atoms/snackbar.js';
 import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
 import { AuthFormField } from '#src/components/AuthFormField/index.js';
-import { User } from '#src/interfaces/model/User.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
-import { UserRoutes } from '#src/services/user.js';
+import { signUpUser } from '#src/services/user.js';
 import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
 
 interface SignUpFormData extends SignUpPayload {
@@ -23,28 +21,26 @@ export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
   const [, setSnackbar] = useAtom(snackbarAtom);
 
-  const signUpMutation = useMutation(
-    (payload: SignUpFormData) => {
-      const { 'confirm-password': _, ...user } = payload;
-      return httpClient.post<User>(UserRoutes.SIGN_UP, user);
+  const signUpMutation = useMutation(signUpUser, {
+    onSuccess: async (response) => {
+      if (response.data) {
+        navigate('/login');
+      }
     },
-    {
-      onSuccess: async (response) => {
-        if (response.data) {
-          navigate('/login');
-        }
-      },
-      onError: (error) => {
-        if (error instanceof HttpError) {
-          setSnackbar({ open: true, message: error.message, severity: 'error' });
-        }
-      },
+    onError: (error) => {
+      if (error instanceof HttpError) {
+        setSnackbar({ open: true, message: error.message, severity: 'error' });
+      }
     },
-  );
+  });
 
   const handleSubmit = useCallback(
     async (payload: SignUpFormData) => {
-      await signUpMutation.mutateAsync(payload);
+      const { 'confirm-password': _, ...user } = payload;
+
+      try {
+        await signUpMutation.mutateAsync(user);
+      } catch {}
     },
     [signUpMutation],
   );

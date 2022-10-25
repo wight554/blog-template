@@ -1,8 +1,35 @@
-const mockGetUser = vi.fn().mockResolvedValue([{ id: '1', username: 'TestUser' }, null]);
-const mockLogoutUser = vi.fn().mockResolvedValue([{}, null]);
+import { mockUser } from '#test/src/mocks/index.js';
 
-vi.mock('#src/services/user', () => ({
-  getUser: mockGetUser,
+const mockLogoutUser = vi.fn().mockResolvedValue(undefined);
+const mockUseUser = vi.fn().mockReturnValue({});
+const mockUserQuery = {
+  queryKey: ['user'],
+};
+const mockSetSnackBar = vi.fn();
+const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
+const mockQueryClient = {
+  setQueryData: vi.fn(),
+};
+const mockUseQueryClient = vi.fn().mockReturnValue(mockQueryClient);
+
+vi.mock('jotai', () => ({
+  atom: vi.fn(),
+  useAtom: mockUseAtom,
+}));
+
+vi.mock('@tanstack/react-query', async () => {
+  const reactQuery: typeof import('@tanstack/react-query') = await vi.importActual(
+    '@tanstack/react-query',
+  );
+  return {
+    ...reactQuery,
+    useQueryClient: mockUseQueryClient,
+  };
+});
+
+vi.mock('#src/services/user.js', () => ({
+  userQuery: mockUserQuery,
+  useUser: mockUseUser,
   logoutUser: mockLogoutUser,
 }));
 
@@ -12,16 +39,7 @@ import { Fragment } from 'preact';
 
 import { createHttpError } from '#src/api/httpError.js';
 import { Header } from '#src/components/Header/index.js';
-import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
-import {
-  cleanup,
-  fireEvent,
-  RecoilObserver,
-  render,
-  screen,
-  waitFor,
-} from '#test/src/testUtils/index.js';
+import { cleanup, fireEvent, render, screen, waitFor } from '#test/src/testUtils/index.js';
 
 describe('Header', () => {
   afterEach(() => {
@@ -60,6 +78,15 @@ describe('Header', () => {
   });
 
   describe('user is authenticated', () => {
+    beforeEach(() => {
+      mockUseUser.mockReturnValue({
+        data: { ...mockUser, username: 'test_user' },
+      });
+    });
+    afterEach(() => {
+      mockUseUser.mockClear();
+    });
+
     it('should render avatar based on username', async () => {
       render(html`<${Header} />`);
 
@@ -151,15 +178,14 @@ describe('Header', () => {
 
           fireEvent.click(logout);
 
-          expect(mockLogoutUser).toHaveBeenCalled();
+          await waitFor(() => {
+            expect(mockLogoutUser).toHaveBeenCalled();
+          });
         });
 
         describe('user service success', () => {
           it('should set user state to null', async () => {
-            const onChange = vi.fn();
-
             render(html`<${Fragment}>
-              <${RecoilObserver} node=${userInfoState} onChange=${onChange} />
               <${Header} />
             <//>`);
 
@@ -180,21 +206,19 @@ describe('Header', () => {
             fireEvent.click(logout);
 
             await waitFor(() => {
-              expect(onChange).toHaveBeenCalledWith(null);
+              expect(mockQueryClient.setQueryData).toHaveBeenCalledWith(
+                mockUserQuery.queryKey,
+                null,
+              );
             });
           });
         });
 
         describe('user service error', () => {
           it('should set snackbar state to error', async () => {
-            mockLogoutUser.mockResolvedValueOnce([
-              null,
-              createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-            ]);
-            const onChange = vi.fn();
+            mockLogoutUser.mockRejectedValue(createHttpError(StatusCodes.INTERNAL_SERVER_ERROR));
 
             render(html`<${Fragment}>
-              <${RecoilObserver} node=${snackbarState} onChange=${onChange} />
               <${Header} />
             <//>`);
 
@@ -215,9 +239,10 @@ describe('Header', () => {
             fireEvent.click(logout);
 
             await waitFor(() => {
-              expect(onChange).toHaveBeenCalledWith({
+              expect(mockSetSnackBar).toHaveBeenCalledWith({
                 message: ReasonPhrases.INTERNAL_SERVER_ERROR,
                 open: true,
+                severity: 'error',
               });
             });
           });
@@ -251,9 +276,16 @@ describe('Header', () => {
   });
 
   describe('user is not authenticated', () => {
-    it('should render avatar based on generic username', async () => {
-      mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
+    beforeEach(() => {
+      mockUseUser.mockReturnValue({
+        data: null,
+      });
+    });
+    afterEach(() => {
+      mockUseUser.mockClear();
+    });
 
+    it('should render avatar based on generic username', async () => {
       render(html`<${Header} />`);
 
       expect(screen.getByText('U')).toBeInTheDocument();
@@ -261,8 +293,6 @@ describe('Header', () => {
 
     describe('user menu is opened', () => {
       it('should render login menu item', async () => {
-        mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
         render(html`<${Header} />`);
 
         const avatar = screen.getByLabelText('open user menu');
@@ -273,12 +303,12 @@ describe('Header', () => {
           expect(screen.getByRole('presentation')).toBeInTheDocument();
         });
 
-        expect(screen.getByText('Login')).toBeVisible();
+        await waitFor(() => {
+          expect(screen.getByText('Login')).toBeVisible();
+        });
       });
 
       it('should render sign-up menu item', async () => {
-        mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
         render(html`<${Header} />`);
 
         const avatar = screen.getByLabelText('open user menu');
@@ -289,13 +319,13 @@ describe('Header', () => {
           expect(screen.getByRole('presentation')).toBeInTheDocument();
         });
 
-        expect(screen.getByText('Sign-up')).toBeVisible();
+        await waitFor(() => {
+          expect(screen.getByText('Sign-up')).toBeVisible();
+        });
       });
 
       describe('login click', () => {
         it('should close user menu', async () => {
-          mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
           render(html`<${Header} />`);
 
           const avatar = screen.getByLabelText('open user menu');
@@ -336,8 +366,6 @@ describe('Header', () => {
 
       describe('sign-up click', () => {
         it('should close user menu', async () => {
-          mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
           render(html`<${Header} />`);
 
           const avatar = screen.getByLabelText('open user menu');
