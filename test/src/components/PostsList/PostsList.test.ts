@@ -3,9 +3,10 @@ vi.mock('#src/components/PostCard/index.js', () => ({
 }));
 
 import { html } from 'htm/preact';
+import { StatusCodes } from 'http-status-codes';
 
 import { PostsList } from '#src/components/PostsList/index.js';
-import { cleanup, render, screen, waitFor } from '#test/src/testUtils/index.js';
+import { cleanup, render, rest, screen, server, waitFor } from '#test/src/testUtils/index.js';
 
 describe('PostsList', () => {
   afterEach(() => {
@@ -29,6 +30,22 @@ describe('PostsList', () => {
 
       await waitFor(() => {
         expect(screen.getAllByText('PostCard')).toHaveLength(2);
+      });
+    });
+  });
+
+  describe('posts loading error', () => {
+    it('should not render post cards', async () => {
+      server.use(
+        rest.get('*/api/v1/posts', (_req, res, ctx) => {
+          return res.once(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR));
+        }),
+      );
+
+      render(html`<${PostsList} />`);
+
+      await waitFor(() => {
+        expect(screen.queryByText('PostCard')).not.toBeInTheDocument();
       });
     });
   });
