@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
-import { useAtom } from 'jotai';
 
 import { httpClient } from '#src/api/httpClient.js';
 import { HttpError } from '#src/api/httpError.js';
@@ -8,8 +7,6 @@ import { promiser } from '#src/api/promiser.js';
 import { User } from '#src/interfaces/model/User.js';
 import { LoginPayload } from '#src/interfaces/payload/LoginPayload.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
-
-import { snackbarAtom } from '../atoms/snackbar.js';
 
 enum UserRoutes {
   LOGIN = '/api/v1/auth/login',
@@ -51,21 +48,4 @@ export const userQuery = {
 
 export const useUser = () => {
   return useQuery(userQuery);
-};
-
-export const useUserLogoutMutation = (onSettledCallback: () => void) => {
-  const queryClient = useQueryClient();
-  const [, setSnackbar] = useAtom(snackbarAtom);
-
-  return useMutation(logoutUser, {
-    onSuccess: async () => {
-      queryClient.setQueryData(userQuery.queryKey, null);
-    },
-    onError: (error) => {
-      if (error instanceof HttpError) {
-        setSnackbar({ open: true, message: error.message, severity: 'error' });
-      }
-    },
-    onSettled: onSettledCallback,
-  });
 };

@@ -1,10 +1,13 @@
 import { html } from 'htm/preact';
-import { StatusCodes } from 'http-status-codes';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { snackbarAtom } from 'src/atoms/snackbar.js';
 
 import { Header } from '#src/components/Header/index.js';
+import * as userService from '#src/services/user.js';
 import {
   cleanup,
   fireEvent,
+  queryClient,
   render,
   rest,
   screen,
@@ -122,6 +125,8 @@ describe('Header', () => {
 
       describe('logout click', () => {
         it('should trigger user service logout action', async () => {
+          vi.spyOn(userService, 'logoutUser');
+
           render(html`<${Header} />`);
 
           await waitFor(() => {
@@ -140,12 +145,12 @@ describe('Header', () => {
 
           fireEvent.click(logout);
 
-          // await waitFor(() => {
-          //   expect(mockMutate).toHaveBeenCalled();
-          // });
+          await waitFor(() => {
+            expect(userService.logoutUser).toHaveBeenCalled();
+          });
         });
 
-        it('should render loading spinner', async () => {
+        it('should render loading spinner while logging out', async () => {
           render(html`<${Header} />`);
 
           await waitFor(() => {
@@ -166,6 +171,10 @@ describe('Header', () => {
 
           await waitFor(() => {
             expect(avatar).toHaveAttribute('aria-busy', 'true');
+          });
+
+          await waitFor(() => {
+            expect(avatar).toHaveAttribute('aria-busy', 'false');
           });
         });
 
@@ -192,6 +201,73 @@ describe('Header', () => {
             expect(screen.queryByRole('presentation')).not.toBeInTheDocument();
           });
         });
+
+        describe('logout success', () => {
+          it('should set user to null', async () => {
+            vi.spyOn(queryClient, 'setQueryData');
+
+            render(html`<${Header} />`);
+
+            await waitFor(() => {
+              expect(screen.getByText('T')).toBeInTheDocument();
+            });
+
+            const avatar = screen.getByLabelText('open user menu');
+
+            fireEvent.click(avatar);
+
+            await waitFor(() => {
+              expect(screen.getByRole('presentation')).toBeInTheDocument();
+            });
+
+            const logout = screen.getByText('Logout');
+
+            fireEvent.click(logout);
+
+            await waitFor(() => {
+              expect(queryClient.setQueryData).toBeCalledWith(userService.userQuery.queryKey, null);
+            });
+          });
+        });
+
+        describe('logout error', () => {
+          it('should close user menu', async () => {
+            vi.spyOn(snackbarAtom, 'write');
+            server.use(
+              rest.post('*/api/v1/auth/logout', (_req, res, ctx) => {
+                return res.once(
+                  ctx.status(StatusCodes.INTERNAL_SERVER_ERROR),
+                  ctx.json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR }),
+                );
+              }),
+            );
+            render(html`<${Header} />`);
+
+            await waitFor(() => {
+              expect(screen.getByText('T')).toBeInTheDocument();
+            });
+
+            const avatar = screen.getByLabelText('open user menu');
+
+            fireEvent.click(avatar);
+
+            await waitFor(() => {
+              expect(screen.getByRole('presentation')).toBeInTheDocument();
+            });
+
+            const logout = screen.getByText('Logout');
+
+            fireEvent.click(logout);
+
+            await waitFor(() => {
+              expect(snackbarAtom.write).toBeCalledWith(expect.anything(), expect.anything(), {
+                message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+                open: true,
+                severity: 'error',
+              });
+            });
+          });
+        });
       });
     });
   });
@@ -199,8 +275,8 @@ describe('Header', () => {
   describe('user is not authenticated', () => {
     beforeEach(() => {
       server.use(
-        rest.get('*', (_req, res, ctx) => {
-          return res(ctx.status(StatusCodes.UNAUTHORIZED));
+        rest.get('*/api/v1/users', (_req, res, ctx) => {
+          return res.once(ctx.status(StatusCodes.UNAUTHORIZED));
         }),
       );
     });
