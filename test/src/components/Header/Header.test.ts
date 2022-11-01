@@ -1,25 +1,17 @@
-const mockGetUser = vi.fn().mockResolvedValue([{ id: '1', username: 'TestUser' }, null]);
-const mockLogoutUser = vi.fn().mockResolvedValue([{}, null]);
-
-vi.mock('#src/services/user', () => ({
-  getUser: mockGetUser,
-  logoutUser: mockLogoutUser,
-}));
-
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { Fragment } from 'preact';
+import { snackbarAtom } from 'src/atoms/snackbar.js';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { Header } from '#src/components/Header/index.js';
-import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
+import * as userService from '#src/services/user.js';
 import {
   cleanup,
   fireEvent,
-  RecoilObserver,
+  queryClient,
   render,
+  rest,
   screen,
+  server,
   waitFor,
 } from '#test/src/testUtils/index.js';
 
@@ -133,6 +125,8 @@ describe('Header', () => {
 
       describe('logout click', () => {
         it('should trigger user service logout action', async () => {
+          vi.spyOn(userService, 'logoutUser');
+
           render(html`<${Header} />`);
 
           await waitFor(() => {
@@ -151,75 +145,36 @@ describe('Header', () => {
 
           fireEvent.click(logout);
 
-          expect(mockLogoutUser).toHaveBeenCalled();
-        });
-
-        describe('user service success', () => {
-          it('should set user state to null', async () => {
-            const onChange = vi.fn();
-
-            render(html`<${Fragment}>
-              <${RecoilObserver} node=${userInfoState} onChange=${onChange} />
-              <${Header} />
-            <//>`);
-
-            await waitFor(() => {
-              expect(screen.getByText('T')).toBeInTheDocument();
-            });
-
-            const avatar = screen.getByLabelText('open user menu');
-
-            fireEvent.click(avatar);
-
-            await waitFor(() => {
-              expect(screen.getByRole('presentation')).toBeInTheDocument();
-            });
-
-            const logout = screen.getByText('Logout');
-
-            fireEvent.click(logout);
-
-            await waitFor(() => {
-              expect(onChange).toHaveBeenCalledWith(null);
-            });
+          await waitFor(() => {
+            expect(userService.logoutUser).toHaveBeenCalled();
           });
         });
 
-        describe('user service error', () => {
-          it('should set snackbar state to error', async () => {
-            mockLogoutUser.mockResolvedValueOnce([
-              null,
-              createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-            ]);
-            const onChange = vi.fn();
+        it('should render loading spinner while logging out', async () => {
+          render(html`<${Header} />`);
 
-            render(html`<${Fragment}>
-              <${RecoilObserver} node=${snackbarState} onChange=${onChange} />
-              <${Header} />
-            <//>`);
+          await waitFor(() => {
+            expect(screen.getByText('T')).toBeInTheDocument();
+          });
 
-            await waitFor(() => {
-              expect(screen.getByText('T')).toBeInTheDocument();
-            });
+          const avatar = screen.getByLabelText('open user menu');
 
-            const avatar = screen.getByLabelText('open user menu');
+          fireEvent.click(avatar);
 
-            fireEvent.click(avatar);
+          await waitFor(() => {
+            expect(screen.getByRole('presentation')).toBeInTheDocument();
+          });
 
-            await waitFor(() => {
-              expect(screen.getByRole('presentation')).toBeInTheDocument();
-            });
+          const logout = screen.getByText('Logout');
 
-            const logout = screen.getByText('Logout');
+          fireEvent.click(logout);
 
-            fireEvent.click(logout);
+          await waitFor(() => {
+            expect(avatar).toHaveAttribute('aria-busy', 'true');
+          });
 
-            await waitFor(() => {
-              expect(onChange).toHaveBeenCalledWith({
-                message: ReasonPhrases.INTERNAL_SERVER_ERROR,
-                open: true,
-              });
-            });
+          await waitFor(() => {
+            expect(avatar).toHaveAttribute('aria-busy', 'false');
           });
         });
 
@@ -246,23 +201,96 @@ describe('Header', () => {
             expect(screen.queryByRole('presentation')).not.toBeInTheDocument();
           });
         });
+
+        describe('logout success', () => {
+          it('should set user to null', async () => {
+            vi.spyOn(queryClient, 'setQueryData');
+
+            render(html`<${Header} />`);
+
+            await waitFor(() => {
+              expect(screen.getByText('T')).toBeInTheDocument();
+            });
+
+            const avatar = screen.getByLabelText('open user menu');
+
+            fireEvent.click(avatar);
+
+            await waitFor(() => {
+              expect(screen.getByRole('presentation')).toBeInTheDocument();
+            });
+
+            const logout = screen.getByText('Logout');
+
+            fireEvent.click(logout);
+
+            await waitFor(() => {
+              expect(queryClient.setQueryData).toBeCalledWith(userService.userQuery.queryKey, null);
+            });
+          });
+        });
+
+        describe('logout error', () => {
+          it('should close user menu', async () => {
+            vi.spyOn(snackbarAtom, 'write');
+            server.use(
+              rest.post('*/api/v1/auth/logout', (_req, res, ctx) => {
+                return res.once(
+                  ctx.status(StatusCodes.INTERNAL_SERVER_ERROR),
+                  ctx.json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR }),
+                );
+              }),
+            );
+            render(html`<${Header} />`);
+
+            await waitFor(() => {
+              expect(screen.getByText('T')).toBeInTheDocument();
+            });
+
+            const avatar = screen.getByLabelText('open user menu');
+
+            fireEvent.click(avatar);
+
+            await waitFor(() => {
+              expect(screen.getByRole('presentation')).toBeInTheDocument();
+            });
+
+            const logout = screen.getByText('Logout');
+
+            fireEvent.click(logout);
+
+            await waitFor(() => {
+              expect(snackbarAtom.write).toBeCalledWith(expect.anything(), expect.anything(), {
+                message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+                open: true,
+                severity: 'error',
+              });
+            });
+          });
+        });
       });
     });
   });
 
   describe('user is not authenticated', () => {
-    it('should render avatar based on generic username', async () => {
-      mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
+    beforeEach(() => {
+      server.use(
+        rest.get('*/api/v1/users', (_req, res, ctx) => {
+          return res.once(ctx.status(StatusCodes.UNAUTHORIZED));
+        }),
+      );
+    });
 
+    it('should render avatar based on generic username', async () => {
       render(html`<${Header} />`);
 
-      expect(screen.getByText('U')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText('U')).toBeInTheDocument();
+      });
     });
 
     describe('user menu is opened', () => {
       it('should render login menu item', async () => {
-        mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
         render(html`<${Header} />`);
 
         const avatar = screen.getByLabelText('open user menu');
@@ -273,12 +301,12 @@ describe('Header', () => {
           expect(screen.getByRole('presentation')).toBeInTheDocument();
         });
 
-        expect(screen.getByText('Login')).toBeVisible();
+        await waitFor(() => {
+          expect(screen.getByText('Login')).toBeVisible();
+        });
       });
 
       it('should render sign-up menu item', async () => {
-        mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
         render(html`<${Header} />`);
 
         const avatar = screen.getByLabelText('open user menu');
@@ -289,13 +317,13 @@ describe('Header', () => {
           expect(screen.getByRole('presentation')).toBeInTheDocument();
         });
 
-        expect(screen.getByText('Sign-up')).toBeVisible();
+        await waitFor(() => {
+          expect(screen.getByText('Sign-up')).toBeVisible();
+        });
       });
 
       describe('login click', () => {
         it('should close user menu', async () => {
-          mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
           render(html`<${Header} />`);
 
           const avatar = screen.getByLabelText('open user menu');
@@ -336,8 +364,6 @@ describe('Header', () => {
 
       describe('sign-up click', () => {
         it('should close user menu', async () => {
-          mockGetUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.UNAUTHORIZED)]);
-
           render(html`<${Header} />`);
 
           const avatar = screen.getByLabelText('open user menu');

@@ -1,32 +1,48 @@
+import { useMutation } from '@tanstack/react-query';
 import { html } from 'htm/preact';
+import { useAtom } from 'jotai';
 import { FunctionComponent } from 'preact';
+import { useCallback } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilCallback } from 'recoil';
 
+import { HttpError } from '#src/api/httpError.js';
+import { snackbarAtom } from '#src/atoms/snackbar.js';
 import { AuthFormContainer } from '#src/components/AuthFormContainer/index.js';
 import { AuthFormField } from '#src/components/AuthFormField/index.js';
 import { SignUpPayload } from '#src/interfaces/payload/SignUpPayload.js';
 import { signUpUser } from '#src/services/user.js';
-import { snackbarState } from '#src/store/snackbarState.js';
 import { alphanumeric, composeValidators, mustMatch, required } from '#src/utils/validators.js';
+
+interface SignUpFormData extends SignUpPayload {
+  'confirm-password': string;
+}
 
 export const SignUp: FunctionComponent = () => {
   const navigate = useNavigate();
+  const [, setSnackbar] = useAtom(snackbarAtom);
 
-  const handleSubmit = useRecoilCallback(
-    ({ set }) =>
-      async (payload: SignUpPayload) => {
-        const [data, error] = await signUpUser(payload);
+  const signUpMutation = useMutation(signUpUser, {
+    onSuccess: async (response) => {
+      if (response.data) {
+        navigate('/login');
+      }
+    },
+    onError: (error) => {
+      if (error instanceof HttpError) {
+        setSnackbar({ open: true, message: error.message, severity: 'error' });
+      }
+    },
+  });
 
-        if (data) {
-          navigate('/login');
-        }
+  const handleSubmit = useCallback(
+    async (payload: SignUpFormData) => {
+      const { 'confirm-password': _, ...user } = payload;
 
-        if (error) {
-          set(snackbarState, { open: true, message: error.message });
-        }
-      },
-    [],
+      try {
+        await signUpMutation.mutateAsync(user);
+      } catch {}
+    },
+    [signUpMutation],
   );
 
   return html`

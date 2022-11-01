@@ -1,43 +1,42 @@
-import { mockUser } from '#test/src/mocks/index.js';
-
-const mockSignUpUser = vi.fn().mockResolvedValue([mockUser, null]);
 const mockNavigate = vi.fn();
+const mockSetSnackBar = vi.fn();
+const mockUseAtom = vi.fn().mockReturnValue([undefined, mockSetSnackBar]);
 
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-vi.mock('#src/services/user', () => ({
-  signUpUser: mockSignUpUser,
+vi.mock('jotai', () => ({
+  atom: vi.fn(),
+  useAtom: mockUseAtom,
 }));
 
-vi.mock('#src/components/AuthFormContainer', () => ({
-  AuthFormContainer: ({ title = '', children = null, onSubmit = () => {} }) =>
+vi.mock('#src/components/AuthFormContainer/index.js', () => ({
+  AuthFormContainer: ({ title = '', children = null, onSubmit = (_: unknown) => {} }) =>
     html`
       <div>
         ${title} ${children}
-        <button role="button" onclick=${onSubmit} />
+        <button role="button" onClick=${() => onSubmit({})} />
       </div>
     `,
 }));
 
-vi.mock('#src/components/AuthFormField', () => ({
+vi.mock('#src/components/AuthFormField/index.js', () => ({
   AuthFormField: ({ name = '' }) => html` <div>${name}</div> `,
 }));
 
 import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { SignUp } from '#src/components/SignUp/index.js';
-import { snackbarState } from '#src/store/snackbarState.js';
 import {
   cleanup,
   fireEvent,
-  RecoilObserver,
   render,
+  rest,
   screen,
+  server,
   waitFor,
 } from '#test/src/testUtils/index.js';
 
@@ -94,23 +93,26 @@ describe('SignUp', () => {
 
     describe('sign-up error', () => {
       it('should render snackbar with error', async () => {
-        mockSignUpUser.mockResolvedValueOnce([null, createHttpError(StatusCodes.BAD_REQUEST)]);
+        server.use(
+          rest.post('*/api/v1/users', (_req, res, ctx) => {
+            return res(
+              ctx.status(StatusCodes.UNAUTHORIZED),
+              ctx.json({ message: ReasonPhrases.UNAUTHORIZED }),
+            );
+          }),
+        );
 
-        const onChange = vi.fn();
-
-        render(html`
-          <${RecoilObserver} node=${snackbarState} onChange=${onChange} />
-          <${SignUp} />
-        `);
+        render(html`<${SignUp} />`);
 
         const submit = screen.getByRole('button');
 
         fireEvent.click(submit);
 
         await waitFor(() => {
-          expect(onChange).toBeCalledWith({
-            message: ReasonPhrases.BAD_REQUEST,
+          expect(mockSetSnackBar).toBeCalledWith({
+            message: ReasonPhrases.UNAUTHORIZED,
             open: true,
+            severity: 'error',
           });
         });
       });

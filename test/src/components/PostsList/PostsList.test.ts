@@ -1,11 +1,3 @@
-import { mockPost } from '#test/src/mocks/index.js';
-
-const mockGetPosts = vi.fn().mockResolvedValue([[mockPost, { ...mockPost, id: '2' }], null]);
-
-vi.mock('#src/services/post.js', () => ({
-  getPosts: mockGetPosts,
-}));
-
 vi.mock('#src/components/PostCard/index.js', () => ({
   PostCard: () => html` <div>PostCard</div> `,
 }));
@@ -13,9 +5,8 @@ vi.mock('#src/components/PostCard/index.js', () => ({
 import { html } from 'htm/preact';
 import { StatusCodes } from 'http-status-codes';
 
-import { createHttpError } from '#src/api/httpError.js';
 import { PostsList } from '#src/components/PostsList/index.js';
-import { cleanup, render, screen, waitFor } from '#test/src/testUtils/index.js';
+import { cleanup, render, rest, screen, server, waitFor } from '#test/src/testUtils/index.js';
 
 describe('PostsList', () => {
   afterEach(() => {
@@ -33,16 +24,29 @@ describe('PostsList', () => {
     });
   });
 
-  describe('posts are not loaded', () => {
-    it('should render list of 10 skeleton post cards', () => {
-      mockGetPosts.mockResolvedValueOnce([
-        null,
-        createHttpError(StatusCodes.INTERNAL_SERVER_ERROR),
-      ]);
+  describe('posts are loading', () => {
+    it('should render list of 10 skeleton post cards', async () => {
+      render(html`<${PostsList} />`);
+
+      await waitFor(() => {
+        expect(screen.getAllByText('PostCard')).toHaveLength(2);
+      });
+    });
+  });
+
+  describe('posts loading error', () => {
+    it('should not render post cards', async () => {
+      server.use(
+        rest.get('*/api/v1/posts', (_req, res, ctx) => {
+          return res.once(ctx.status(StatusCodes.INTERNAL_SERVER_ERROR));
+        }),
+      );
 
       render(html`<${PostsList} />`);
 
-      expect(screen.getAllByText('PostCard')).toHaveLength(10);
+      await waitFor(() => {
+        expect(screen.queryByText('PostCard')).not.toBeInTheDocument();
+      });
     });
   });
 });

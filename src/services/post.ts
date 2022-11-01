@@ -1,14 +1,30 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { httpClient } from '#src/api/httpClient.js';
 import { promiser } from '#src/api/promiser.js';
 import { Post } from '#src/interfaces/model/Post.js';
-import { handlePromiserResult } from '#src/utils/api.js';
 
-enum PostRoutes {
+export enum PostRoutes {
   GET_ALL = '/api/v1/posts',
 }
 
-export const getPosts = async () => {
-  const result = await promiser(httpClient.get<Array<Post>>(PostRoutes.GET_ALL));
+const getPosts = async () => {
+  const [response, error] = await promiser(httpClient.get<Array<Post>>(PostRoutes.GET_ALL));
 
-  return handlePromiserResult(result);
+  if (response) {
+    return response.data;
+  }
+
+  if (error) {
+    throw error;
+  }
+};
+
+export const postsQuery = {
+  queryKey: ['posts'],
+  queryFn: () => getPosts(),
+};
+
+export const usePosts = () => {
+  return useQuery(postsQuery);
 };

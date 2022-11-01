@@ -1,12 +1,13 @@
 import { AppBar, Avatar, Box, Link as MuiLink, MenuItem, Tooltip } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { html } from 'htm/preact';
-import { useState } from 'preact/hooks';
+import { useAtom } from 'jotai';
+import { useCallback, useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
-import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
-import { logoutUser } from '#src/services/user.js';
-import { snackbarState } from '#src/store/snackbarState.js';
-import { userInfoState } from '#src/store/userState.js';
+import { HttpError } from '#src/api/httpError.js';
+import { snackbarAtom } from '#src/atoms/snackbar.js';
+import { logoutUser, userQuery, useUser } from '#src/services/user.js';
 
 import * as S from './styles.js';
 
@@ -25,12 +26,12 @@ interface MenuSettings {
 }
 
 export const Header = () => {
-  const { state: getUserState, contents: user } = useRecoilValueLoadable(userInfoState);
+  const { data: user } = useUser();
+
+  const queryClient = useQueryClient();
+  const [, setSnackbar] = useAtom(snackbarAtom);
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const isGetUserSuccess = !!(getUserState === 'hasValue' && user);
 
   const handleOpenUserMenu = (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,23 +41,21 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleLogoutClick = useRecoilCallback(
-    ({ set }) =>
-      async () => {
-        handleCloseUserMenu();
+  const logoutMutation = useMutation(logoutUser, {
+    onSuccess: async () => {
+      queryClient.setQueryData(userQuery.queryKey, null);
+    },
+    onError: (error) => {
+      if (error instanceof HttpError) {
+        setSnackbar({ open: true, message: error.message, severity: 'error' });
+      }
+    },
+    onSettled: handleCloseUserMenu,
+  });
 
-        setLoading(true);
-
-        const [, error] = await logoutUser();
-
-        setLoading(false);
-
-        if (error) return set(snackbarState, { open: true, message: error.message });
-
-        set(userInfoState, null);
-      },
-    [],
-  );
+  const handleLogoutClick = useCallback(() => {
+    logoutMutation.mutate();
+  }, [logoutMutation]);
 
   const settings: MenuSettings = {
     auth: [
@@ -87,12 +86,14 @@ export const Header = () => {
             <${S.AvatarWrapper}>
               <${S.AvatarButton}
                 aria-label="open user menu"
+                aria-busy="${logoutMutation.isLoading}"
                 onClick=${handleOpenUserMenu}
-                disabled=${loading}
+                disabled=${logoutMutation.isLoading}
               >
-                <${Avatar}> ${isGetUserSuccess ? user.username.charAt(0).toUpperCase() : 'U'} <//>
+                <${Avatar}> ${user ? user.username.charAt(0).toUpperCase() : 'U'} <//>
               <//>
-              ${loading && html`<${S.AvatarCircularProgress} size=${52} color="inherit" />`}
+              ${logoutMutation.isLoading &&
+              html`<${S.AvatarCircularProgress} size=${52} color="inherit" />`}
             <//>
           <//>
           <${S.UserMenu}
@@ -116,7 +117,7 @@ export const Header = () => {
                   <${MenuItem}
                     onClick=${item.action}
                     key=${item.title}
-                    sx=${{ display: !isGetUserSuccess && 'none' }}
+                    sx=${{ display: !user && 'none' }}
                   >
                     ${item.title}
                   <//>
@@ -129,7 +130,7 @@ export const Header = () => {
                   to=${item.link}
                   onClick=${item.action}
                   key=${item.title}
-                  sx=${{ display: isGetUserSuccess && 'none' }}
+                  sx=${{ display: user && 'none' }}
                 >
                   ${item.title}
                 <//>

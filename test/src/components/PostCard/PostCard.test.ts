@@ -70,7 +70,7 @@ describe('PostCard', () => {
     it('should render author avatar based on username', () => {
       render(html`<${PostCard} ...${mockPost} />`);
 
-      expect(screen.getByText('U')).toBeInTheDocument();
+      expect(screen.getByText('T')).toBeInTheDocument();
     });
 
     it('should render post title', () => {
