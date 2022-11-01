@@ -19,8 +19,5 @@ export const queryClient = new QueryClient({
       staleTime: 1000 * 3600, // 1h
       retry: handleApiRetry,
     },
-    mutations: {
-      retry: handleApiRetry,
-    },
   },
 });

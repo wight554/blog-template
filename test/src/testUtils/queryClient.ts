@@ -6,9 +6,6 @@ export const queryClient = new QueryClient({
       // ✅ turns retries off
       retry: false,
     },
-    mutations: {
-      retry: false,
-    },
   },
   logger: {
     log: console.log,
