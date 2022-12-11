@@ -37,13 +37,13 @@ describe('AuthController', () => {
     it('should get token', async () => {
       await authController.login(mockReply, mockUser);
 
-      expect(authService.getCookieWithJwtToken).toBeCalledWith(userId);
+      expect(authService.getCookieWithJwtToken).toHaveBeenCalledWith(userId);
     });
 
     it('should set cookie header', async () => {
       await authController.login(mockReply, mockUser);
 
-      expect(mockReply.header).toBeCalledWith('Set-Cookie', cookie);
+      expect(mockReply.header).toHaveBeenCalledWith('Set-Cookie', cookie);
     });
 
     it('should return user', async () => {

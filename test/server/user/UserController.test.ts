@@ -32,7 +32,7 @@ describe('UserController', () => {
     it('should get user', async () => {
       await userController.get(mockUser);
 
-      expect(userService.getById).toBeCalledWith(mockUser.id);
+      expect(userService.getById).toHaveBeenCalledWith(mockUser.id);
     });
 
     describe('user service success', () => {
@@ -56,7 +56,7 @@ describe('UserController', () => {
     it('should create user', async () => {
       await userController.create(mockUpsertUser);
 
-      expect(userService.create).toBeCalledWith(mockUpsertUser);
+      expect(userService.create).toHaveBeenCalledWith(mockUpsertUser);
     });
 
     describe('user service success', () => {
@@ -83,7 +83,7 @@ describe('UserController', () => {
       it('should update user', async () => {
         await userController.update(userId, mockUpsertUser, mockUser);
 
-        expect(userService.update).toBeCalledWith(userId, mockUpsertUser);
+        expect(userService.update).toHaveBeenCalledWith(userId, mockUpsertUser);
       });
     });
 

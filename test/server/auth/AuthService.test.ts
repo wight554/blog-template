@@ -64,7 +64,7 @@ describe('AuthService', () => {
     it('should get user from user service', async () => {
       await authService.validateUser(username, password);
 
-      expect(userService.getByUsername).toBeCalledWith(username);
+      expect(userService.getByUsername).toHaveBeenCalledWith(username);
     });
 
     describe('password is valid', () => {
@@ -85,7 +85,7 @@ describe('AuthService', () => {
       it('should get token from jwt service', async () => {
         await authService.getCookieWithJwtToken(userId);
 
-        expect(jwtService.signAsync).toBeCalledWith({ userId });
+        expect(jwtService.signAsync).toHaveBeenCalledWith({ userId });
       });
 
       it('should return cookie with token', async () => {

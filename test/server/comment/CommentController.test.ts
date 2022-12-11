@@ -39,7 +39,7 @@ describe('CommentController', () => {
     it('should update comment', async () => {
       await commentController.updateComment(commentId, mockUpsertComment, mockUser);
 
-      expect(commentService.update).toBeCalledWith(commentId, mockUpsertComment, userId);
+      expect(commentService.update).toHaveBeenCalledWith(commentId, mockUpsertComment, userId);
     });
 
     describe('comment service success', () => {
@@ -67,7 +67,7 @@ describe('CommentController', () => {
     it('should delete comment', async () => {
       await commentController.deleteComment(commentId, mockUser);
 
-      expect(commentService.delete).toBeCalledWith(commentId, userId);
+      expect(commentService.delete).toHaveBeenCalledWith(commentId, userId);
     });
 
     describe('comment service success', () => {

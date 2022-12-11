@@ -225,46 +225,89 @@ describe('Header', () => {
             fireEvent.click(logout);
 
             await waitFor(() => {
-              expect(queryClient.setQueryData).toBeCalledWith(userService.userQuery.queryKey, null);
+              expect(queryClient.setQueryData).toHaveBeenCalledWith(
+                userService.userQuery.queryKey,
+                null,
+              );
             });
           });
         });
 
         describe('logout error', () => {
-          it('should close user menu', async () => {
-            vi.spyOn(snackbarAtom, 'write');
-            server.use(
-              rest.post('*/api/v1/auth/logout', (_req, res, ctx) => {
-                return res.once(
-                  ctx.status(StatusCodes.INTERNAL_SERVER_ERROR),
-                  ctx.json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR }),
-                );
-              }),
-            );
-            render(html`<${Header} />`);
+          describe('error is http error', () => {
+            it('should show snackbar with error', async () => {
+              vi.spyOn(snackbarAtom, 'write');
+              server.use(
+                rest.post('*/api/v1/auth/logout', (_req, res, ctx) => {
+                  return res.once(
+                    ctx.status(StatusCodes.INTERNAL_SERVER_ERROR),
+                    ctx.json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR }),
+                  );
+                }),
+              );
+              render(html`<${Header} />`);
 
-            await waitFor(() => {
-              expect(screen.getByText('T')).toBeInTheDocument();
-            });
-
-            const avatar = screen.getByLabelText('open user menu');
-
-            fireEvent.click(avatar);
-
-            await waitFor(() => {
-              expect(screen.getByRole('presentation')).toBeInTheDocument();
-            });
-
-            const logout = screen.getByText('Logout');
-
-            fireEvent.click(logout);
-
-            await waitFor(() => {
-              expect(snackbarAtom.write).toBeCalledWith(expect.anything(), expect.anything(), {
-                message: ReasonPhrases.INTERNAL_SERVER_ERROR,
-                open: true,
-                severity: 'error',
+              await waitFor(() => {
+                expect(screen.getByText('T')).toBeInTheDocument();
               });
+
+              const avatar = screen.getByLabelText('open user menu');
+
+              fireEvent.click(avatar);
+
+              await waitFor(() => {
+                expect(screen.getByRole('presentation')).toBeInTheDocument();
+              });
+
+              const logout = screen.getByText('Logout');
+
+              fireEvent.click(logout);
+
+              await waitFor(() => {
+                expect(snackbarAtom.write).toHaveBeenCalledWith(
+                  expect.anything(),
+                  expect.anything(),
+                  {
+                    message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+                    open: true,
+                    severity: 'error',
+                  },
+                );
+              });
+            });
+          });
+
+          describe('error is not http error', () => {
+            it('should not show snackbar with error', async () => {
+              vi.spyOn(snackbarAtom, 'write');
+              const logoutUserSpy = vi.spyOn(userService, 'logoutUser');
+              const error = new Error();
+
+              logoutUserSpy.mockRejectedValueOnce(error);
+
+              render(html`<${Header} />`);
+
+              await waitFor(() => {
+                expect(screen.getByText('T')).toBeInTheDocument();
+              });
+
+              const avatar = screen.getByLabelText('open user menu');
+
+              fireEvent.click(avatar);
+
+              await waitFor(() => {
+                expect(screen.getByRole('presentation')).toBeInTheDocument();
+              });
+
+              const logout = screen.getByText('Logout');
+
+              fireEvent.click(logout);
+
+              await waitFor(() => {
+                expect(snackbarAtom.write).not.toHaveBeenCalled();
+              });
+
+              logoutUserSpy.mockClear();
             });
           });
         });

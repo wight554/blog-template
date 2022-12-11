@@ -52,7 +52,7 @@ describe('PostController', () => {
     it('should get all posts', async () => {
       await postController.getPosts();
 
-      expect(postService.getAll).toBeCalled();
+      expect(postService.getAll).toHaveBeenCalled();
     });
 
     describe('post service success', () => {
@@ -76,7 +76,7 @@ describe('PostController', () => {
     it('should get post by id', async () => {
       await postController.getPost(postId);
 
-      expect(postService.getById).toBeCalledWith(postId);
+      expect(postService.getById).toHaveBeenCalledWith(postId);
     });
 
     describe('post service success', () => {
@@ -126,7 +126,7 @@ describe('PostController', () => {
     it('should update post', async () => {
       await postController.updatePost(postId, mockUpsertPost, mockUser);
 
-      expect(postService.update).toBeCalledWith(postId, mockUpsertPost, userId);
+      expect(postService.update).toHaveBeenCalledWith(postId, mockUpsertPost, userId);
     });
 
     describe('post service success', () => {
@@ -154,7 +154,7 @@ describe('PostController', () => {
     it('should delete post', async () => {
       await postController.deletePost(postId, mockUser);
 
-      expect(postService.delete).toBeCalledWith(postId, userId);
+      expect(postService.delete).toHaveBeenCalledWith(postId, userId);
     });
 
     describe('post service success', () => {

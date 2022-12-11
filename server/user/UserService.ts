@@ -31,9 +31,7 @@ export class UserService {
       createdUser = await this.userModel.create(payload);
     } catch (error) {
       if (error instanceof MongoError && error.code === MongoErrorCode.DuplicateKey) {
-        if (error.code === MongoErrorCode.DuplicateKey) {
-          throw new BadRequestException('User with that username already exists');
-        }
+        throw new BadRequestException('User with that username already exists');
       }
 
       throw new InternalServerErrorException();

@@ -8,8 +8,10 @@ export const loader =
   (queryClient: QueryClient): LoaderFunction =>
   async () => {
     if (!queryClient.getQueryData(postsQuery.queryKey)) {
-      await promiser(queryClient.fetchQuery(postsQuery));
+      return await promiser(queryClient.fetchQuery(postsQuery));
     }
+
+    return queryClient.getQueryData(postsQuery.queryKey);
   };
 
 export { PostsList as Index } from '#src/components/PostsList/index.js';

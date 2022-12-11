@@ -30,6 +30,7 @@ import { html } from 'htm/preact';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import { Login } from '#src/components/Login/index.js';
+import * as userService from '#src/services/user.js';
 import {
   cleanup,
   fireEvent,
@@ -66,42 +67,87 @@ describe('Login', () => {
 
   describe('submit button clicked', () => {
     describe('login successful', () => {
-      it('should navigate to home page', async () => {
-        render(html`<${Login} />`);
+      describe('response is empty', () => {
+        it('should not navigate to home page', async () => {
+          server.use(
+            rest.post('*/api/v1/auth/login', (_req, res, ctx) => {
+              return res(ctx.status(StatusCodes.OK));
+            }),
+          );
 
-        const submit = screen.getByRole('button');
+          render(html`<${Login} />`);
 
-        fireEvent.click(submit);
+          const submit = screen.getByRole('button');
 
-        await waitFor(() => {
-          expect(mockNavigate).toBeCalledWith('/');
+          fireEvent.click(submit);
+
+          await waitFor(() => {
+            expect(mockNavigate).not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('response is not empty', () => {
+        it('should navigate to home page', async () => {
+          render(html`<${Login} />`);
+
+          const submit = screen.getByRole('button');
+
+          fireEvent.click(submit);
+
+          await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith('/');
+          });
         });
       });
     });
 
     describe('login error', () => {
-      it('should render snackbar with error', async () => {
-        server.use(
-          rest.post('*/api/v1/auth/login', (_req, res, ctx) => {
-            return res(
-              ctx.status(StatusCodes.UNAUTHORIZED),
-              ctx.json({ message: ReasonPhrases.UNAUTHORIZED }),
-            );
-          }),
-        );
+      describe('error is http error', () => {
+        it('should render snackbar with error', async () => {
+          server.use(
+            rest.post('*/api/v1/auth/login', (_req, res, ctx) => {
+              return res(
+                ctx.status(StatusCodes.UNAUTHORIZED),
+                ctx.json({ message: ReasonPhrases.UNAUTHORIZED }),
+              );
+            }),
+          );
 
-        render(html`<${Login} />`);
+          render(html`<${Login} />`);
 
-        const submit = screen.getByRole('button');
+          const submit = screen.getByRole('button');
 
-        fireEvent.click(submit);
+          fireEvent.click(submit);
 
-        await waitFor(() => {
-          expect(mockSetSnackBar).toBeCalledWith({
-            message: ReasonPhrases.UNAUTHORIZED,
-            open: true,
-            severity: 'error',
+          await waitFor(() => {
+            expect(mockSetSnackBar).toHaveBeenCalledWith({
+              message: ReasonPhrases.UNAUTHORIZED,
+              open: true,
+              severity: 'error',
+            });
           });
+        });
+      });
+
+      describe('error is not http error', () => {
+        it('should not render snackbar with error', async () => {
+          const loginUserSpy = vi.spyOn(userService, 'loginUser');
+          const error = new Error();
+
+          loginUserSpy.mockRejectedValueOnce(error);
+
+          render(html`<${Login} />`);
+
+          const submit = screen.getByRole('button');
+
+          fireEvent.click(submit);
+
+          await waitFor(() => {
+            expect(mockSetSnackBar).not.toHaveBeenCalled();
+          });
+
+          loginUserSpy.mockClear();
         });
       });
     });

@@ -15,9 +15,7 @@ const getPosts = async () => {
     return response.data;
   }
 
-  if (error) {
-    throw error;
-  }
+  throw error;
 };
 
 export const postsQuery = {

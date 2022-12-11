@@ -56,7 +56,7 @@ describe('UserService', () => {
     it('should get hashed password from crypto service', async () => {
       await userService.create(mockUpsertUser);
 
-      expect(cryptoService.hash).toBeCalledWith(password, 10);
+      expect(cryptoService.hash).toHaveBeenCalledWith(password, 10);
     });
 
     describe('crypto service error', () => {
@@ -100,7 +100,7 @@ describe('UserService', () => {
 
       describe('error is not duplicate key error', () => {
         it('should throw internal server error exception', async () => {
-          const error = new Error();
+          const error = createMockMongoError(123);
           vi.spyOn(userModel, 'create').mockRejectedValueOnce(error);
 
           await expect(userService.create(mockUpsertUser)).rejects.toThrowError(
@@ -115,7 +115,7 @@ describe('UserService', () => {
     it('should get hashed password from crypto service', async () => {
       await userService.update(userId, mockUpsertUser);
 
-      expect(cryptoService.hash).toBeCalledWith(password, 10);
+      expect(cryptoService.hash).toHaveBeenCalledWith(password, 10);
     });
 
     describe('crypto service error', () => {

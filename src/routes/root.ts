@@ -8,8 +8,10 @@ export const loader =
   (queryClient: QueryClient): LoaderFunction =>
   async () => {
     if (!queryClient.getQueryState(userQuery.queryKey)) {
-      await promiser(queryClient.fetchQuery(userQuery));
+      return await promiser(queryClient.fetchQuery(userQuery));
     }
+
+    return queryClient.getQueryState(userQuery.queryKey);
   };
 
 export { App as Root } from '#src/components/App/index.js';
